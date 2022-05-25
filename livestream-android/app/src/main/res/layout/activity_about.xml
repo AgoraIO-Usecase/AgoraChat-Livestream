@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <io.agora.chat.uikit.widget.EaseImageView
+        android:id="@+id/title_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/ease_common_title_bar_height"
+        android:layout_marginStart="@dimen/margin_20"
+        android:src="@drawable/titlebar_back"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/titlebar_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_10"
+        android:text="@string/setting_about_title"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_normal"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/title_bar"
+        app:layout_constraintLeft_toRightOf="@id/title_bar"
+        app:layout_constraintTop_toTopOf="@id/title_bar" />
+
+    <io.agora.livedemo.ui.widget.ArrowItemView
+        android:id="@+id/item_sdk_version"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:arrowItemContentColor="@color/color_light_gray_999999"
+        app:arrowItemContentSize="@dimen/size_big"
+        app:arrowItemShowArrow="false"
+        app:arrowItemTitle="@string/about_sdk_version"
+        app:arrowItemTitleColor="@color/white"
+        app:arrowItemTitleSize="@dimen/size_big"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/title_bar"
+        tools:arrowItemContent="AgoraChatv3.8.7" />
+
+    <io.agora.livedemo.ui.widget.ArrowItemView
+        android:id="@+id/item_lib_version"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:arrowItemContentColor="@color/color_light_gray_999999"
+        app:arrowItemContentSize="@dimen/size_big"
+        app:arrowItemShowArrow="false"
+        app:arrowItemTitle="@string/about_lib_version"
+        app:arrowItemTitleColor="@color/white"
+        app:arrowItemTitleSize="@dimen/size_big"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_sdk_version"
+        tools:arrowItemContent="AgoraChatv3.8.7" />
+
+    <io.agora.livedemo.ui.widget.ArrowItemView
+        android:id="@+id/item_policy"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:visibility="gone"
+        app:arrowItemContentColor="@color/color_light_gray_999999"
+        app:arrowItemContentSize="@dimen/size_big"
+        app:arrowItemShowArrow="true"
+        app:arrowItemTitle="@string/about_policy"
+        app:arrowItemTitleColor="@color/white"
+        app:arrowItemTitleSize="@dimen/size_big"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/item_lib_version" />
+
+    <io.agora.livedemo.ui.widget.ArrowItemView
+        android:id="@+id/item_more"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        app:arrowItemContent="@string/about_net_addr"
+        app:arrowItemContentColor="@color/group_blue_154dfe"
+        app:arrowItemContentSize="@dimen/size_big"
+        app:arrowItemShowArrow="false"
+        app:arrowItemTitle="@string/about_more"
+        app:arrowItemTitleColor="@color/white"
+        app:arrowItemTitleSize="@dimen/size_big"
+        app:layout_constraintTop_toBottomOf="@id/item_policy" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

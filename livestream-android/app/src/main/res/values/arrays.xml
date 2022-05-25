@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gender_types">
+        <item>Male</item>
+        <item>Female</item>
+        <item>Other</item>
+        <item>Secret</item>
+    </string-array>
+
+    <string-array name="gift_res_names">
+        <item>gift_default_1</item>
+        <item>gift_default_2</item>
+        <item>gift_default_3</item>
+        <item>gift_default_4</item>
+        <item>gift_default_5</item>
+        <item>gift_default_6</item>
+        <item>gift_default_7</item>
+        <item>gift_default_8</item>
+    </string-array>
+
+    <string-array name="gift_names">
+        <item>PinkHeart</item>
+        <item>PlasticFlower</item>
+        <item>ThePushBox</item>
+        <item>BigAce</item>
+        <item>Star</item>
+        <item>Lollipop</item>
+        <item>Diamond</item>
+        <item>Crown</item>
+    </string-array>
+
+    <integer-array name="gift_values">
+        <item>1</item>
+        <item>5</item>
+        <item>10</item>
+        <item>20</item>
+        <item>50</item>
+        <item>100</item>
+        <item>500</item>
+        <item>1000</item>
+    </integer-array>
+
+</resources>

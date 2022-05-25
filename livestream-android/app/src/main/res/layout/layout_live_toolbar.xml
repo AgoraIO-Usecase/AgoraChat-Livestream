@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="80dp">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_anchor"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginStart="@dimen/em_margin_15"
+        android:background="@drawable/live_live_anchor_bg_shape"
+        android:padding="1dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <io.agora.chat.uikit.widget.EaseImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="@dimen/item_small_avatar_size"
+            android:layout_height="@dimen/item_small_avatar_size"
+            android:layout_marginStart="2dp"
+            android:src="@drawable/ease_default_avatar"
+            app:ease_shape_type="round"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_username"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:ellipsize="end"
+            android:maxEms="6"
+            android:maxLines="1"
+            android:textColor="@color/common_white"
+            android:textSize="@dimen/size_normal"
+            app:layout_constraintLeft_toRightOf="@id/iv_icon"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5"
+            android:layout_marginEnd="@dimen/margin_5"
+            android:padding="2dp"
+            app:layout_constraintBottom_toBottomOf="@id/tv_username"
+            app:layout_constraintLeft_toRightOf="@id/tv_username"
+            app:layout_constraintTop_toTopOf="@id/tv_username">
+
+            <ImageView
+                android:id="@+id/sex_icon"
+                android:layout_width="@dimen/margin_15"
+                android:layout_height="@dimen/margin_15"
+                android:layout_marginLeft="2dp"
+                android:src="@drawable/sex_male_icon"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/age_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/margin_5"
+                android:layout_marginRight="2dp"
+                android:paddingRight="3dp"
+                android:text="18"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_normal"
+                app:layout_constraintBottom_toBottomOf="@id/sex_icon"
+                app:layout_constraintLeft_toRightOf="@id/sex_icon"
+                app:layout_constraintTop_toTopOf="@id/sex_icon" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/gold_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:src="@drawable/gold_icon"
+            app:layout_constraintLeft_toLeftOf="@id/tv_username"
+            app:layout_constraintTop_toBottomOf="@id/tv_username" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:text="8,420"
+            android:textColor="#BDFFFFFF"
+            android:textSize="@dimen/size_small"
+            app:layout_constraintBottom_toBottomOf="@id/gold_icon"
+            app:layout_constraintLeft_toRightOf="@id/gold_icon"
+            app:layout_constraintTop_toTopOf="@id/gold_icon" />
+
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/layout_sex"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_attention"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:layout_marginEnd="@dimen/margin_20"
+        android:background="@drawable/live_attention_bg_shape"
+        android:padding="2dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="@id/layout_anchor"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_anchor">
+
+        <ImageView
+            android:id="@+id/attention_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:src="@drawable/live_attention_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_attention"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_5"
+            android:paddingEnd="@dimen/margin_5"
+            android:paddingRight="@dimen/margin_5"
+            android:text="@string/live_attention"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_normal"
+            app:layout_constraintBottom_toBottomOf="@id/attention_icon"
+            app:layout_constraintLeft_toRightOf="@+id/attention_icon"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/attention_icon" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    <TextView
+        android:id="@+id/tv_gift_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/em_margin_20"
+        android:layout_marginTop="@dimen/em_margin_5"
+        android:textColor="#ffffc700"
+        android:textSize="@dimen/em_size_smaller"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/layout_anchor"
+        tools:text="200" />
+
+    <TextView
+        android:id="@+id/tv_like_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/em_margin_10"
+        android:layout_marginTop="@dimen/em_margin_5"
+        android:textColor="#ffffc700"
+        android:textSize="@dimen/em_size_smaller"
+        app:layout_constraintLeft_toRightOf="@id/tv_gift_num"
+        app:layout_constraintTop_toBottomOf="@id/layout_anchor" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/horizontal_recycle_view"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginRight="@dimen/margin_10"
+        android:orientation="horizontal"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintBottom_toBottomOf="@id/layout_anchor"
+        app:layout_constraintRight_toLeftOf="@id/layout_member_num"
+        app:layout_constraintTop_toTopOf="@id/layout_anchor" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout_member_num"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginEnd="@dimen/margin_10"
+        android:background="@drawable/live_live_anchor_bg_shape"
+        android:padding="1dp"
+        app:layout_constraintBottom_toBottomOf="@id/layout_anchor"
+        app:layout_constraintRight_toLeftOf="@id/close_iv"
+        app:layout_constraintTop_toTopOf="@id/layout_anchor">
+
+        <ImageView
+            android:id="@+id/people_icon"
+            android:layout_width="@dimen/margin_20"
+            android:layout_height="@dimen/margin_20"
+            android:layout_marginStart="@dimen/margin_10"
+            android:src="@drawable/people_icon"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tv_member_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:gravity="center"
+            android:textColor="@color/white"
+            android:textSize="@dimen/em_size_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/people_icon"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="500" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/close_iv"
+        android:layout_width="@dimen/margin_20"
+        android:layout_height="@dimen/margin_20"
+        android:layout_marginEnd="@dimen/margin_20"
+        android:src="@drawable/live_close"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/layout_anchor"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@id/layout_anchor" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_toolbar_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:constraint_referenced_ids="layout_anchor,layout_member_num,horizontal_recycle_view" />
+
+    <androidx.constraintlayout.widget.Group
+        android:id="@+id/group_gift_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:constraint_referenced_ids="tv_gift_num,tv_like_num" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

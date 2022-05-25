@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    android:orientation="vertical">
+
+    <TextureView
+        android:id="@+id/camera_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <io.agora.chat.uikit.widget.EaseImageView
+        android:id="@+id/close_iv"
+        android:layout_width="@dimen/margin_20"
+        android:layout_height="@dimen/margin_20"
+        android:layout_marginTop="@dimen/margin_15"
+        android:layout_marginEnd="@dimen/margin_15"
+        android:scaleType="fitCenter"
+        android:src="@drawable/live_close"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginLeft="@dimen/margin_15"
+        android:layout_marginTop="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_15"
+        android:background="@drawable/live_create_setting_bg_shape"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/close_iv">
+
+        <io.agora.chat.uikit.widget.EaseImageView
+            android:id="@+id/cover_image"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:ease_radius="@dimen/margin_10"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/margin_5"
+            android:text="@string/create_live_change"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_normal"
+            app:layout_constraintBottom_toBottomOf="@id/cover_image"
+            app:layout_constraintLeft_toLeftOf="@id/cover_image"
+            app:layout_constraintRight_toRightOf="@id/cover_image" />
+
+        <androidx.appcompat.widget.AppCompatEditText
+            android:id="@+id/live_name"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="@dimen/margin_10"
+            android:layout_marginTop="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginBottom="@dimen/margin_30"
+            android:background="@null"
+            android:gravity="top"
+            android:imeOptions="actionDone"
+            android:inputType="textMultiLine"
+            android:text="@string/create_live_default_name"
+            android:textColor="@color/white"
+            android:textSize="@dimen/size_normal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/cover_image"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/live_name_numbers_tip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/margin_5"
+            android:layout_marginTop="@dimen/margin_5"
+            android:textColor="@color/create_live_name_numbers_tip"
+            android:textSize="@dimen/size_normal"
+            android:visibility="gone"
+            app:layout_constraintLeft_toLeftOf="@id/live_name"
+            app:layout_constraintTop_toBottomOf="@id/live_name" />
+
+        <io.agora.chat.uikit.widget.EaseImageView
+            android:id="@+id/edit_name"
+            android:layout_width="@dimen/margin_20"
+            android:layout_height="@dimen/margin_20"
+            android:layout_marginTop="@dimen/margin_5"
+            android:layout_marginRight="@dimen/margin_5"
+            android:src="@drawable/edit"
+            app:layout_constraintRight_toRightOf="@id/live_name"
+            app:layout_constraintTop_toBottomOf="@id/live_name" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <io.agora.chat.uikit.widget.EaseImageView
+        android:id="@+id/flip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_40"
+        android:src="@drawable/live_cam"
+        app:layout_constraintBottom_toTopOf="@id/go_live"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_5"
+        android:text="@string/create_live_flip"
+        android:textColor="@color/white"
+        android:textSize="@dimen/size_smaller"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/flip" />
+
+    <Button
+        android:id="@+id/go_live"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_20"
+        android:layout_marginRight="@dimen/margin_20"
+        android:layout_marginBottom="@dimen/margin_30"
+        android:background="@drawable/btn_normal_bg"
+        android:stateListAnimator="@null"
+        android:text="@string/create_live_go_live"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="@dimen/margin_20"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <ImageView
+        android:id="@+id/loading"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:scaleType="fitCenter"
+        android:src="@drawable/loading"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@id/go_live"
+        app:layout_constraintLeft_toLeftOf="@id/go_live"
+        app:layout_constraintRight_toRightOf="@id/go_live"
+        app:layout_constraintTop_toTopOf="@id/go_live" />
+</androidx.constraintlayout.widget.ConstraintLayout>
