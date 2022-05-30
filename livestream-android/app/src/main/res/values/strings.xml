@@ -36,6 +36,7 @@
     <string name="create_live_default_name">Welcome to my Channel!</string>
     <string name="create_live_go_live">Go LIVE!</string>
     <string name="create_live_change_cover">Change Cover</string>
+    <string name="create_live_change_avatar">Change Avatar</string>
     <string name="create_live_room_check_info">Please fill in completely</string>
 
     <string name="live_attention">attention</string>

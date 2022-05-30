@@ -17,6 +17,7 @@ import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.utils.NumberUtils;
+import io.agora.livedemo.utils.Utils;
 
 public class LiveListAdapter extends EaseBaseRecyclerViewAdapter<LiveRoom> {
     private String status;
@@ -50,6 +51,8 @@ public class LiveListAdapter extends EaseBaseRecyclerViewAdapter<LiveRoom> {
             tvLivingAudienceNum = findViewById(R.id.tv_living_audience_num);
             author = findViewById(R.id.author);
             liveRoomName = findViewById(R.id.live_room_name);
+
+            tvLivingAudienceNum.setTypeface(Utils.getRobotoTypeface(mContext.getApplicationContext()));
         }
 
         @Override

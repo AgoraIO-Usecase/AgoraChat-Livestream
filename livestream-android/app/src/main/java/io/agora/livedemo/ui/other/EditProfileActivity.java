@@ -1,7 +1,6 @@
 package io.agora.livedemo.ui.other;
 
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -21,7 +20,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -29,6 +27,9 @@ import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
+
+import com.google.android.material.datepicker.CalendarConstraints;
+import com.google.android.material.datepicker.MaterialDatePicker;
 
 import java.io.File;
 import java.net.URI;
@@ -56,6 +57,8 @@ import io.agora.livedemo.ui.base.BaseLiveActivity;
 import io.agora.livedemo.ui.live.fragment.ListDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.EditProfileViewModel;
 import io.agora.livedemo.utils.Utils;
+import io.agora.util.DensityUtil;
+import io.agora.util.EMLog;
 import io.agora.util.PathUtil;
 import io.agora.util.VersionUtils;
 
@@ -80,6 +83,7 @@ public class EditProfileActivity extends BaseLiveActivity {
     private ListDialogFragment mChangeAvatarDialog;
 
     private EaseUser mUser;
+    private MaterialDatePicker<Long> materialDatePicker;
 
     @Override
     protected View getContentView() {
@@ -91,9 +95,12 @@ public class EditProfileActivity extends BaseLiveActivity {
     protected void initView() {
         super.initView();
         mUser = UserRepository.getInstance().getUserInfo(DemoHelper.getAgoraId());
+        initDatePicker();
         EaseUserUtils.setUserAvatar(mContext, DemoHelper.getAgoraId(), mBinding.userIcon);
         EaseUserUtils.setUserNick(DemoHelper.getAgoraId(), mBinding.itemUsername.getTvContent());
         mBinding.titlebarTitle.setTypeface(Utils.getRobotoTypeface(this.getApplicationContext()));
+
+        mBinding.userIcon.setAlpha(0.6f);
 
         mGenderArray = getResources().getStringArray(R.array.gender_types);
         updateGender(mUser.getGender());
@@ -103,7 +110,7 @@ public class EditProfileActivity extends BaseLiveActivity {
     @Override
     protected void initListener() {
         super.initListener();
-        mBinding.titleBar.setOnClickListener(new View.OnClickListener() {
+        mBinding.backLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
@@ -153,6 +160,7 @@ public class EditProfileActivity extends BaseLiveActivity {
 
                 final Dialog dialog = builder.create();
                 dialog.show();
+                dialog.getWindow().setLayout(DensityUtil.dip2px(mContext, 300), DensityUtil.dip2px(mContext, 200));
                 dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
                 dialog.getWindow().setGravity(Gravity.CENTER);
                 dialog.getWindow().setContentView(view);
@@ -178,6 +186,8 @@ public class EditProfileActivity extends BaseLiveActivity {
             public void onClick(View v) {
                 new ListDialogFragment.Builder(mContext)
                         .setTitle(R.string.setting_gender_title)
+                        .setLayoutBgResId(R.color.change_avatar_bg)
+                        .setDividerViewBgResId(R.color.change_avatar_divider_bg)
                         .setGravity(Gravity.START)
                         .setData(mGenderArray)
                         .setCancelColorRes(R.color.black)
@@ -194,8 +204,8 @@ public class EditProfileActivity extends BaseLiveActivity {
         mBinding.itemBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Calendar calendar = Calendar.getInstance();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EditProfileActivity.this, R.style.MyDatePickerDialogTheme, new DatePickerDialog.OnDateSetListener() {
+                /*Calendar calendar = Calendar.getInstance();
+                DatePickerDialog datePickerDialog = new DatePickerDialog(EditProfileActivity.this, DatePickerDialog.THEME_DEVICE_DEFAULT_DARK, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                         setBirthday(year, monthOfYear + 1, dayOfMonth);
@@ -204,7 +214,12 @@ public class EditProfileActivity extends BaseLiveActivity {
                         , calendar.get(Calendar.YEAR)
                         , calendar.get(Calendar.MONTH)
                         , calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();
+                datePickerDialog.show();*/
+
+                if (!materialDatePicker.isAdded()) {
+                    materialDatePicker.show(getSupportFragmentManager(),
+                            "MATERIAL_DATE_PICKER");
+                }
             }
         });
 
@@ -213,11 +228,13 @@ public class EditProfileActivity extends BaseLiveActivity {
             public void onClick(View v) {
                 if (null == mChangeAvatarDialog) {
                     mChangeAvatarDialogBuilder = new ListDialogFragment.Builder(mContext)
-                            .setTitle(R.string.create_live_change_cover)
+                            .setTitle(R.string.create_live_change_avatar)
+                            .setLayoutBgResId(R.color.change_avatar_bg)
                             .setGravity(Gravity.START)
                             .setData(calls)
                             .setCancelColorRes(R.color.black)
                             .setWindowAnimations(R.style.animate_dialog)
+                            .setDividerViewBgResId(R.color.change_avatar_divider_bg)
                             .setOnItemClickListener(new ListDialogFragment.OnDialogItemClickListener() {
                                 @Override
                                 public void OnItemClick(View view, int position) {
@@ -468,6 +485,7 @@ public class EditProfileActivity extends BaseLiveActivity {
     }
 
     private void setBirthday(int year, int month, int day) {
+        EMLog.i("lives", "year=" + year + ",month=" + month + ",day=" + day);
         DecimalFormat decimalFormat = new DecimalFormat("00");
         final String birthday = year + "-" + decimalFormat.format(month) + "-" + decimalFormat.format(day);
         ChatClient.getInstance().userInfoManager().updateOwnInfoByAttribute(UserInfo.UserInfoType.BIRTH, birthday, new ValueCallBack<String>() {
@@ -489,8 +507,24 @@ public class EditProfileActivity extends BaseLiveActivity {
             }
         });
 
-
     }
 
+    private void initDatePicker() {
+        MaterialDatePicker.Builder<Long>
+                materialDateBuilder = MaterialDatePicker.Builder.datePicker();
+
+        materialDateBuilder.setTheme(R.style.ThemeOverlay_App_MaterialCalendar);
+        CalendarConstraints.Builder calendarConstraints = new CalendarConstraints.Builder();
+        materialDateBuilder.setTitleText("SELECT YOUR BIRTHDAY");
+        materialDateBuilder.setCalendarConstraints(calendarConstraints.build());
+        materialDatePicker = materialDateBuilder.build();
+
+        materialDatePicker.addOnPositiveButtonClickListener(selection -> {
+            Date date = new Date(selection);
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(date);
+            setBirthday(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH));
+        });
+    }
 
 }

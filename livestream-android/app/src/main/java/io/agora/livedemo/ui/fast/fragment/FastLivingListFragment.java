@@ -81,7 +81,7 @@ public class FastLivingListFragment extends LiveListFragment {
         if (getArguments() != null) {
             isFast = getArguments().getBoolean(FastLivingListActivity.EXTRA_IS_FAST);
         }
-        swipeRefreshLayout.setRefreshing(true);
+        refreshLayout.setEnableRefresh(true);
         if (isFast) {
             viewModel.getFastVodRoomList(MAX_VOD_COUNT, null);
         } else {

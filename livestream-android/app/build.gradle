@@ -125,6 +125,10 @@ dependencies {
     implementation "androidx.camera:camera-camera2:${camerax_version}"
 
     implementation 'com.jakewharton.rxbinding4:rxbinding:4.0.0'
+
+    implementation  'io.github.scwang90:refresh-layout-kernel:2.0.5'
+    implementation  'io.github.scwang90:refresh-header-classics:2.0.5'
+
     // agora cdn live
     implementation project(path: ':fastlive')
     // agora 

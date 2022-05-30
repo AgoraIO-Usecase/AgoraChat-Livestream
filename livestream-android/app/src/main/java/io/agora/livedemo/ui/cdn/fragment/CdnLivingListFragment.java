@@ -5,8 +5,8 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
+import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.data.restapi.model.ResponseModule;
 import io.agora.livedemo.ui.cdn.CdnLiveAudienceActivity;
@@ -41,6 +41,7 @@ public class CdnLivingListFragment extends LiveListFragment {
                     hasMoreData = data.data.size() >= pageSize;
                     cdnLivingList.addAll(data.data);
                     setAdapterData(cdnLivingList);
+                    refreshLayout.finishRefresh();
                 }
 
                 @Override

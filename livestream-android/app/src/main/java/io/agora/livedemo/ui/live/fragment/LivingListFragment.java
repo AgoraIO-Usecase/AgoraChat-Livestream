@@ -73,7 +73,7 @@ public class LivingListFragment extends LiveListFragment {
 
     @Override
     protected void initData() {
-        swipeRefreshLayout.setRefreshing(true);
+        refreshLayout.setEnableRefresh(true);
         viewModel.getVodRoomList(MAX_VOD_COUNT, null);
     }
 

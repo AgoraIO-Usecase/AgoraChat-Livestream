@@ -33,7 +33,7 @@ public class AboutActivity extends BaseLiveActivity implements View.OnClickListe
         mBinding.itemPolicy.setOnClickListener(this);
         mBinding.itemMore.setOnClickListener(this);
 
-        mBinding.titleBar.setOnClickListener(new View.OnClickListener() {
+        mBinding.backLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();

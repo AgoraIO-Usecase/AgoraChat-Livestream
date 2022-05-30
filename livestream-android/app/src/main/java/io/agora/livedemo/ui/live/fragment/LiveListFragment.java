@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,7 +14,10 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+
+import com.scwang.smart.refresh.layout.SmartRefreshLayout;
+import com.scwang.smart.refresh.layout.api.RefreshLayout;
+import com.scwang.smart.refresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,20 +28,20 @@ import io.agora.chat.UserInfo;
 import io.agora.chat.uikit.interfaces.OnItemClickListener;
 import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
-import io.agora.livedemo.common.utils.DemoHelper;
-import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.common.inf.OnUpdateUserInfoListener;
-import io.agora.livedemo.data.repository.UserRepository;
+import io.agora.livedemo.common.livedata.LiveDataBus;
+import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.data.model.LiveRoom;
+import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.ui.base.BaseFragment;
 import io.agora.livedemo.ui.base.GridMarginDecoration;
 import io.agora.livedemo.ui.live.adapter.LiveListAdapter;
 import io.agora.livedemo.ui.live.viewmodels.LiveListViewModel;
+import io.agora.livedemo.ui.widget.LiveListRefreshHeader;
 
 public class LiveListFragment extends BaseFragment implements OnItemClickListener {
-    protected SwipeRefreshLayout swipeRefreshLayout;
+    protected SmartRefreshLayout refreshLayout;
     private RecyclerView recyclerView;
-    private ProgressBar loadMorePB;
 
     protected static int pageSize;
     protected String cursor;
@@ -81,14 +83,13 @@ public class LiveListFragment extends BaseFragment implements OnItemClickListene
         if (null == getView()) {
             return;
         }
-        loadMorePB = getView().findViewById(R.id.pb_load_more);
         recyclerView = getView().findViewById(R.id.recycleview);
         gridLayoutManager = new GridLayoutManager(mContext, 2, RecyclerView.VERTICAL, false);
         linearLayoutManager = new LinearLayoutManager(mContext);
         recyclerView.setLayoutManager(linearLayoutManager);
-        swipeRefreshLayout = getView().findViewById(R.id.refresh_layout);
+        refreshLayout = getView().findViewById(R.id.refresh_layout);
 
-        recyclerView.setHasFixedSize(true);
+        refreshLayout.setRefreshHeader(new LiveListRefreshHeader(mContext));
         recyclerView.addItemDecoration(new GridMarginDecoration(mContext, 10));
         adapter = new LiveListAdapter();
         adapter.setEmptyView(R.layout.live_list_empty);
@@ -102,12 +103,13 @@ public class LiveListFragment extends BaseFragment implements OnItemClickListene
     }
 
     private void initListener() {
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        refreshLayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh() {
+            public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 refreshList();
             }
         });
+
         recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
@@ -146,7 +148,7 @@ public class LiveListFragment extends BaseFragment implements OnItemClickListene
 
     protected void initData() {
         pageSize = 10;
-        swipeRefreshLayout.setRefreshing(true);
+        refreshLayout.setEnableRefresh(true);
     }
 
     protected void showLiveList(final boolean isLoadMore) {
@@ -163,10 +165,6 @@ public class LiveListFragment extends BaseFragment implements OnItemClickListene
 
     protected void hideLoadingView(boolean isLoadMore) {
         isLoading = false;
-        if (!isLoadMore)
-            swipeRefreshLayout.setRefreshing(false);
-        else
-            loadMorePB.setVisibility(View.INVISIBLE);
     }
 
     private boolean isOngoingLive() {

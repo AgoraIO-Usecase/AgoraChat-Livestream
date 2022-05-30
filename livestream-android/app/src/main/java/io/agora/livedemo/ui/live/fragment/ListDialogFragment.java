@@ -30,8 +30,10 @@ import io.agora.livedemo.ui.base.BaseActivity;
 import io.agora.livedemo.ui.base.BaseDialogFragment;
 
 public class ListDialogFragment extends BaseDialogFragment {
+    private View layout;
     private RecyclerView rvDialogList;
     private Button btnCancel;
+    private View dividerView;
     private EaseBaseRecyclerViewAdapter adapter;
 
     private String title;
@@ -42,7 +44,8 @@ public class ListDialogFragment extends BaseDialogFragment {
     private OnDialogCancelClickListener cancelClickListener;
     private int animations;
     private int gravity;
-
+    private int dividerViewBgResId;
+    private int layoutBgResId;
 
     @Override
     public int getLayoutId() {
@@ -65,19 +68,27 @@ public class ListDialogFragment extends BaseDialogFragment {
                 e.printStackTrace();
             }
         }
-
+        layout = findViewById(R.id.layout);
         TextView tvTitle = findViewById(R.id.tv_title);
-        View viewDivider = findViewById(R.id.view_divider);
         rvDialogList = findViewById(R.id.rv_dialog_list);
         btnCancel = findViewById(R.id.btn_cancel);
+        dividerView = findViewById(R.id.view_divider);
+
+        if (0 != layoutBgResId) {
+            layout.setBackgroundResource(layoutBgResId);
+        }
 
         if (TextUtils.isEmpty(title)) {
             tvTitle.setVisibility(View.GONE);
-            viewDivider.setVisibility(View.GONE);
+            dividerView.setVisibility(View.GONE);
         } else {
             tvTitle.setVisibility(View.VISIBLE);
-            viewDivider.setVisibility(View.VISIBLE);
+            dividerView.setVisibility(View.VISIBLE);
             tvTitle.setText(title);
+        }
+
+        if (dividerViewBgResId != 0) {
+            dividerView.setBackgroundResource(dividerViewBgResId);
         }
 
         if (gravity != -1) {
@@ -120,7 +131,7 @@ public class ListDialogFragment extends BaseDialogFragment {
         }
         rvDialogList.setAdapter(adapter);
 
-        rvDialogList.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
+        //rvDialogList.addItemDecoration(new DividerItemDecoration(mContext, DividerItemDecoration.VERTICAL));
 
         adapter.setData(data);
 
@@ -147,6 +158,8 @@ public class ListDialogFragment extends BaseDialogFragment {
         private Bundle bundle;
         private int animations;
         private int gravity;
+        private int dividerViewBgResId;
+        private int layoutBgResId;
 
         public Builder(BaseActivity context) {
             this.context = context;
@@ -174,6 +187,16 @@ public class ListDialogFragment extends BaseDialogFragment {
 
         public Builder setData(List<String> data) {
             this.data = data;
+            return this;
+        }
+
+        public Builder setDividerViewBgResId(int dividerViewBgResId) {
+            this.dividerViewBgResId = dividerViewBgResId;
+            return this;
+        }
+
+        public Builder setLayoutBgResId(int layoutBgResId) {
+            this.layoutBgResId = layoutBgResId;
             return this;
         }
 
@@ -231,6 +254,8 @@ public class ListDialogFragment extends BaseDialogFragment {
             fragment.setOnCancelClickListener(this.cancelClickListener);
             fragment.setArguments(this.bundle);
             fragment.setWindowAnimations(animations);
+            fragment.setDividerViewBg(dividerViewBgResId);
+            fragment.setLayoutBg(layoutBgResId);
             return fragment;
         }
 
@@ -284,6 +309,14 @@ public class ListDialogFragment extends BaseDialogFragment {
 
     private void setGravity(int gravity) {
         this.gravity = gravity;
+    }
+
+    private void setDividerViewBg(int resId) {
+        this.dividerViewBgResId = resId;
+    }
+
+    private void setLayoutBg(int resId) {
+        this.layoutBgResId = resId;
     }
 
     public interface OnDialogItemClickListener {

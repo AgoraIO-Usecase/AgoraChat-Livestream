@@ -140,7 +140,7 @@ public class SearchEditText extends AppCompatEditText {
         int paddingTop = getPaddingTop();
         int paddingBottom = getPaddingBottom();
         if (paddingLeft == 0 || paddingRight == 0) {
-            setPadding((int) dip2px(16), paddingTop, (int) dip2px(16), paddingBottom);
+            setPadding((int) dip2px(10), paddingTop, (int) dip2px(20), paddingBottom);
         }
 
     }
@@ -148,5 +148,4 @@ public class SearchEditText extends AppCompatEditText {
     private float dip2px(float value) {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, value, getContext().getResources().getDisplayMetrics());
     }
-
 }

@@ -7,7 +7,6 @@ import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -25,12 +24,13 @@ import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.ui.base.BaseLiveActivity;
 import io.agora.livedemo.ui.base.GridMarginDecoration;
 import io.agora.livedemo.ui.live.adapter.LiveListAdapter;
+import io.agora.livedemo.ui.widget.SearchEditText;
 import io.agora.livedemo.utils.Utils;
 
 public class SearchActivity extends BaseLiveActivity {
 
     @BindView(R.id.et_search)
-    EditText editText;
+    SearchEditText editText;
     @BindView(R.id.recycleview)
     RecyclerView recyclerView;
     @BindView(R.id.empty_view)

@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#ffffff</color>
-    <color name="colorPrimaryDark">#ffffff</color>
-    <color name="colorAccent">#00ba6e</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#2F80ED</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+
+    <color name="colorPrimary">#2F80ED</color>
     <color name="colorTextPrimary">#ffffff</color>
     <color name="textColorSecondary">@color/gray</color>
 
@@ -13,7 +17,7 @@
     <color name="tab_indicator">#323232</color>
 
     <color name="white">#feffffff</color>
-    <color name="black">#ff000000</color>
+    <color name="whiteblack">#ff000000</color>
 
     <color name="common_white">#fff</color>
     <color name="common_black">#3B3B3B</color>
@@ -60,4 +64,7 @@
 
     <color name="color_second_text">#666666</color>
     <color name="color_main_text">#0D0D0D</color>
+
+    <color name="change_avatar_divider_bg">#333333</color>
+    <color name="change_avatar_bg">#212121</color>
 </resources>
