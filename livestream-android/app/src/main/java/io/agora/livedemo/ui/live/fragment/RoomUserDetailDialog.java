@@ -32,11 +32,11 @@ import io.agora.chat.uikit.utils.EaseUserUtils;
 import io.agora.chat.uikit.widget.EaseImageView;
 import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
-import io.agora.livedemo.common.livedata.LiveDataBus;
-import io.agora.livedemo.common.inf.OnConfirmClickListener;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
-import io.agora.livedemo.data.repository.UserRepository;
+import io.agora.livedemo.common.inf.OnConfirmClickListener;
+import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.data.model.AttentionBean;
+import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.ui.base.BaseLiveDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.LivingViewModel;
 import io.agora.livedemo.ui.live.viewmodels.UserManageViewModel;
@@ -53,7 +53,7 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
     private ConstraintLayout sexLayout;
     private ImageView sexIcon;
     private TextView ageTv;
-    private TextView roleType;
+    private ImageView roleType;
     private SwitchItemView banAll;
     private EaseImageView muteState;
     private ArrowItemView removeFromAllowedListItem;
@@ -151,12 +151,10 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
         }
         if (username.equals(mChatRoom.getOwner())) {
             roleType.setVisibility(View.VISIBLE);
-            roleType.setText(this.getResources().getString(R.string.role_type_streamer));
-            roleType.setBackgroundResource(R.drawable.live_streamer_bg);
+            roleType.setImageResource(R.drawable.live_streamer);
         } else if (mChatRoom.getAdminList().contains(username)) {
             roleType.setVisibility(View.VISIBLE);
-            roleType.setText(this.getResources().getString(R.string.role_type_moderator));
-            roleType.setBackgroundResource(R.drawable.live_moderator_bg);
+            roleType.setImageResource(R.drawable.live_moderator);
         } else {
             roleType.setVisibility(View.INVISIBLE);
         }
@@ -244,7 +242,7 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
             }
         } else if (mChatRoom.getAdminList().contains(ChatClient.getInstance().getCurrentUser())) {
             banAll.setVisibility(View.GONE);
-            if (mChatRoom.getOwner().equals(username)) {
+            if (mChatRoom.getOwner().equals(username) || ChatClient.getInstance().getCurrentUser().equals(username)) {
                 moveToAllowedListItem.setVisibility(View.GONE);
                 removeFromAllowedListItem.setVisibility(View.GONE);
                 assignAsModeratorItem.setVisibility(View.GONE);

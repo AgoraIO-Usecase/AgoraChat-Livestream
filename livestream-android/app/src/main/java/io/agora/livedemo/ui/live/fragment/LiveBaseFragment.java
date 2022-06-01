@@ -408,10 +408,12 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     private void showMessageListView() {
         if (mMessageListViewVisibility == View.VISIBLE) {
             messageView.setVisibility(View.GONE);
-            commentIv.setImageResource(R.drawable.live_comment);
+            commentIv.setImageResource(R.drawable.message);
+            commentIv.setBackgroundResource(0);
         } else {
             messageView.setVisibility(View.VISIBLE);
-            commentIv.setImageResource(R.drawable.live_comment_close);
+            commentIv.setImageResource(R.drawable.message_slash);
+            commentIv.setBackgroundResource(R.drawable.live_bg_shape);
         }
         mMessageListViewVisibility = messageView.getVisibility();
     }

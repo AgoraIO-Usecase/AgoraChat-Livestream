@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,8 +19,8 @@ import io.agora.chat.uikit.interfaces.OnItemClickListener;
 import io.agora.chat.uikit.utils.EaseUtils;
 import io.agora.livedemo.R;
 import io.agora.livedemo.common.inf.OnConfirmClickListener;
-import io.agora.livedemo.data.repository.GiftRepository;
 import io.agora.livedemo.data.model.GiftBean;
+import io.agora.livedemo.data.repository.GiftRepository;
 import io.agora.livedemo.ui.base.BaseLiveFragment;
 import io.agora.livedemo.ui.live.adapter.GiftListAdapter;
 
@@ -30,7 +29,7 @@ public class LiveGiftListFragment extends BaseLiveFragment implements OnItemClic
     private ImageView ivGiftMinus;
     private ImageView ivGiftPlus;
     private TextView tvGiftNum;
-    private Button btnSend;
+    private TextView btnSend;
     private TextView tvGiftTotalValues;
     private int giftNum = 1;
 
@@ -179,24 +178,11 @@ public class LiveGiftListFragment extends BaseLiveFragment implements OnItemClic
 
     public void onGiftNum(int num) {
         giftBean.setNum(num);
-        LiveGiftSendDialog dialog = (LiveGiftSendDialog) getChildFragmentManager().findFragmentByTag("gift_send");
-        if (dialog == null) {
-            dialog = LiveGiftSendDialog.getNewInstance(giftBean);
+        updateGiftList();
+        if (listener != null) {
+            listener.onConfirmClick(null, giftBean);
         }
-        if (dialog.isAdded()) {
-            return;
-        }
-        dialog.setOnConfirmClickListener(new OnConfirmClickListener() {
-            @Override
-            public void onConfirmClick(View view, Object bean) {
-                giftBean = null;
-                updateGiftList();
-                if (listener != null) {
-                    listener.onConfirmClick(view, bean);
-                }
-            }
-        });
-        dialog.show(getChildFragmentManager(), "gift_send");
+        giftBean = null;
     }
 
     private void updateGiftList() {

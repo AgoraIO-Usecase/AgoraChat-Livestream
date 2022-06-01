@@ -303,7 +303,7 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
         private static class UserListViewHolder extends ViewHolder<String> {
             private ImageView ivUserAvatar;
             private TextView tvUserName;
-            private TextView tvRoleType;
+            private ImageView ivRoleType;
             private ImageView roleState;
             private Context context;
 
@@ -316,7 +316,7 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
             public void initView(View itemView) {
                 ivUserAvatar = findViewById(R.id.iv_user_avatar);
                 tvUserName = findViewById(R.id.tv_user_name);
-                tvRoleType = findViewById(R.id.tv_role_type);
+                ivRoleType = findViewById(R.id.iv_role_type);
                 roleState = findViewById(R.id.iv_state_icon);
             }
 
@@ -325,15 +325,13 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
                 EaseUserUtils.setUserNick(item, tvUserName);
                 EaseUserUtils.setUserAvatar(context, item, ivUserAvatar);
                 if (item.equals(owner)) {
-                    tvRoleType.setText(context.getResources().getString(R.string.role_type_streamer));
-                    tvRoleType.setVisibility(View.VISIBLE);
-                    tvRoleType.setBackgroundResource(R.drawable.ease_live_streamer_bg);
+                    ivRoleType.setImageResource(R.drawable.live_streamer);
+                    ivRoleType.setVisibility(View.VISIBLE);
                 } else if (null != adminList && adminList.contains(item)) {
-                    tvRoleType.setText(context.getResources().getString(R.string.role_type_moderator));
-                    tvRoleType.setBackgroundResource(R.drawable.ease_live_moderator_bg);
-                    tvRoleType.setVisibility(View.VISIBLE);
+                    ivRoleType.setImageResource(R.drawable.live_moderator);
+                    ivRoleType.setVisibility(View.VISIBLE);
                 } else {
-                    tvRoleType.setVisibility(View.GONE);
+                    ivRoleType.setVisibility(View.GONE);
                 }
                 if (null != muteList && muteList.contains(item)) {
                     roleState.setVisibility(View.VISIBLE);

@@ -48,8 +48,6 @@
     <string name="live_dialog_quit_title">End your Livestream？</string>
     <string name="live_dialog_quit_btn_title">END</string>
     <string name="anchor_end_live_stream_tip">Your Live Stream has ended</string>
-    <string name="role_type_streamer">Streamer</string>
-    <string name="role_type_moderator">Moderator</string>
 
     <string name="ban_all">Ban All</string>
     <string name="attention_ban_all">Streamer has set Banned on all Chats</string>
@@ -108,7 +106,7 @@
     <string name="gift_send_confirm">Whether to sent it away</string>
     <string name="gift_send_info">%1$d X %2$s</string>
     <string name="gift_input_num_title">Input number</string>
-    <string name="gift_show_send">send %1$s</string>
+    <string name="gift_show_send">sent %1$s</string>
 
     <string name="live_stream_end_tip">The Live Stream has ended</string>
     <string name="share">share</string>

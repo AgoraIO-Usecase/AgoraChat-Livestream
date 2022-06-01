@@ -25,19 +25,17 @@
         app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
         app:layout_constraintHorizontal_bias="0"
         app:layout_constraintLeft_toRightOf="@id/iv_user_avatar"
-        app:layout_constraintRight_toLeftOf="@id/tv_role_type"
+        app:layout_constraintRight_toLeftOf="@id/iv_role_type"
         app:layout_constraintTop_toTopOf="@id/iv_user_avatar"
         app:layout_constraintVertical_chainStyle="packed" />
 
-    <TextView
-        android:id="@+id/tv_role_type"
+
+    <ImageView
+        android:id="@+id/iv_role_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="5dp"
-        android:padding="@dimen/margin_5"
-        android:textColor="@color/black"
-        android:textSize="12sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
         app:layout_constraintHorizontal_bias="0"
@@ -52,7 +50,7 @@
         android:layout_marginStart="@dimen/margin_5"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/iv_user_avatar"
-        app:layout_constraintLeft_toRightOf="@id/tv_role_type" />
+        app:layout_constraintLeft_toRightOf="@id/iv_role_type" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

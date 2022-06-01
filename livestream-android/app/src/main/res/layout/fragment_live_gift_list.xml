@@ -78,7 +78,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="@dimen/margin_10"
         android:layout_marginLeft="@dimen/margin_10"
-        android:src="@drawable/gold_icon"
+        android:src="@drawable/coin_small"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toRightOf="@id/num_layout"
@@ -89,7 +89,7 @@
         android:id="@+id/gift_total_values"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_5"
+        android:layout_marginStart="@dimen/margin_5"
         android:textColor="@color/white"
         android:textSize="@dimen/size_normal"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -98,18 +98,21 @@
         app:layout_constraintRight_toLeftOf="@id/btn_send"
         app:layout_constraintTop_toBottomOf="@id/rv_list" />
 
-    <Button
+    <TextView
         android:id="@+id/btn_send"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="0dp"
         android:layout_marginEnd="@dimen/margin_15"
         android:background="@drawable/live_gift_send_bg_shape"
+        android:gravity="center"
+        android:paddingStart="18dp"
+        android:paddingEnd="18dp"
         android:text="@string/gift_send"
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="@dimen/size_big"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/num_layout"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/rv_list" />
+        app:layout_constraintTop_toTopOf="@id/num_layout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

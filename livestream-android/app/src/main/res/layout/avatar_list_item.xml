@@ -6,8 +6,8 @@
 
     <io.agora.chat.uikit.widget.EaseImageView
         android:id="@+id/avatar"
-        android:layout_width="@dimen/item_small_avatar_size"
-        android:layout_height="@dimen/item_small_avatar_size"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
         android:scaleType="centerInside"
         android:src="@drawable/ease_default_avatar"
         app:ease_shape_type="round"

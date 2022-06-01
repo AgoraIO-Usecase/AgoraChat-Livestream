@@ -29,8 +29,8 @@ import io.agora.chat.uikit.utils.EaseUserUtils;
 import io.agora.chat.uikit.utils.EaseUtils;
 import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
-import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
+import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.ui.base.BaseLiveDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.UserManageViewModel;
 import io.agora.livedemo.utils.StatusBarCompat;
@@ -205,7 +205,7 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
         private static class UserListViewHolder extends ViewHolder<String> {
             private ImageView ivUserAvatar;
             private TextView tvUserName;
-            private TextView tvRoleType;
+            private ImageView ivRoleType;
             private ImageView roleState;
             private Context context;
 
@@ -218,7 +218,7 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
             public void initView(View itemView) {
                 ivUserAvatar = findViewById(R.id.iv_user_avatar);
                 tvUserName = findViewById(R.id.tv_user_name);
-                tvRoleType = findViewById(R.id.tv_role_type);
+                ivRoleType = findViewById(R.id.iv_role_type);
                 roleState = findViewById(R.id.iv_state_icon);
             }
 
@@ -228,11 +228,10 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
                 EaseUserUtils.setUserAvatar(context, item, ivUserAvatar);
 
                 if (null != adminList && adminList.contains(item)) {
-                    tvRoleType.setText(context.getResources().getString(R.string.role_type_moderator));
-                    tvRoleType.setBackgroundResource(R.drawable.ease_live_moderator_bg);
-                    tvRoleType.setVisibility(View.VISIBLE);
+                    ivRoleType.setImageResource(R.drawable.live_moderator);
+                    ivRoleType.setVisibility(View.VISIBLE);
                 } else {
-                    tvRoleType.setVisibility(View.GONE);
+                    ivRoleType.setVisibility(View.GONE);
                 }
 
                 if (null != muteList && muteList.contains(item)) {

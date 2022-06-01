@@ -1,5 +1,6 @@
 package io.agora.livedemo.ui.live.adapter;
 
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,6 +42,7 @@ public class GiftListAdapter extends EaseBaseRecyclerViewAdapter<GiftBean> {
 
             tvLeftTime = findViewById(R.id.left_time_tv);
             tvLeftTime.setTypeface(Utils.getRobotoTypeface(mContext));
+            tvLeftTime.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
             leftTimeBgView = findViewById(R.id.left_time_bg_view);
         }
 
