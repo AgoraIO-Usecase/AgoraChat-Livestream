@@ -34,7 +34,7 @@ public interface DemoConstants {
     String ROLE_TYPE_ALL = "All";
     String ROLE_TYPE_MODERATORS = "Moderators";
     String ROLE_TYPE_ALLOWED = "Allowed";
-    String ROLE_TYPE_MUTED = "Muted";
+    String ROLE_TYPE_TIMEOUT = "Timed Out";
     String ROLE_TYPE_BANNED = "Banned";
 
     String SHOW_USER_DETAIL = "show_user_detail";

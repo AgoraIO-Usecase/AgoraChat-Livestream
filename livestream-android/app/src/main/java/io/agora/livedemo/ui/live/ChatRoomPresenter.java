@@ -6,7 +6,6 @@ import android.util.Log;
 import java.util.List;
 
 import io.agora.ChatRoomChangeListener;
-import io.agora.Error;
 import io.agora.chat.ChatClient;
 import io.agora.chat.ChatMessage;
 import io.agora.chat.Conversation;
@@ -14,12 +13,8 @@ import io.agora.chat.TextMessageBody;
 import io.agora.chat.uikit.lives.EaseLiveMessageConstant;
 import io.agora.chat.uikit.lives.EaseLiveMessageHelper;
 import io.agora.chat.uikit.lives.OnSendLiveMessageCallBack;
-import io.agora.livedemo.DemoConstants;
-import io.agora.livedemo.R;
 import io.agora.livedemo.common.utils.DemoMsgHelper;
-import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.common.utils.ThreadManager;
-import io.agora.livedemo.data.model.AttentionBean;
 import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.ui.base.BaseActivity;
 
@@ -110,15 +105,9 @@ public class ChatRoomPresenter implements ChatRoomChangeListener {
 
     @Override
     public void onAllMemberMuteStateChanged(String chatRoomId, boolean isMuted) {
-        AttentionBean attention = new AttentionBean();
-        if (isMuted) {
-            attention.setShowTime(-1);
-            attention.setShowContent(mContext.getString(R.string.live_anchor_mute_all_attention_tip, ownerNickname));
-        } else {
-            attention.setShowTime(-1);
-            attention.setShowContent("");
+        if (onChatRoomListener != null) {
+            onChatRoomListener.onAllMemberMuteStateChanged(chatRoomId, isMuted);
         }
-        LiveDataBus.get().with(DemoConstants.REFRESH_ATTENTION).postValue(attention);
     }
 
     @Override
@@ -250,6 +239,9 @@ public class ChatRoomPresenter implements ChatRoomChangeListener {
         void onWhiteListAdded(String chatRoomId, List<String> whitelist);
 
         void onWhiteListRemoved(String chatRoomId, List<String> whitelist);
+
+        default void onAllMemberMuteStateChanged(String chatRoomId, boolean isMuted) {
+        }
 
     }
 }

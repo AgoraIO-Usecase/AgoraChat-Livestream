@@ -2,6 +2,7 @@ package io.agora.livedemo.ui.other;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -15,8 +16,10 @@ import android.text.InputType;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Size;
 import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -25,11 +28,14 @@ import android.view.animation.LinearInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.camera.core.CameraX;
 import androidx.camera.core.Preview;
 import androidx.camera.core.PreviewConfig;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.ViewModelProvider;
 
@@ -67,6 +73,9 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
 
     private String mCoverPath;
 
+    private final int REQUEST_CODE_PERMISSIONS = 10; //arbitrary number, can be changed accordingly
+    private final String[] REQUIRED_PERMISSIONS = new String[]{"android.permission.CAMERA", "android.permission.WRITE_EXTERNAL_STORAGE"};
+
     protected File mCameraFile;
     private Uri mCacheUri;
     private CameraX.LensFacing mFacingType;
@@ -86,6 +95,7 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
     @Override
     protected void initView() {
         super.initView();
+
         mBinding.closeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +141,11 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
         mBinding.cameraView.post(new Runnable() {
             @Override
             public void run() {
-                startCamera(mFacingType);
+                if (allPermissionsGranted()) {
+                    startCamera(mFacingType); //start camera if permission has been granted by user
+                } else {
+                    ActivityCompat.requestPermissions(CreateLiveRoomActivity.this, REQUIRED_PERMISSIONS, REQUEST_CODE_PERMISSIONS);
+                }
             }
         });
     }
@@ -139,15 +153,20 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
     @Override
     protected void initListener() {
         super.initListener();
-        mBinding.editName.setOnClickListener(new View.OnClickListener() {
+        mBinding.liveName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setEditTextEnable(true, mBinding.liveName);
-                if (null != mBinding.liveName.getText()) {
-                    mBinding.liveName.setSelection(mBinding.liveName.getText().length());
+                if (!mBinding.liveName.isFocused()) {
+                    showEditLiveName();
                 }
-                mBinding.liveNameNumbersTip.setVisibility(View.VISIBLE);
-                mBinding.liveNameNumbersTip.setText(mBinding.liveName.getText().toString().trim().length() + "/" + LIVE_NAME_MAX_LENGTH);
+            }
+        });
+        mBinding.editLiveNameLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!mBinding.liveName.isFocused()) {
+                    showEditLiveName();
+                }
             }
         });
 
@@ -183,6 +202,10 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
         mBinding.coverImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (mBinding.liveName.isFocused()) {
+                    setEditTextEnable(false, mBinding.liveName);
+                    mBinding.liveNameNumbersTip.setVisibility(View.GONE);
+                }
                 showSelectDialog();
             }
         });
@@ -267,6 +290,16 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
         });
     }
 
+    private void showEditLiveName() {
+        setEditTextEnable(true, mBinding.liveName);
+        if (null != mBinding.liveName.getText()) {
+            mBinding.liveName.setSelection(mBinding.liveName.getText().length());
+        }
+        mBinding.liveNameNumbersTip.setVisibility(View.VISIBLE);
+        mBinding.liveNameNumbersTip.setText(mBinding.liveName.getText().toString().trim().length() + "/" + LIVE_NAME_MAX_LENGTH);
+
+    }
+
     void startLive() {
         String name = "";
         if (mBinding.liveName.getText() != null) {
@@ -307,9 +340,14 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
         new ListDialogFragment.Builder(mContext)
                 .setTitle(R.string.create_live_change_cover)
                 .setGravity(Gravity.START)
+                .setLayoutBgResId(R.color.white)
+                .setDividerViewBgResId(R.color.change_cover_divider_bg)
                 .setData(calls)
                 .setCancelColorRes(R.color.black)
+                .setTitleColorRes(R.color.black)
+                .setContentColorRes(R.color.change_cover_content_color)
                 .setWindowAnimations(R.style.animate_dialog)
+                .setGravity(Gravity.LEFT)
                 .setOnItemClickListener(new ListDialogFragment.OnDialogItemClickListener() {
                     @Override
                     public void OnItemClick(View view, int position) {
@@ -424,28 +462,50 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
     }
 
     private void updateTransform() {
-        Matrix matrix = new Matrix();
-        // Compute the center of the view finder
-        float centerX = mBinding.cameraView.getWidth() / 2f;
-        float centerY = mBinding.cameraView.getHeight() / 2f;
+        Matrix mx = new Matrix();
+        float w = mBinding.cameraView.getMeasuredWidth();
+        float h = mBinding.cameraView.getMeasuredHeight();
 
-        float[] rotations = {0, 90, 180, 270};
-        // Correct preview output to account for display rotation
-        float rotationDegrees = rotations[mBinding.cameraView.getDisplay().getRotation()];
+        float centreX = w / 2f; //calc centre of the viewfinder
+        float centreY = h / 2f;
 
-        matrix.postRotate(-rotationDegrees, centerX, centerY);
+        int rotationDgr;
+        int rotation = (int) mBinding.cameraView.getRotation(); //cast to int bc switches don't like floats
 
-        // Finally, apply transformations to our TextureView
-        mBinding.cameraView.setTransform(matrix);
+        switch (rotation) { //correct output to account for display rotation
+            case Surface.ROTATION_0:
+                rotationDgr = 0;
+                break;
+            case Surface.ROTATION_90:
+                rotationDgr = 90;
+                break;
+            case Surface.ROTATION_180:
+                rotationDgr = 180;
+                break;
+            case Surface.ROTATION_270:
+                rotationDgr = 270;
+                break;
+            default:
+                return;
+        }
+
+        mx.postRotate((float) rotationDgr, centreX, centreY);
+        mBinding.cameraView.setTransform(mx);
     }
+
 
     private void startCamera(CameraX.LensFacing facing) {
         mFacingType = facing;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             stopCamera();
+
             PreviewConfig previewConfig = new PreviewConfig.Builder()
                     .setLensFacing(facing)
+                    //.setTargetAspectRatio(AspectRatio.RATIO_16_9)
+                    //.setTargetResolution(new Size((int) EaseUtils.getScreenInfo(mContext)[0], (int) EaseUtils.getScreenInfo(mContext)[1]))
+                    .setTargetResolution(new Size(mBinding.cameraView.getMeasuredWidth(), mBinding.cameraView.getMeasuredHeight()))
                     .build();
+
 
             Preview preview = new Preview(previewConfig);
             preview.setOnPreviewOutputUpdateListener(new Preview.OnPreviewOutputUpdateListener() {
@@ -459,9 +519,10 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
                     updateTransform();
                 }
             });
+
             CameraX.bindToLifecycle(this, preview);
         } else {
-
+            //deal other version
         }
     }
 
@@ -471,5 +532,29 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
         } else {
 
         }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        //start camera when permissions have been granted otherwise exit app
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == REQUEST_CODE_PERMISSIONS) {
+            if (allPermissionsGranted()) {
+                startCamera(mFacingType);
+            } else {
+                Toast.makeText(this, "Permissions not granted by the user.", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
+    }
+
+    private boolean allPermissionsGranted() {
+        //check if req permissions have been granted
+        for (String permission : REQUIRED_PERMISSIONS) {
+            if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 }

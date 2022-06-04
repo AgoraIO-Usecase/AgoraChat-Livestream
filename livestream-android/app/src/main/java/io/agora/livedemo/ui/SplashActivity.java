@@ -77,8 +77,6 @@ public class SplashActivity extends BaseLiveActivity {
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
         mHandler.sendEmptyMessageDelayed(0, 1000 * 3);//3s
-
-
     }
 
     private final Handler mHandler = new Handler(new Handler.Callback() {

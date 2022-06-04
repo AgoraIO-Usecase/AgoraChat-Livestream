@@ -40,15 +40,15 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!--       <View
-                   android:layout_width="0dp"
-                   android:layout_height="0dp"
-                   android:background="@drawable/live_list_item_lived_bg_shape"
-                   app:layout_constraintBottom_toBottomOf="parent"
-                   app:layout_constraintLeft_toLeftOf="parent"
-                   app:layout_constraintRight_toRightOf="parent"
-                   app:layout_constraintTop_toTopOf="@id/live_room_name" />
-       -->
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:background="@drawable/live_list_item_lived_bg_shape"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@id/live_room_name" />
+
         <TextView
             android:id="@+id/live_room_name"
             android:layout_width="0dp"

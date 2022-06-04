@@ -118,7 +118,7 @@ dependencies {
     // RecyclerView
     implementation 'androidx.recyclerview:recyclerview:1.2.1'
     // Use the most recent version of CameraX, currently that is alpha04
-    def camerax_version = "1.0.0-alpha05"
+    def camerax_version = "1.0.0-alpha06"
     //noinspection GradleDependency
     implementation "androidx.camera:camera-core:${camerax_version}"
     //noinspection GradleDependency
@@ -128,6 +128,8 @@ dependencies {
 
     implementation  'io.github.scwang90:refresh-layout-kernel:2.0.5'
     implementation  'io.github.scwang90:refresh-header-classics:2.0.5'
+
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
 
     // agora cdn live
     implementation project(path: ':fastlive')

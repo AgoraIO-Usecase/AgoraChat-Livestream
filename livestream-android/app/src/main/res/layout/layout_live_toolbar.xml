@@ -34,7 +34,7 @@
             android:layout_marginStart="@dimen/margin_5"
             android:layout_marginTop="2dp"
             android:ellipsize="end"
-            android:maxEms="6"
+            android:maxEms="4"
             android:maxLines="1"
             android:textColor="@color/common_white"
             android:textSize="12sp"
@@ -106,42 +106,52 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/layout_attention"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_5"
         android:layout_marginEnd="@dimen/margin_20"
-        android:background="@drawable/live_attention_bg_shape"
         android:padding="2dp"
-        android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="@id/layout_anchor"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/layout_anchor">
 
-        <ImageView
-            android:id="@+id/attention_icon"
+        <RelativeLayout
+            android:id="@+id/layout_attention"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="2dp"
-            android:src="@drawable/speaker"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/live_attention_bg_shape"
+            android:orientation="horizontal"
+            android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent">
 
-        <TextView
-            android:id="@+id/tv_attention"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/margin_5"
-            android:paddingEnd="@dimen/margin_5"
-            android:paddingRight="@dimen/margin_5"
-            android:text="@string/live_attention"
-            android:textColor="@color/white"
-            android:textSize="@dimen/size_normal"
-            app:layout_constraintBottom_toBottomOf="@id/attention_icon"
-            app:layout_constraintLeft_toRightOf="@+id/attention_icon"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@id/attention_icon" />
+            <ImageView
+                android:id="@+id/attention_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/speaker" />
+
+            <io.agora.livedemo.ui.widget.MarqueeText
+                android:id="@+id/tv_attention"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/margin_5"
+                android:layout_marginEnd="5dp"
+                android:layout_toEndOf="@id/attention_icon"
+                android:ellipsize="marquee"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:paddingStart="@dimen/margin_5"
+                android:paddingEnd="@dimen/margin_5"
+                android:singleLine="true"
+                android:text="@string/live_attention"
+                android:textColor="@color/white"
+                android:textSize="@dimen/size_normal" />
+        </RelativeLayout>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
@@ -219,8 +229,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="@dimen/margin_20"
-        android:padding="5dp"
         android:background="@drawable/live_bg_shape"
+        android:padding="5dp"
         android:src="@drawable/xmark"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="@id/layout_anchor"

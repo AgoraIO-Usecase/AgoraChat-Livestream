@@ -197,6 +197,9 @@ public class LiveGiftListFragment extends BaseLiveFragment implements OnItemClic
     }
 
     private void updateNumAndValues(int num) {
+        if (null == giftBean) {
+            return;
+        }
         tvGiftNum.setText(String.valueOf(num));
         tvGiftTotalValues.setText(mContext.getString(R.string.gift_send_total_values, String.valueOf(num * giftBean.getValue())));
     }

@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +48,7 @@ import io.agora.livedemo.common.inf.OnUpdateUserInfoListener;
 import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.common.utils.DemoMsgHelper;
+import io.agora.livedemo.common.utils.ThreadManager;
 import io.agora.livedemo.data.model.AttentionBean;
 import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.data.model.LiveRoom;
@@ -117,7 +119,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     @BindView(R.id.img_bt_close)
     ImageView btEnd;
     @BindView(R.id.layout_attention)
-    ConstraintLayout layoutAttention;
+    View layoutAttention;
     @BindView(R.id.layout_member_num)
     ConstraintLayout layoutMemberNum;
 
@@ -203,13 +205,15 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         if (watchedCount < memberList.size()) {
             watchedCount = memberList.size();
         }
-        tvMemberNum.setText(NumberUtils.amountConversion(watchedCount));
+        if (null != tvMemberNum) {
+            tvMemberNum.setText(NumberUtils.amountConversion(watchedCount));
+        }
         if (null != memberList && memberList.size() > 0 && needUpdateUserInfo) {
             UserRepository.getInstance().fetchUserInfo(new ArrayList<>(memberList), new OnUpdateUserInfoListener() {
                 @Override
                 public void onSuccess(Map<String, UserInfo> userInfoMap) {
                     EMLog.i(TAG, "update member list user info success");
-                    requireActivity().runOnUiThread(() -> {
+                    ThreadManager.getInstance().runOnMainThread(() -> {
                         updateWatchedMemberIcon();
                     });
                 }
@@ -327,6 +331,11 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
                             layoutAttention.setVisibility(View.GONE);
                         } else {
                             layoutAttention.setVisibility(View.VISIBLE);
+                            if (response.isAlert()) {
+                                layoutAttention.setBackgroundResource(R.drawable.live_attention_alert_bg_shape);
+                            } else {
+                                layoutAttention.setBackgroundResource(R.drawable.live_attention_bg_shape);
+                            }
                             tvAttention.setText(response.getShowContent());
                             if (-1 != response.getShowTime()) {
                                 handler.sendEmptyMessageDelayed(ATTENTION_REFRESH, response.getShowTime() * 1000);
@@ -409,11 +418,9 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         if (mMessageListViewVisibility == View.VISIBLE) {
             messageView.setVisibility(View.GONE);
             commentIv.setImageResource(R.drawable.message);
-            commentIv.setBackgroundResource(0);
         } else {
             messageView.setVisibility(View.VISIBLE);
             commentIv.setImageResource(R.drawable.message_slash);
-            commentIv.setBackgroundResource(R.drawable.live_bg_shape);
         }
         mMessageListViewVisibility = messageView.getVisibility();
     }
@@ -424,6 +431,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
 
     @OnClick(R.id.layout_anchor)
     protected void anchorClick() {
+        showUserDetailsDialog(chatroom.getOwner());
     }
 
     protected void skipToUserListDialog() {
@@ -442,7 +450,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     }
 
     protected void showPraise(final int count) {
-        requireActivity().runOnUiThread(() -> {
+        ThreadManager.getInstance().runOnMainThread(() -> {
             for (int i = 0; i < count; i++) {
                 if (!mContext.isFinishing())
                     periscopeLayout.addHeart();
@@ -461,7 +469,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         if (watchedCount != room.getAudienceNum()) {
             watchedCount = room.getAudienceNum();
             memberList = room.getMemberList();
-            requireActivity().runOnUiThread(() -> {
+            ThreadManager.getInstance().runOnMainThread(() -> {
                 updateWatchedMemberView(true);
             });
         }
@@ -477,12 +485,15 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
             memberList.add(name);
             presenter.showMemberChangeEvent(name, mContext.getResources().getString(R.string.live_msg_member_add));
 
-            requireActivity().runOnUiThread(() -> {
-                if (name.equals(chatroom.getOwner())) {
-                    LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_JOIN).setValue(true);
+            ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    if (name.equals(chatroom.getOwner())) {
+                        LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_JOIN).setValue(true);
+                    }
+                    updateWatchedMemberView(false);
+                    messageView.refresh();
                 }
-                updateWatchedMemberView(false);
-                messageView.refresh();
             });
         }
     }
@@ -492,7 +503,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         if (null != memberList && memberList.contains(name)) {
             watchedCount--;
             memberList.remove(name);
-            requireActivity().runOnUiThread(() -> {
+            ThreadManager.getInstance().runOnMainThread(() -> {
                 if (name.equals(chatroom.getOwner())) {
                     LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_FINISH_LIVE).setValue(true);
                     LiveDataBus.get().with(DemoConstants.FRESH_LIVE_LIST).setValue(true);
@@ -514,57 +525,52 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     }
 
     protected void onMessageListInit() {
-        requireActivity().runOnUiThread(new Runnable() {
+        messageView.init(chatroomId);
+        messageView.setMessageViewListener(new EaseChatRoomMessagesView.MessageViewListener() {
             @Override
-            public void run() {
-                messageView.init(chatroomId);
-                messageView.setMessageViewListener(new EaseChatRoomMessagesView.MessageViewListener() {
+            public void onSendTextMessageError(int code, String msg) {
+                mContext.showToast("send text message fail:" + msg);
+            }
+
+            @Override
+            public void onSendBarrageMessageContent(String content) {
+                presenter.sendBarrageMsg(content, new OnSendLiveMessageCallBack() {
                     @Override
-                    public void onSendTextMessageError(int code, String msg) {
-                        mContext.showToast("send text message fail:" + msg);
+                    public void onSuccess(ChatMessage message) {
+                        barrageView.addData(message);
                     }
 
                     @Override
-                    public void onSendBarrageMessageContent(String content) {
-                        presenter.sendBarrageMsg(content, new OnSendLiveMessageCallBack() {
-                            @Override
-                            public void onSuccess(ChatMessage message) {
-                                barrageView.addData(message);
-                            }
+                    public void onError(int code, String error) {
 
-                            @Override
-                            public void onError(int code, String error) {
-
-                            }
-                        });
-                    }
-
-                    @Override
-                    public void onChatRoomMessageItemClickListener(final ChatMessage message) {
-                        String clickUsername = message.getFrom();
-                        showUserDetailsDialog(clickUsername);
-                    }
-
-                    @Override
-                    public void onHiderBottomBar(boolean hide) {
-                        if (hide) {
-                            bottomBar.setVisibility(View.GONE);
-                        } else {
-                            bottomBar.setVisibility(View.VISIBLE);
-                        }
                     }
                 });
+            }
 
-                messageView.setVisibility(mMessageListViewVisibility);
-                bottomBar.setVisibility(View.VISIBLE);
-                if (!chatroom.getAdminList().contains(ChatClient.getInstance().getCurrentUser())
-                        && !chatroom.getOwner().equals(ChatClient.getInstance().getCurrentUser())) {
-                    userManagerView.setVisibility(View.INVISIBLE);
+            @Override
+            public void onChatRoomMessageItemClickListener(final ChatMessage message) {
+                String clickUsername = message.getFrom();
+                showUserDetailsDialog(clickUsername);
+            }
+
+            @Override
+            public void onHiderBottomBar(boolean hide) {
+                if (hide) {
+                    bottomBar.setVisibility(View.GONE);
+                } else {
+                    bottomBar.setVisibility(View.VISIBLE);
                 }
-
-                messageView.enableInputView(!chatroom.getMuteList().containsKey(ChatClient.getInstance().getCurrentUser()));
             }
         });
+
+        messageView.setVisibility(mMessageListViewVisibility);
+        bottomBar.setVisibility(View.VISIBLE);
+        if (!chatroom.getAdminList().contains(ChatClient.getInstance().getCurrentUser())
+                && !chatroom.getOwner().equals(ChatClient.getInstance().getCurrentUser())) {
+            userManagerView.setVisibility(View.INVISIBLE);
+        }
+
+        messageView.enableInputView(!chatroom.getMuteList().containsKey(ChatClient.getInstance().getCurrentUser()));
     }
 
     protected void showUserDetailsDialog(String username) {
@@ -579,7 +585,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     }
 
     protected void onWatchedMemberListInit() {
-        requireActivity().runOnUiThread(new Runnable() {
+        ThreadManager.getInstance().runOnMainThread(new Runnable() {
             @Override
             public void run() {
                 userManageViewModel.getObservable().observe(getViewLifecycleOwner(), response -> {
@@ -714,7 +720,6 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         if (barrageLayout != null) {
             barrageLayout.destroy();
         }
-        RoomUserDetailsDialog.sAttentionClicked = false;
     }
 
     private static class MemberIconSpacesItemDecoration extends RecyclerView.ItemDecoration {
@@ -755,7 +760,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         user.setId(message.getFrom());
         bean.setUser(user);
         bean.setNum(DemoMsgHelper.getInstance().getMsgGiftNum(message));
-        requireActivity().runOnUiThread(() -> {
+        ThreadManager.getInstance().runOnMainThread(() -> {
             barrageLayout.showGift(bean);
         });
     }
@@ -776,17 +781,28 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     @Override
     public void onBarrageMessageReceived(ChatMessage message) {
         mConversation.getMessage(message.getMsgId(), true);
-        requireActivity().runOnUiThread(() -> {
+        ThreadManager.getInstance().runOnMainThread(() -> {
             barrageView.addData(message);
         });
     }
 
-    protected void showAttention(int time, String message) {
+    protected void showAttention(int time, String message, boolean isAlert) {
         AttentionBean attention = new AttentionBean();
         attention.setShowTime(time);
+        attention.setAlert(isAlert);
         attention.setShowContent(message);
         LiveDataBus.get().with(DemoConstants.REFRESH_ATTENTION).postValue(attention);
     }
 
-
+    protected void showMessageInputTextHint(int resId, boolean isCenter) {
+        if (null != messageView) {
+            messageView.getInputView().setHint(resId);
+            messageView.getInputTipView().setText(resId);
+            if (isCenter) {
+                messageView.getInputTipView().setGravity(Gravity.CENTER);
+            } else {
+                messageView.getInputTipView().setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
+            }
+        }
+    }
 }

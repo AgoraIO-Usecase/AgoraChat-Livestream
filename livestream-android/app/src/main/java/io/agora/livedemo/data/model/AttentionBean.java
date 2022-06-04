@@ -6,6 +6,8 @@ public class AttentionBean {
     //empty means cancel attention
     private String showContent;
 
+    private boolean isAlert;
+
     public int getShowTime() {
         return showTime;
     }
@@ -22,11 +24,20 @@ public class AttentionBean {
         this.showContent = showContent;
     }
 
+    public boolean isAlert() {
+        return isAlert;
+    }
+
+    public void setAlert(boolean alert) {
+        isAlert = alert;
+    }
+
     @Override
     public String toString() {
         return "AttentionBean{" +
                 "showTime=" + showTime +
                 ", showContent='" + showContent + '\'' +
+                ", isAlert=" + isAlert +
                 '}';
     }
 }

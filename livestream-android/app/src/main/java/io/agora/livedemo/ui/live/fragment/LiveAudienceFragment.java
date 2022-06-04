@@ -65,6 +65,7 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     private boolean isAdmin;
     private boolean isInWhiteList;
     private boolean isInMuteList;
+    private boolean isAllMute;
 
     @Override
     protected int getLayoutId() {
@@ -238,26 +239,68 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     @Override
     public void onAdminAdded(String chatRoomId, String admin) {
         if (!isAdmin && admin.equals(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_in_admin_list));
+            showAttention(10, mContext.getString(R.string.live_in_admin_list), false);
         }
         chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
+        if (null != messageView) {
+            messageView.updateChatRoomInfo();
+        }
+        EMLog.i("lives","lives="+ chatroom.getAdminList());
         updateUserState();
     }
 
     @Override
     public void onAdminRemoved(String chatRoomId, String admin) {
         if (isAdmin && admin.equals(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_out_admin_list));
+            showAttention(10, mContext.getString(R.string.live_out_admin_list), false);
         }
         chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
+        if (null != messageView) {
+            messageView.updateChatRoomInfo();
+        }
         updateUserState();
     }
 
     @Override
+    public void onAllMemberMuteStateChanged(String chatRoomId, boolean isMuted) {
+        isAllMute = true;
+        if (isMuted) {
+            showAttention(-1, mContext.getString(R.string.live_anchor_timeout_all_attention_tip), true);
+            if (!isInWhiteList) {
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMessageInputTextHint(R.string.message_list_input_tip_all_timeout, true);
+                    }
+                });
+                messageView.enableInputView(false);
+            }
+        } else {
+            showAttention(10, mContext.getString(R.string.live_anchor_remove_timeout_all_attention_tip), false);
+            ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+                }
+            });
+            messageView.enableInputView(true);
+        }
+
+    }
+
+    @Override
     public void onMuteListAdded(String chatRoomId, List<String> mutes, long expireTime) {
-        if (!isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_in_mute_list));
-            messageView.enableInputView(false);
+        if (!isAllMute) {
+            if (!isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
+                showAttention(10, mContext.getString(R.string.live_in_timed_out_list), true);
+                messageView.enableInputView(false);
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
+                    }
+                });
+            }
         }
         chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
         updateUserState();
@@ -266,8 +309,14 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     @Override
     public void onMuteListRemoved(String chatRoomId, List<String> mutes) {
         if (isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_out_mute_list));
+            showAttention(10, mContext.getString(R.string.live_remove_timed_out_list), false);
             messageView.enableInputView(true);
+            ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                @Override
+                public void run() {
+                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+                }
+            });
         }
         chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
         updateUserState();
@@ -276,7 +325,16 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     @Override
     public void onWhiteListAdded(String chatRoomId, List<String> whitelist) {
         if (!isInWhiteList && whitelist.contains(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_in_white_list));
+            showAttention(10, mContext.getString(R.string.live_in_white_list), false);
+            if (isAllMute) {
+                messageView.enableInputView(true);
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+                    }
+                });
+            }
         }
         chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
         updateUserState();
@@ -285,7 +343,7 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     @Override
     public void onWhiteListRemoved(String chatRoomId, List<String> whitelist) {
         if (isInWhiteList && whitelist.contains(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_out_white_list));
+            showAttention(10, mContext.getString(R.string.live_out_white_list), false);
         }
         chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
         updateUserState();
@@ -423,6 +481,21 @@ public class LiveAudienceFragment extends LiveBaseFragment {
                 //postUserChangeEvent(StatisticsType.LEAVE, ChatClient.getInstance().getCurrentUser());
             }
         }
+    }
+
+    @Override
+    protected void onMessageListInit() {
+        ThreadManager.getInstance().runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                LiveAudienceFragment.super.onMessageListInit();
+                if (chatroom.getMuteList().containsKey(ChatClient.getInstance().getCurrentUser())) {
+                    showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
+                } else {
+                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+                }
+            }
+        });
     }
 
     private void leaveRoom() {

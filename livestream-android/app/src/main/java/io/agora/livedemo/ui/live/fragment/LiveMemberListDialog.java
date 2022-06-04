@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -203,6 +204,7 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
         }
 
         private static class UserListViewHolder extends ViewHolder<String> {
+            private View layout;
             private ImageView ivUserAvatar;
             private TextView tvUserName;
             private ImageView ivRoleType;
@@ -216,6 +218,7 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
 
             @Override
             public void initView(View itemView) {
+                layout = findViewById(R.id.layout);
                 ivUserAvatar = findViewById(R.id.iv_user_avatar);
                 tvUserName = findViewById(R.id.tv_user_name);
                 ivRoleType = findViewById(R.id.iv_role_type);
@@ -236,10 +239,44 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
 
                 if (null != muteList && muteList.contains(item)) {
                     roleState.setVisibility(View.VISIBLE);
-                    roleState.setImageResource(R.drawable.live_mute_icon);
+                    roleState.setImageResource(R.drawable.mute);
                 } else {
                     roleState.setVisibility(View.GONE);
                 }
+
+                int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                ivRoleType.measure(spec, spec);
+                final int roleTypeWidth = View.VISIBLE == ivRoleType.getVisibility() ?
+                        ivRoleType.getMeasuredWidth() : 0;
+
+                spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                roleState.measure(spec, spec);
+                final int roleStateWidth = View.VISIBLE == roleState.getVisibility() ?
+                        roleState.getMeasuredWidth() : 0;
+
+                layout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int nicknameMaxWidth = layout.getWidth() - layout.getPaddingStart() - layout.getPaddingEnd() -
+                                ((RecyclerView.LayoutParams) layout.getLayoutParams()).getMarginStart() - ((RecyclerView.LayoutParams) layout.getLayoutParams()).getMarginEnd() -
+                                ivUserAvatar.getWidth() - ivUserAvatar.getPaddingStart() - ivUserAvatar.getPaddingEnd() -
+                                ((RelativeLayout.LayoutParams) ivUserAvatar.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) ivUserAvatar.getLayoutParams()).getMarginEnd() -
+                                ((RelativeLayout.LayoutParams) tvUserName.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) tvUserName.getLayoutParams()).getMarginEnd();
+
+                        if (View.VISIBLE == ivRoleType.getVisibility()) {
+                            nicknameMaxWidth = nicknameMaxWidth -
+                                    roleTypeWidth - ivRoleType.getPaddingLeft() - ivRoleType.getPaddingRight() -
+                                    ((RelativeLayout.LayoutParams) ivRoleType.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) ivRoleType.getLayoutParams()).getMarginEnd();
+                        }
+
+                        if (View.VISIBLE == roleState.getVisibility()) {
+                            nicknameMaxWidth = nicknameMaxWidth -
+                                    roleStateWidth - roleState.getPaddingLeft() - roleState.getPaddingRight() -
+                                    ((RelativeLayout.LayoutParams) roleState.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) roleState.getLayoutParams()).getMarginEnd();
+                        }
+                        tvUserName.setMaxWidth(nicknameMaxWidth);
+                    }
+                });
             }
         }
     }

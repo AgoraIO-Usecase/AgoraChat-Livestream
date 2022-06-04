@@ -10,6 +10,8 @@ import androidx.annotation.IdRes;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import io.agora.livedemo.common.utils.DemoHelper;
+
 public abstract class BaseLiveFragment extends BaseFragment {
     @Nullable
     @Override

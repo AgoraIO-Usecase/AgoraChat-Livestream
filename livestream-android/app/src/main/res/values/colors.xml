@@ -65,6 +65,16 @@
     <color name="color_second_text">#666666</color>
     <color name="color_main_text">#0D0D0D</color>
 
+
     <color name="change_avatar_divider_bg">#333333</color>
     <color name="change_avatar_bg">#212121</color>
+
+    <color name="button_color">#037BFD</color>
+    <color name="dialog_list_item_color">#DE000000</color>
+    <color name="user_detail_item_text_color">#99000000</color>
+
+    <color name="change_cover_divider_bg">#14000000</color>
+    <color name="change_cover_content_color">#99000000</color>
+
+
 </resources>

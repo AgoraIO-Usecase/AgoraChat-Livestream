@@ -41,4 +41,22 @@
         <item>1000</item>
     </integer-array>
 
+    <string-array name="timeout_labels">
+        <item>@string/timeout_60s</item>
+        <item>@string/timeout_5min</item>
+        <item>@string/timeout_10min</item>
+        <item>@string/timeout_1h</item>
+        <item>@string/timeout_1d</item>
+        <item>@string/timeout_forever</item>
+    </string-array>
+
+    <integer-array name="timeout_values">
+        <item>60</item>
+        <item>300</item>
+        <item>600</item>
+        <item>3600</item>
+        <item>86400</item>
+        <item>-1</item>
+    </integer-array>
+
 </resources>

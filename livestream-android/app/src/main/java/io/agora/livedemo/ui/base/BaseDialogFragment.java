@@ -60,6 +60,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(savedInstanceState);
+        initData();
         initViewModel();
         initListener();
     }
@@ -67,7 +68,7 @@ public abstract class BaseDialogFragment extends DialogFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        initData();
+
     }
 
     public void initArgument() {

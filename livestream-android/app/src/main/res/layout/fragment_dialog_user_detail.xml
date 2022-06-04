@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -8,8 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_40"
-        android:layout_marginBottom="@dimen/margin_30"
         android:background="@drawable/live_user_manager_bg_shape"
+        app:layout_constraintBottom_toTopOf="@id/view_layout"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -19,12 +20,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/margin_10"
-            android:layout_marginTop="50dp"
+            android:layout_marginTop="52dp"
             android:ellipsize="end"
-            android:maxEms="15"
             android:maxLines="1"
             android:textColor="@color/black"
-            android:textSize="@dimen/size_normal"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -73,8 +73,8 @@
             android:id="@+id/role_type"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_5"
-            android:padding="@dimen/margin_5"
+            android:layout_marginTop="7dp"
+            android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -83,9 +83,11 @@
 
         <io.agora.chat.uikit.widget.EaseImageView
             android:id="@+id/mute_state"
-            android:layout_width="@dimen/margin_15"
-            android:layout_height="@dimen/margin_15"
-            android:src="@drawable/live_mute_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/mute"
             android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="@id/role_type"
             app:layout_constraintHorizontal_chainStyle="packed"
@@ -94,7 +96,7 @@
             app:layout_constraintTop_toTopOf="@id/role_type" />
 
         <io.agora.livedemo.ui.widget.SwitchItemView
-            android:id="@+id/ban_all"
+            android:id="@+id/item_timeout_all"
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_item_height"
             android:background="@color/white"
@@ -103,7 +105,8 @@
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/role_type"
             app:switchItemShowDivider="false"
-            app:switchItemTitle="@string/ban_all"
+            app:switchItemTitle="@string/timeout_all"
+            app:switchItemTitleColor="@color/user_detail_item_text_color"
             app:switchItemTitleSize="@dimen/size_normal" />
 
         <io.agora.livedemo.ui.widget.ArrowItemView
@@ -117,7 +120,8 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/ban_all" />
+            app:layout_constraintTop_toBottomOf="@id/item_timeout_all"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
 
         <io.agora.livedemo.ui.widget.ArrowItemView
             android:id="@+id/item_move_to_allowed_list"
@@ -130,7 +134,8 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_remove_from_allowed_list" />
+            app:layout_constraintTop_toBottomOf="@id/item_remove_from_allowed_list"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
 
         <io.agora.livedemo.ui.widget.ArrowItemView
             android:id="@+id/item_remove_as_moderator"
@@ -143,7 +148,8 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_move_to_allowed_list" />
+            app:layout_constraintTop_toBottomOf="@id/item_move_to_allowed_list"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
 
         <io.agora.livedemo.ui.widget.ArrowItemView
             android:id="@+id/item_assign_as_moderator"
@@ -156,7 +162,8 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_remove_as_moderator" />
+            app:layout_constraintTop_toBottomOf="@id/item_remove_as_moderator"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
 
 
         <io.agora.livedemo.ui.widget.ArrowItemView
@@ -170,33 +177,23 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_assign_as_moderator" />
+            app:layout_constraintTop_toBottomOf="@id/item_assign_as_moderator"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
+
 
         <io.agora.livedemo.ui.widget.ArrowItemView
-            android:id="@+id/item_mute"
+            android:id="@+id/item_remove_timeout"
             android:layout_width="match_parent"
             android:layout_height="@dimen/common_item_height"
             android:background="@color/white"
             android:visibility="gone"
             app:arrowItemShowArrow="false"
-            app:arrowItemTitle="@string/room_manager_mute"
+            app:arrowItemTitle="@string/room_manager_remove_timeout"
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_timeout" />
-
-        <io.agora.livedemo.ui.widget.ArrowItemView
-            android:id="@+id/item_unmute"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/common_item_height"
-            android:background="@color/white"
-            android:visibility="gone"
-            app:arrowItemShowArrow="false"
-            app:arrowItemTitle="@string/room_manager_unmute"
-            app:arrowItemTitleSize="@dimen/size_normal"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_mute" />
+            app:layout_constraintTop_toBottomOf="@id/item_timeout"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
 
         <io.agora.livedemo.ui.widget.ArrowItemView
             android:id="@+id/item_ban"
@@ -209,7 +206,8 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_unmute" />
+            app:layout_constraintTop_toBottomOf="@id/item_remove_timeout"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
 
         <io.agora.livedemo.ui.widget.ArrowItemView
             android:id="@+id/item_unban"
@@ -222,17 +220,31 @@
             app:arrowItemTitleSize="@dimen/size_normal"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/item_ban" />
+            app:layout_constraintTop_toBottomOf="@id/item_ban"
+            app:switchItemTitleColor="@color/user_detail_item_text_color" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <io.agora.chat.uikit.widget.EaseImageView
         android:id="@+id/user_icon"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
         android:src="@drawable/live"
+        app:ease_border_color="@color/white"
+        app:ease_border_width="4dp"
         app:ease_shape_type="round"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+
+    <View
+        android:id="@+id/view_layout"
+        android:layout_width="match_parent"
+        android:layout_height="16dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

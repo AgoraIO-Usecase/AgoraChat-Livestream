@@ -12,7 +12,7 @@
         <item name="colorOnSecondary">@color/black</item>
         <!-- Customize your theme here. -->
         <item name="android:windowBackground">@drawable/splash_bg</item>
-        <item name="android:textColorSecondary">@color/textColorSecondary</item>
+        <item name="android:textColorSecondary">@color/common_black</item>
         <item name="android:textColorPrimary">@color/common_black</item>
     </style>
 

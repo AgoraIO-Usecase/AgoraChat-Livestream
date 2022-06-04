@@ -15,6 +15,9 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.constraintlayout.widget.Group;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import java.util.List;
 
 import butterknife.BindView;
@@ -38,7 +41,6 @@ import io.agora.livedemo.common.utils.ThreadManager;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.ui.live.viewmodels.LivingViewModel;
-import io.agora.livedemo.ui.other.fragment.SimpleDialogFragment;
 import io.agora.livedemo.utils.NumberUtils;
 import io.agora.livedemo.utils.Utils;
 import io.agora.util.EMLog;
@@ -171,12 +173,6 @@ public class LiveAnchorFragment extends LiveBaseFragment {
         if (cameraListener != null) {
             cameraListener.switchCamera();
         }
-    }
-
-    @Override
-    protected void anchorClick() {
-        super.anchorClick();
-        showUserDetailsDialog(chatroom.getOwner());
     }
 
     @Override
@@ -431,21 +427,23 @@ public class LiveAnchorFragment extends LiveBaseFragment {
     }
 
     private void showDialog(OnConfirmClickListener listener) {
-        new SimpleDialogFragment.Builder(mContext)
-                .setTitle(R.string.live_dialog_quit_title)
-                .setConfirmButtonTxt(R.string.live_dialog_quit_btn_title)
-                .setConfirmColor(R.color.em_color_warning)
-                .setOnConfirmClickListener(new OnConfirmClickListener() {
+        new MaterialDialog.Builder(mContext)
+                .content(mContext.getString(R.string.live_dialog_quit_title))
+                .contentColor(getResources().getColor(R.color.black))
+                .positiveText(R.string.live_dialog_quit_btn_title)
+                .positiveColor(getResources().getColor(R.color.button_color))
+                .negativeText(R.string.cancel)
+                .negativeColor(getResources().getColor(R.color.button_color))
+                .onPositive(new MaterialDialog.SingleButtonCallback() {
                     @Override
-                    public void onConfirmClick(View view, Object bean) {
+                    public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
                         stopLiving();
                         if (listener != null) {
-                            listener.onConfirmClick(view, bean);
+                            listener.onConfirmClick(null, null);
                         }
                     }
                 })
-                .build()
-                .show(getChildFragmentManager(), "dialog");
+                .show();
     }
 
     private void stopLiving() {
@@ -551,6 +549,17 @@ public class LiveAnchorFragment extends LiveBaseFragment {
 
     public void setOnStopLiveClickListener(OnConfirmClickListener onStopLiveClickListener) {
         this.mStopLiveClickListener = onStopLiveClickListener;
+    }
+
+    @Override
+    protected void onMessageListInit() {
+        ThreadManager.getInstance().runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                LiveAnchorFragment.super.onMessageListInit();
+                showMessageInputTextHint(R.string.message_list_input_tip_anchor, false);
+            }
+        });
     }
 
     public interface OnCameraListener {

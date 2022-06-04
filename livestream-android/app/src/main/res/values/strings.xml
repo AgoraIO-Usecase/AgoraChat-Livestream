@@ -18,6 +18,7 @@
     <string name="ok">OK</string>
     <string name="confirm">CONFIRM</string>
     <string name="cancel">Cancel</string>
+    <string name="timeout">Timeout</string>
     <string name="prompt">prompt</string>
 
     <string name="home_title">Stream Channels</string>
@@ -49,8 +50,9 @@
     <string name="live_dialog_quit_btn_title">END</string>
     <string name="anchor_end_live_stream_tip">Your Live Stream has ended</string>
 
-    <string name="ban_all">Ban All</string>
-    <string name="attention_ban_all">Streamer has set Banned on all Chats</string>
+    <string name="timeout_all">Timeout All</string>
+    <string name="attention_timeout_all">The steamer has time out the Channel</string>
+    <string name="attention_remove_timeout_all">Time out has been removed</string>
 
     <string name="setting_title">Settings</string>
     <string name="setting_about_title">About</string>
@@ -74,24 +76,23 @@
     <string name="room_manager_remove_as_moderator">Remove as Moderator</string>
     <string name="room_manager_assign_as_moderator">Assign as Moderator</string>
     <string name="room_manager_timeout">TimeOut</string>
-    <string name="room_manager_mute">Mute</string>
-    <string name="room_manager_unmute">Unmute</string>
+    <string name="room_manager_remove_timeout">Remove Timeout</string>
     <string name="room_manager_ban">Ban</string>
     <string name="room_manager_unban">Unban</string>
-    <string name="room_manager_timeout_tip">%1$s will be timed out for</string>
-    <string name="room_manager_timeout_attention_tip">%1$s Anthony has been timed out for %2$s seconds.</string>
+    <string name="room_manager_timeout_attention_tip">%1$s Anthony has been timed out for %2$s.</string>
     <string name="room_manager_ban_tip">Want to ban %1$s?</string>
     <string name="room_manager_ban_attention_tip">%1$s has been banned.</string>
 
-    <string name="live_in_mute_list">you have muted</string>
-    <string name="live_out_mute_list">you have unumted</string>
+    <string name="live_in_timed_out_list">You have been timed out</string>
+    <string name="live_remove_timed_out_list">You have been removed timed out</string>
     <string name="live_in_admin_list">you have been assigned as Moderator</string>
     <string name="live_out_admin_list">you have been removed from Moderator</string>
     <string name="live_in_white_list">you have been moved to allowed list</string>
     <string name="live_out_white_list">you have been removed from allowed list</string>
     <string name="live_anchor_add_white">move to allowed list</string>
     <string name="live_anchor_remove_from_white">remove from allowed list</string>
-    <string name="live_anchor_mute_all_attention_tip">%1$s has set Banned on all Chats</string>
+    <string name="live_anchor_timeout_all_attention_tip">The steamer has time out the Channel</string>
+    <string name="live_anchor_remove_timeout_all_attention_tip">Time out has been removed</string>
 
     <string name="live_member_all_viewers">All Viewers</string>
 
@@ -111,4 +112,20 @@
     <string name="live_stream_end_tip">The Live Stream has ended</string>
     <string name="share">share</string>
 
+    <string name="timeout_60s">60 secs</string>
+    <string name="timeout_5min">5 mins</string>
+    <string name="timeout_10min">10 mins</string>
+    <string name="timeout_1h">1 hour</string>
+    <string name="timeout_1d">1 Day</string>
+    <string name="timeout_forever">∞</string>
+
+    <string name="dialog_list_timeout_title">%1$s\nwill be timed out for</string>
+    <string name="dialog_timeout_content">Timeout %1$s?</string>
+
+    <string name="message_list_input_tip_anchor">Say Hi to your Fans&#8230;</string>
+    <string name="message_list_input_tip_audience">Say Hi&#8230;</string>
+    <string name="message_list_input_tip_all_timeout">All timed out</string>
+    <string name="message_list_input_tip_timeout">You have been timed out</string>
+
+    <string name="show_gift_num">x%1$s</string>
 </resources>

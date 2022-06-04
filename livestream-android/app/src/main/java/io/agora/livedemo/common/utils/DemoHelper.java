@@ -26,10 +26,10 @@ import io.agora.livedemo.common.db.dao.UserDao;
 import io.agora.livedemo.common.db.entity.ReceiveGiftEntity;
 import io.agora.livedemo.common.db.entity.UserEntity;
 import io.agora.livedemo.common.livedata.LiveDataBus;
-import io.agora.livedemo.data.repository.GiftRepository;
-import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.data.model.LiveRoom;
+import io.agora.livedemo.data.repository.GiftRepository;
+import io.agora.livedemo.data.repository.UserRepository;
 
 public class DemoHelper {
 
@@ -110,6 +110,10 @@ public class DemoHelper {
 
     public static void init() {
         initDb();
+        initEaseUiKit();
+    }
+
+    public static void initEaseUiKit() {
         EaseUIKit.getInstance()
                 .setUserProvider(new EaseUserProfileProvider() {
                     @Override

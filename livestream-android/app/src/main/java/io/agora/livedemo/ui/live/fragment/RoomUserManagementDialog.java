@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,22 +33,25 @@ import io.agora.chat.uikit.utils.EaseUserUtils;
 import io.agora.chat.uikit.utils.EaseUtils;
 import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
-import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
+import io.agora.livedemo.common.livedata.LiveDataBus;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.ui.base.BaseActivity;
 import io.agora.livedemo.ui.base.BaseLiveDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.LivingViewModel;
 import io.agora.livedemo.ui.live.viewmodels.UserManageViewModel;
+import io.agora.livedemo.ui.widget.CustomConstraintLayout;
 import io.agora.livedemo.utils.StatusBarCompat;
+import io.agora.util.EMLog;
 
-public class RoomUserManagementDialog extends BaseLiveDialogFragment {
+public class RoomUserManagementDialog extends BaseLiveDialogFragment implements CustomConstraintLayout.OnGestureChangeListener {
     private BaseActivity mContext;
     private String chatroomId;
     private UserManageViewModel viewModel;
     protected ChatRoomManager mChatRoomManager;
     protected ChatRoom mChatRoom;
 
+    private CustomConstraintLayout mLayout;
     private RecyclerView mRoleTypeView;
     private RecyclerView mUserListView;
     private RoleTypeAdapter mRoleTypeAdapter;
@@ -59,6 +63,7 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
 
     private String mCurrentRoleType;
 
+    private int mRoleTypeIndex;
 
     public RoomUserManagementDialog() {
     }
@@ -98,6 +103,9 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
     public void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
 
+        mLayout = findViewById(R.id.layout);
+        mLayout.setOnGestureChangeListener(this);
+
         mRoleTypeView = findViewById(R.id.rv_role_type_list);
         mUserListView = findViewById(R.id.rv_user_list);
 
@@ -111,9 +119,8 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
         mRoleTypeAdapter.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                mCurrentRoleType = mRoleTypeAdapter.getItem(position);
-                mRoleTypeAdapter.setCurrentRoleType(mCurrentRoleType);
-                updateUserList();
+                mRoleTypeIndex = position;
+                updateRoteType();
             }
         });
 
@@ -131,8 +138,13 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
             }
         });
 
-        mUserListView.addItemDecoration(new UserListSpacesItemDecoration((int) EaseUtils.dip2px(mContext, 20)));
+    }
 
+    private void updateRoteType() {
+        mCurrentRoleType = mRoleTypeAdapter.getItem(mRoleTypeIndex);
+        mRoleTypeAdapter.setCurrentRoleType(mCurrentRoleType);
+        updateUserList();
+        mRoleTypeView.smoothScrollToPosition(mRoleTypeIndex);
     }
 
     @Override
@@ -176,11 +188,12 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
         mChatRoomManager = ChatClient.getInstance().chatroomManager();
         updateChatRoom();
 
+        mRoleTypeIndex = 0;
         mRoleTypeListData = new ArrayList<>(5);
         mRoleTypeListData.add(DemoConstants.ROLE_TYPE_ALL);
         mRoleTypeListData.add(DemoConstants.ROLE_TYPE_MODERATORS);
         mRoleTypeListData.add(DemoConstants.ROLE_TYPE_ALLOWED);
-        mRoleTypeListData.add(DemoConstants.ROLE_TYPE_MUTED);
+        mRoleTypeListData.add(DemoConstants.ROLE_TYPE_TIMEOUT);
         mRoleTypeListData.add(DemoConstants.ROLE_TYPE_BANNED);
 
         mCurrentRoleType = mRoleTypeListData.get(0);
@@ -224,7 +237,7 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
             mUserListData.addAll(mAdminListData);
         } else if (DemoConstants.ROLE_TYPE_ALLOWED.equals(mCurrentRoleType)) {
             mUserListData.addAll(mChatRoom.getWhitelist());
-        } else if (DemoConstants.ROLE_TYPE_MUTED.equals(mCurrentRoleType)) {
+        } else if (DemoConstants.ROLE_TYPE_TIMEOUT.equals(mCurrentRoleType)) {
             mUserListData.addAll(mMuteListData);
         } else if (DemoConstants.ROLE_TYPE_BANNED.equals(mCurrentRoleType)) {
             mUserListData.addAll(mChatRoom.getBlacklist());
@@ -232,6 +245,22 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
         mUserListAdapter.setData(mUserListData);
     }
 
+    @Override
+    public void scrollLeft() {
+        if (mRoleTypeIndex >= 0 && mRoleTypeIndex < mRoleTypeListData.size() - 1) {
+            mRoleTypeIndex++;
+            updateRoteType();
+        }
+    }
+
+    @Override
+    public void scrollRight() {
+        if (mRoleTypeIndex > 0 && mRoleTypeIndex <= mRoleTypeListData.size() - 1) {
+            mRoleTypeIndex--;
+            updateRoteType();
+        }
+
+    }
 
     private static class RoleTypeAdapter extends EaseBaseRecyclerViewAdapter<String> {
 
@@ -301,6 +330,7 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
         }
 
         private static class UserListViewHolder extends ViewHolder<String> {
+            private View layout;
             private ImageView ivUserAvatar;
             private TextView tvUserName;
             private ImageView ivRoleType;
@@ -314,6 +344,7 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
 
             @Override
             public void initView(View itemView) {
+                layout = findViewById(R.id.layout);
                 ivUserAvatar = findViewById(R.id.iv_user_avatar);
                 tvUserName = findViewById(R.id.tv_user_name);
                 ivRoleType = findViewById(R.id.iv_role_type);
@@ -335,10 +366,44 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
                 }
                 if (null != muteList && muteList.contains(item)) {
                     roleState.setVisibility(View.VISIBLE);
-                    roleState.setImageResource(R.drawable.live_mute_icon);
+                    roleState.setImageResource(R.drawable.mute);
                 } else {
                     roleState.setVisibility(View.GONE);
                 }
+
+                int spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                ivRoleType.measure(spec, spec);
+                final int roleTypeWidth = View.VISIBLE == ivRoleType.getVisibility() ?
+                        ivRoleType.getMeasuredWidth() : 0;
+
+                spec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+                roleState.measure(spec, spec);
+                final int roleStateWidth = View.VISIBLE == roleState.getVisibility() ?
+                        roleState.getMeasuredWidth() : 0;
+
+                layout.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        int nicknameMaxWidth = layout.getWidth() - layout.getPaddingStart() - layout.getPaddingEnd() -
+                                ((RecyclerView.LayoutParams) layout.getLayoutParams()).getMarginStart() - ((RecyclerView.LayoutParams) layout.getLayoutParams()).getMarginEnd() -
+                                ivUserAvatar.getWidth() - ivUserAvatar.getPaddingStart() - ivUserAvatar.getPaddingEnd() -
+                                ((RelativeLayout.LayoutParams) ivUserAvatar.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) ivUserAvatar.getLayoutParams()).getMarginEnd() -
+                                ((RelativeLayout.LayoutParams) tvUserName.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) tvUserName.getLayoutParams()).getMarginEnd();
+
+                        if (View.VISIBLE == ivRoleType.getVisibility()) {
+                            nicknameMaxWidth = nicknameMaxWidth -
+                                    roleTypeWidth - ivRoleType.getPaddingLeft() - ivRoleType.getPaddingRight() -
+                                    ((RelativeLayout.LayoutParams) ivRoleType.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) ivRoleType.getLayoutParams()).getMarginEnd();
+                        }
+
+                        if (View.VISIBLE == roleState.getVisibility()) {
+                            nicknameMaxWidth = nicknameMaxWidth -
+                                    roleStateWidth - roleState.getPaddingLeft() - roleState.getPaddingRight() -
+                                    ((RelativeLayout.LayoutParams) roleState.getLayoutParams()).getMarginStart() - ((RelativeLayout.LayoutParams) roleState.getLayoutParams()).getMarginEnd();
+                        }
+                        tvUserName.setMaxWidth(nicknameMaxWidth);
+                    }
+                });
             }
         }
     }
@@ -365,5 +430,6 @@ public class RoomUserManagementDialog extends BaseLiveDialogFragment {
             }
         }
     }
+
 
 }

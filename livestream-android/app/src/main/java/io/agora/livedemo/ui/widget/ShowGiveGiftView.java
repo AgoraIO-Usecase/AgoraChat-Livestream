@@ -128,10 +128,10 @@ public class ShowGiveGiftView extends LinearLayout {
                     }
                     if (tag + increment > bean.getNum()) {
                         tvGiftNum.setTag(bean.getNum());
-                        tvGiftNum.setText(String.valueOf(bean.getNum()));
+                        tvGiftNum.setText(context.getString(R.string.show_gift_num, String.valueOf(bean.getNum())));
                     } else {
                         tvGiftNum.setTag(tag + increment);
-                        tvGiftNum.setText(String.valueOf(tag + increment));
+                        tvGiftNum.setText(context.getString(R.string.show_gift_num, String.valueOf(tag + increment)));
                     }
                     giftNumberAnim.showAnimator(tvGiftNum);
 
@@ -241,7 +241,7 @@ public class ShowGiveGiftView extends LinearLayout {
         MagicTextView mtv_giftNum = giftView.findViewById(R.id.tv_gift_num);
         mtv_giftNum.setTypeface(Utils.getRobotoTypeface(context));
         mtv_giftNum.setTag(1);
-        mtv_giftNum.setText(String.valueOf(1));
+        mtv_giftNum.setText(context.getString(R.string.show_gift_num, "1"));
 
         return giftView;
     }
