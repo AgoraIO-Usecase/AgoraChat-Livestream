@@ -59,7 +59,7 @@ public class LiveListAdapter extends EaseBaseRecyclerViewAdapter<LiveRoom> {
         public void setData(LiveRoom liveRoom, int position) {
             Glide.with(mContext)
                     .load(liveRoom.getCover())
-                    .placeholder(R.drawable.live_default_bg)
+                    .placeholder(R.drawable.default_cover)
                     .into(photo);
 
             tvLivingAudienceNum.setText(NumberUtils.amountConversion(liveRoom.getAudienceNum()));

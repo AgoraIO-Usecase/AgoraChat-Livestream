@@ -104,7 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         android:layout_marginEnd="@dimen/margin_15"
-        android:background="@drawable/live_gift_send_bg_shape"
+        android:background="@drawable/send_btn_bg"
         android:gravity="center"
         android:paddingStart="24dp"
         android:paddingEnd="24dp"

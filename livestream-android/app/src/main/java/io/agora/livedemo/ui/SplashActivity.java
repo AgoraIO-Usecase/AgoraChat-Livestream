@@ -2,38 +2,40 @@ package io.agora.livedemo.ui;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.os.AsyncTask;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Pair;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
-import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
 
 import io.agora.ValueCallBack;
 import io.agora.chat.ChatClient;
 import io.agora.chat.UserInfo;
-import io.agora.cloud.EMHttpClient;
-import io.agora.exceptions.ChatException;
+import io.agora.chat.uikit.models.EaseUser;
+import io.agora.livedemo.DemoConstants;
+import io.agora.livedemo.R;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
+import io.agora.livedemo.common.livedata.LiveDataBus;
+import io.agora.livedemo.common.reponsitories.Resource;
 import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.common.utils.PreferenceManager;
-import io.agora.livedemo.data.model.HeadImageInfo;
 import io.agora.livedemo.data.model.User;
 import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.databinding.ActivitySplashBinding;
 import io.agora.livedemo.ui.base.BaseLiveActivity;
+import io.agora.livedemo.ui.live.viewmodels.UserInfoViewModel;
 import io.agora.livedemo.ui.other.viewmodels.LoginViewModel;
 import io.agora.util.EMLog;
 
@@ -43,8 +45,8 @@ public class SplashActivity extends BaseLiveActivity {
     private LoginViewModel viewModel;
     private ActivitySplashBinding mBinding;
     private boolean mIsSyncUserInfo;
-    private String mAvatarBaseUrl = "https://download-sdk.oss-cn-beijing.aliyuncs.com/downloads/IMDemo/avatar/";
-    private List<HeadImageInfo> mHeadImageList;
+    private UserInfoViewModel mViewModel;
+    private ProgressDialog pd;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,90 +70,40 @@ public class SplashActivity extends BaseLiveActivity {
     @Override
     protected void initData() {
         super.initData();
+        mViewModel = new ViewModelProvider(this).get(UserInfoViewModel.class);
+        pd = new ProgressDialog(mContext);
         PreferenceManager.init(mContext);
         DemoHelper.init();
         UserRepository.getInstance().init(mContext);
         mIsSyncUserInfo = null == UserRepository.getInstance().getCurrentUser();
 
-        mHeadImageList = new ArrayList<>();
         viewModel = new ViewModelProvider(this).get(LoginViewModel.class);
 
-        mHandler.sendEmptyMessageDelayed(0, 1000 * 3);//3s
+        skipToTarget();
     }
 
     private final Handler mHandler = new Handler(new Handler.Callback() {
         @Override
         public boolean handleMessage(@NonNull Message msg) {
-            skipToTarget();
+            if (pd.isShowing()) {
+                pd.dismiss();
+            }
+            startActivity(new Intent(SplashActivity.this, MainActivity.class));
+            finish();
             return false;
         }
     });
 
     private void skipToTarget() {
         if (ChatClient.getInstance().isLoggedInBefore()) {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            mHandler.sendEmptyMessageDelayed(0, 1000 * 3);//3s
         } else {
-            //not need random user avatar url
-//            String srcUrl = mAvatarBaseUrl + "headImage.conf";
-//            getHeadImageSrc(srcUrl);
             login();
         }
     }
 
-    private void getHeadImageSrc(String srcUrl) {
-        new AsyncTask<String, Void, Pair<Integer, String>>() {
-            @Override
-            protected Pair<Integer, String> doInBackground(String... str) {
-                try {
-                    Pair<Integer, String> response = EMHttpClient.getInstance().sendRequestWithToken(srcUrl, null, EMHttpClient.GET);
-                    return response;
-                } catch (ChatException exception) {
-                    exception.printStackTrace();
-                }
-                return null;
-            }
-
-            @Override
-            protected void onPostExecute(Pair<Integer, String> response) {
-                if (response != null) {
-                    EMLog.e(TAG, response.toString());
-                    try {
-                        int resCode = response.first;
-                        if (resCode == 200) {
-
-                            String ImageStr = response.second.replace(" ", "");
-                            JSONObject object = new JSONObject(ImageStr);
-                            JSONObject headImageObject = object.optJSONObject("headImageList");
-                            Iterator it = headImageObject.keys();
-                            while (it.hasNext()) {
-                                String key = it.next().toString();
-                                String url = mAvatarBaseUrl + headImageObject.optString(key);
-                                mHeadImageList.add(new HeadImageInfo(url, key));
-                            }
-                            UserRepository.getInstance().setHeadImageList(mHeadImageList);
-                            runOnUiThread(new Runnable() {
-                                public void run() {
-                                    login();
-                                }
-                            });
-                        } else {
-                            EMLog.e(TAG, "get headImageInfo failed resCode:" + resCode);
-                            login();
-                        }
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                } else {
-                    EMLog.e(TAG, "get headImageInfo response is null");
-                }
-            }
-        }.execute(srcUrl);
-    }
-
 
     private void login() {
-        ProgressDialog pd = new ProgressDialog(mContext);
         pd.setMessage("wait...");
         pd.setCanceledOnTouchOutside(false);
 
@@ -161,22 +113,11 @@ public class SplashActivity extends BaseLiveActivity {
                 public void onSuccess(User data) {
                     if (mIsSyncUserInfo) {
                         DemoHelper.saveCurrentUser();
+
                         ChatClient.getInstance().userInfoManager().updateOwnInfoByAttribute(UserInfo.UserInfoType.NICKNAME, data.getNickName(), new ValueCallBack<String>() {
                             @Override
                             public void onSuccess(String value) {
                                 EMLog.i(TAG, "sync nick success");
-                            }
-
-                            @Override
-                            public void onError(int i, String s) {
-
-                            }
-                        });
-
-                        ChatClient.getInstance().userInfoManager().updateOwnInfoByAttribute(UserInfo.UserInfoType.AVATAR_URL, data.getAvatarUrl(), new ValueCallBack<String>() {
-                            @Override
-                            public void onSuccess(String value) {
-                                EMLog.i(TAG, "sync avatar url success");
                             }
 
                             @Override
@@ -196,8 +137,10 @@ public class SplashActivity extends BaseLiveActivity {
 
                             }
                         });
+                        updateUserAvatar();
+                    } else {
+                        skipToTarget();
                     }
-                    skipToTarget();
                 }
 
                 @Override
@@ -209,7 +152,7 @@ public class SplashActivity extends BaseLiveActivity {
                 @Override
                 public void hideLoading() {
                     super.hideLoading();
-                    pd.dismiss();
+
                 }
 
                 @Override
@@ -226,5 +169,47 @@ public class SplashActivity extends BaseLiveActivity {
     protected void onDestroy() {
         super.onDestroy();
         mHandler.removeCallbacksAndMessages(null);
+    }
+
+    private void updateUserAvatar() {
+        mViewModel.getUploadAvatarObservable().observe(mContext, new Observer<Resource<String>>() {
+            @Override
+            public void onChanged(Resource<String> stringResource) {
+                SplashActivity.this.parseResource(stringResource, new OnResourceParseCallback<String>() {
+                    @Override
+                    public void onSuccess(String data) {
+                        EaseUser user = UserRepository.getInstance().getUserInfo(DemoHelper.getAgoraId());
+                        user.setAvatar(data);
+                        UserRepository.getInstance().saveUserInfoToDb(user);
+                        LiveDataBus.get().with(DemoConstants.AVATAR_CHANGE).postValue(true);
+                        ChatClient.getInstance().userInfoManager().updateOwnInfoByAttribute(UserInfo.UserInfoType.AVATAR_URL, data, new ValueCallBack<String>() {
+                            @Override
+                            public void onSuccess(String value) {
+                                EMLog.i(TAG, "sync avatar url success");
+                                skipToTarget();
+                            }
+
+                            @Override
+                            public void onError(int i, String s) {
+                                EMLog.i("lives", "updateUserAvatar s=" + s);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+
+        BitmapDrawable d = (BitmapDrawable) this.getResources().getDrawable(R.drawable.default_avatar);
+        Bitmap img = d.getBitmap();
+
+        String path = this.getFilesDir() + File.separator + "default_avatar.png";
+        try {
+            OutputStream os = new FileOutputStream(path);
+            img.compress(Bitmap.CompressFormat.PNG, 100, os);
+            os.close();
+            mViewModel.uploadAvatar(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

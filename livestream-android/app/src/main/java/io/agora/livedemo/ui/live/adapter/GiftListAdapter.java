@@ -53,7 +53,7 @@ public class GiftListAdapter extends EaseBaseRecyclerViewAdapter<GiftBean> {
             tvGiftValue.setText(String.valueOf(item.getValue()));
             if (selectedPosition == position) {
                 item.setChecked(true);
-                itemView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.gift_selected_shape));
+                itemView.setBackground(ContextCompat.getDrawable(mContext, R.drawable.gift_stroke));
             } else {
                 item.setChecked(false);
                 itemView.setBackground(null);

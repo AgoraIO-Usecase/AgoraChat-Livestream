@@ -55,10 +55,9 @@ import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.databinding.ActivityEditProfileBinding;
 import io.agora.livedemo.ui.base.BaseLiveActivity;
 import io.agora.livedemo.ui.live.fragment.ListDialogFragment;
-import io.agora.livedemo.ui.live.viewmodels.EditProfileViewModel;
+import io.agora.livedemo.ui.live.viewmodels.UserInfoViewModel;
 import io.agora.livedemo.utils.Utils;
 import io.agora.util.DensityUtil;
-import io.agora.util.EMLog;
 import io.agora.util.PathUtil;
 import io.agora.util.VersionUtils;
 
@@ -78,7 +77,7 @@ public class EditProfileActivity extends BaseLiveActivity {
     protected File mCameraFile;
     private Uri mCacheUri;
 
-    private EditProfileViewModel mViewModel;
+    private UserInfoViewModel mViewModel;
     private ListDialogFragment.Builder mChangeAvatarDialogBuilder;
     private ListDialogFragment mChangeAvatarDialog;
 
@@ -263,7 +262,7 @@ public class EditProfileActivity extends BaseLiveActivity {
     protected void initData() {
         super.initData();
 
-        mViewModel = new ViewModelProvider(this).get(EditProfileViewModel.class);
+        mViewModel = new ViewModelProvider(this).get(UserInfoViewModel.class);
 
 
         mViewModel.getUploadAvatarObservable().observe(mContext, new Observer<Resource<String>>() {
@@ -485,7 +484,6 @@ public class EditProfileActivity extends BaseLiveActivity {
     }
 
     private void setBirthday(int year, int month, int day) {
-        EMLog.i("lives", "year=" + year + ",month=" + month + ",day=" + day);
         DecimalFormat decimalFormat = new DecimalFormat("00");
         final String birthday = year + "-" + decimalFormat.format(month) + "-" + decimalFormat.format(day);
         ChatClient.getInstance().userInfoManager().updateOwnInfoByAttribute(UserInfo.UserInfoType.BIRTH, birthday, new ValueCallBack<String>() {

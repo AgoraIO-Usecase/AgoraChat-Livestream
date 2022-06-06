@@ -30,6 +30,7 @@ import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.data.repository.GiftRepository;
 import io.agora.livedemo.data.repository.UserRepository;
+import io.agora.util.EMLog;
 
 public class DemoHelper {
 
@@ -110,10 +111,6 @@ public class DemoHelper {
 
     public static void init() {
         initDb();
-        initEaseUiKit();
-    }
-
-    public static void initEaseUiKit() {
         EaseUIKit.getInstance()
                 .setUserProvider(new EaseUserProfileProvider() {
                     @Override

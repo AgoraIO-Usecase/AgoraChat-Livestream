@@ -23,8 +23,8 @@ import io.agora.chat.ChatClient;
 import io.agora.chat.uikit.utils.EaseUserUtils;
 import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
-import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.common.livedata.LiveDataBus;
+import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.databinding.ActivityMainBinding;
 import io.agora.livedemo.runtimepermissions.PermissionsManager;
@@ -42,7 +42,6 @@ public class MainActivity extends BaseLiveActivity implements View.OnClickListen
     private ActivityMainBinding mBinding;
     private Fragment mCurrentFragment;
     private int position;
-
 
     @Override
     protected View getContentView() {

@@ -492,7 +492,9 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
                         LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_JOIN).setValue(true);
                     }
                     updateWatchedMemberView(false);
-                    messageView.refresh();
+                    if (null != messageView) {
+                        messageView.refresh();
+                    }
                 }
             });
         }

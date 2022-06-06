@@ -33,7 +33,6 @@ public class PreferenceManager {
 
     /**
      * @param cxt
-     * @param nickname
      */
     public static synchronized void init(Context cxt) {
         if (mPreferenceManager == null) {

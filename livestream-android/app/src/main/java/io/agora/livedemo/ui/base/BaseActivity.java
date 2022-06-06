@@ -15,11 +15,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
+import io.agora.chat.uikit.EaseUIKit;
 import io.agora.livedemo.R;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
-import io.agora.livedemo.common.utils.ThreadManager;
 import io.agora.livedemo.common.enums.Status;
 import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.utils.DemoHelper;
+import io.agora.livedemo.common.utils.ThreadManager;
 import io.agora.livedemo.utils.StatusBarCompat;
 import io.agora.livedemo.utils.ThreadPoolManager;
 import io.agora.livedemo.utils.Utils;
@@ -35,6 +37,9 @@ public class BaseActivity extends AppCompatActivity {
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
+        }
+        if (null == EaseUIKit.getInstance().getUserProvider()) {
+            DemoHelper.init();
         }
     }
 

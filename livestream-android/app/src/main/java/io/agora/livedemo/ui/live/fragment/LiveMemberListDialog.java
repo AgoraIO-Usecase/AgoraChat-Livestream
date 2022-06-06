@@ -3,6 +3,7 @@ package io.agora.livedemo.ui.live.fragment;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,8 +106,6 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
                 LiveDataBus.get().with(DemoConstants.SHOW_USER_DETAIL).postValue(mUserListAdapter.getItem(position));
             }
         });
-
-        mUserListView.addItemDecoration(new UserListSpacesItemDecoration((int) EaseUtils.dip2px(mContext, 20)));
     }
 
     @Override
@@ -162,6 +161,8 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
             return;
         }
 
+        mUserListAdapter.setOwner(mChatRoom.getOwner());
+
         mAdminListData.clear();
         mAdminListData.addAll(mChatRoom.getAdminList());
         mUserListAdapter.setAdminList(mAdminListData);
@@ -175,6 +176,7 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
 
         mUserListData.clear();
 
+        mUserListData.add(mChatRoom.getOwner());
         mUserListData.addAll(mAdminListData);
         mUserListData.addAll(mChatRoom.getMemberList());
 
@@ -184,16 +186,21 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
     private static class UserListAdapter extends EaseBaseRecyclerViewAdapter<String> {
         private static List<String> adminList;
         private static List<String> muteList;
+        private static String owner;
 
         public UserListAdapter() {
         }
 
-        public void setAdminList(List<String> adminList) {
-            this.adminList = adminList;
+        public static void setOwner(String owner) {
+            UserListAdapter.owner = owner;
+        }
+
+        public static void setAdminList(List<String> adminList) {
+            UserListAdapter.adminList = adminList;
         }
 
         public void setMuteList(List<String> muteList) {
-            this.muteList = muteList;
+            UserListAdapter.muteList = muteList;
         }
 
 
@@ -230,7 +237,10 @@ public class LiveMemberListDialog extends BaseLiveDialogFragment {
                 EaseUserUtils.setUserNick(item, tvUserName);
                 EaseUserUtils.setUserAvatar(context, item, ivUserAvatar);
 
-                if (null != adminList && adminList.contains(item)) {
+                if (!TextUtils.isEmpty(owner) && owner.contains(item)) {
+                    ivRoleType.setImageResource(R.drawable.live_streamer);
+                    ivRoleType.setVisibility(View.VISIBLE);
+                } else if (null != adminList && adminList.contains(item)) {
                     ivRoleType.setImageResource(R.drawable.live_moderator);
                     ivRoleType.setVisibility(View.VISIBLE);
                 } else {

@@ -10,11 +10,11 @@ import androidx.lifecycle.MediatorLiveData;
 import io.agora.livedemo.common.reponsitories.ClientRepository;
 import io.agora.livedemo.common.reponsitories.Resource;
 
-public class EditProfileViewModel extends AndroidViewModel {
+public class UserInfoViewModel extends AndroidViewModel {
     private final ClientRepository clientRepository;
     private final MediatorLiveData<Resource<String>> uploadAvatarObservable;
 
-    public EditProfileViewModel(@NonNull Application application) {
+    public UserInfoViewModel(@NonNull Application application) {
         super(application);
         clientRepository = new ClientRepository();
         uploadAvatarObservable = new MediatorLiveData<>();

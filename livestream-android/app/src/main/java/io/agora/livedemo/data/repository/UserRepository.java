@@ -28,9 +28,8 @@ import io.agora.util.EMLog;
 
 public class UserRepository {
     private static volatile UserRepository mInstance;
-    private static final String DEFAULT_AVATAR_URL = "https://download-sdk.oss-cn-beijing.aliyuncs.com/downloads/AgoraChatDemo_Resource/defaultAvatat%403x.png";
     private static final String DEFAULT_BIRTHDAY = "2004-01-01";
-    private static final long USER_INFO_EXPIRED_TIME = 60 * 1000;
+    private static final long USER_INFO_EXPIRED_TIME = 0;//60 * 1000;
 
     private User mCurrentUser;
 
@@ -74,7 +73,7 @@ public class UserRepository {
         mCurrentUser.setId(Utils.getStringRandom(8));
         mCurrentUser.setPwd(Utils.getStringRandom(12));
         mCurrentUser.setNickName(mCurrentUser.getId());
-        mCurrentUser.setAvatarUrl(DEFAULT_AVATAR_URL);
+        mCurrentUser.setAvatarUrl(String.valueOf(R.drawable.ease_default_avatar));
         mCurrentUser.setBirthday(DEFAULT_BIRTHDAY);
         saveCurrentUserInfoToDb();
         return mCurrentUser;
