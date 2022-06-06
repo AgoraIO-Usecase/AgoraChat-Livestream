@@ -241,12 +241,26 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (!isAdmin && admin.equals(ChatClient.getInstance().getCurrentUser())) {
             showAttention(10, mContext.getString(R.string.live_in_admin_list), false);
         }
-        chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
-        if (null != messageView) {
-            messageView.updateChatRoomInfo();
-        }
-        EMLog.i("lives","lives="+ chatroom.getAdminList());
-        updateUserState();
+        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatRoomId, new ValueCallBack<ChatRoom>() {
+            @Override
+            public void onSuccess(ChatRoom chatRoom) {
+                LiveAudienceFragment.this.chatroom = chatRoom;
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (null != messageView) {
+                            messageView.updateChatRoomInfo();
+                        }
+                        updateUserState();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
     }
 
     @Override
@@ -254,11 +268,27 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (isAdmin && admin.equals(ChatClient.getInstance().getCurrentUser())) {
             showAttention(10, mContext.getString(R.string.live_out_admin_list), false);
         }
-        chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
-        if (null != messageView) {
-            messageView.updateChatRoomInfo();
-        }
-        updateUserState();
+
+        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatRoomId, new ValueCallBack<ChatRoom>() {
+            @Override
+            public void onSuccess(ChatRoom chatRoom) {
+                LiveAudienceFragment.this.chatroom = chatRoom;
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (null != messageView) {
+                            messageView.updateChatRoomInfo();
+                        }
+                        updateUserState();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
     }
 
     @Override
@@ -302,8 +332,24 @@ public class LiveAudienceFragment extends LiveBaseFragment {
                 });
             }
         }
-        chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
-        updateUserState();
+
+        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatRoomId, new ValueCallBack<ChatRoom>() {
+            @Override
+            public void onSuccess(ChatRoom chatRoom) {
+                LiveAudienceFragment.this.chatroom = chatRoom;
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUserState();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
     }
 
     @Override
@@ -345,8 +391,24 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (isInWhiteList && whitelist.contains(ChatClient.getInstance().getCurrentUser())) {
             showAttention(10, mContext.getString(R.string.live_out_white_list), false);
         }
-        chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
-        updateUserState();
+
+        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatRoomId, new ValueCallBack<ChatRoom>() {
+            @Override
+            public void onSuccess(ChatRoom chatRoom) {
+                LiveAudienceFragment.this.chatroom = chatRoom;
+                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        updateUserState();
+                    }
+                });
+            }
+
+            @Override
+            public void onError(int i, String s) {
+
+            }
+        });
     }
 
     private void showGiftDialog() {
