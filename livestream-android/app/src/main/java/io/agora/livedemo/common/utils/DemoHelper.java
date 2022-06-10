@@ -1,10 +1,14 @@
 package io.agora.livedemo.common.utils;
 
+import android.content.Context;
+import android.content.res.Configuration;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -30,7 +34,6 @@ import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.data.repository.GiftRepository;
 import io.agora.livedemo.data.repository.UserRepository;
-import io.agora.util.EMLog;
 
 public class DemoHelper {
 
@@ -269,5 +272,14 @@ public class DemoHelper {
             }
         }
         return map;
+    }
+
+    public static void setDefaultLanguage(Context context, String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+        Configuration config = context.getResources().getConfiguration();
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        config.locale = Locale.ENGLISH;
+        context.getResources().updateConfiguration(config, metrics);
     }
 }

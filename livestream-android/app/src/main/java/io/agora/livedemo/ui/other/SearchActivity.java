@@ -19,15 +19,18 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.agora.chat.uikit.interfaces.OnItemClickListener;
 import io.agora.livedemo.R;
+import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.ui.base.BaseLiveActivity;
 import io.agora.livedemo.ui.base.GridMarginDecoration;
+import io.agora.livedemo.ui.cdn.CdnLiveAudienceActivity;
 import io.agora.livedemo.ui.live.adapter.LiveListAdapter;
 import io.agora.livedemo.ui.widget.SearchEditText;
 import io.agora.livedemo.utils.Utils;
 
-public class SearchActivity extends BaseLiveActivity {
+public class SearchActivity extends BaseLiveActivity implements OnItemClickListener {
 
     @BindView(R.id.et_search)
     SearchEditText editText;
@@ -58,6 +61,16 @@ public class SearchActivity extends BaseLiveActivity {
     }
 
     @Override
+    public void onItemClick(View view, int position) {
+        LiveRoom liveRoom = adapter.getItem(position);
+        if (DemoHelper.isCdnLiveType(liveRoom.getVideo_type())) {
+            CdnLiveAudienceActivity.actionStart(mContext, liveRoom);
+        } else {
+            // LiveAudienceActivity.actionStart(mContext, liveRoom);
+        }
+    }
+
+    @Override
     protected void initView() {
         super.initView();
         ButterKnife.bind(this);
@@ -67,6 +80,7 @@ public class SearchActivity extends BaseLiveActivity {
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.addItemDecoration(new GridMarginDecoration(mContext, 10));
+        adapter.setOnItemClickListener(this);
 
         editText.requestFocus();
 

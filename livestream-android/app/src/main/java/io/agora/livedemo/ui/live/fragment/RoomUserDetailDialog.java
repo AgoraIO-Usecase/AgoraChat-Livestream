@@ -166,7 +166,7 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
             roleType.setVisibility(View.VISIBLE);
             roleType.setImageResource(R.drawable.live_moderator);
         } else {
-            roleType.setVisibility(View.INVISIBLE);
+            roleType.setVisibility(View.GONE);
         }
 
         if (!mChatRoom.getMemberList().contains(username) && !mChatRoom.getAdminList().contains(username) && !username.equals(mChatRoom.getOwner()) && !mChatRoom.getBlacklist().contains(username)) {
@@ -182,7 +182,7 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
         if (mChatRoom.getOwner().equals(ChatClient.getInstance().getCurrentUser())) {
             if (mChatRoom.getOwner().equals(username)) {
                 timeoutAll.setVisibility(View.VISIBLE);
-                timeoutAll.getSwitch().setEnabled(mChatRoom.getMemberList().size() != 0 || mChatRoom.getAdminList().size() != 0);
+                //timeoutAll.getSwitch().setEnabled(mChatRoom.getMemberList().size() != 0 || mChatRoom.getAdminList().size() != 0);
                 if (initView) {
                     timeoutAll.setOnCheckedChangeListener(null);
                     timeoutAll.getSwitch().setChecked(mChatRoom.isAllMemberMuted());
@@ -535,13 +535,13 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
             AttentionBean attention = new AttentionBean();
             if (isChecked) {
                 viewModel.muteAllMembers(roomId);
-                viewModel.muteChatRoomMembers(roomId, mChatRoom.getMemberList(), Integer.MAX_VALUE);
+                //viewModel.muteChatRoomMembers(roomId, mChatRoom.getMemberList(), Integer.MAX_VALUE);
                 attention.setShowTime(-1);
                 attention.setAlert(true);
                 attention.setShowContent(RoomUserDetailDialog.this.getResources().getString(R.string.attention_timeout_all));
             } else {
                 viewModel.unMuteAllMembers(roomId);
-                viewModel.unMuteChatRoomMembers(roomId, mChatRoom.getMemberList());
+                //viewModel.unMuteChatRoomMembers(roomId, mChatRoom.getMemberList());
                 attention.setShowTime(10);
                 attention.setAlert(false);
                 attention.setShowContent(RoomUserDetailDialog.this.getResources().getString(R.string.attention_remove_timeout_all));

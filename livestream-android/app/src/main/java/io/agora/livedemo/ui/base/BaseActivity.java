@@ -2,6 +2,7 @@ package io.agora.livedemo.ui.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -14,6 +15,8 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
+import java.util.Locale;
 
 import io.agora.chat.uikit.EaseUIKit;
 import io.agora.livedemo.R;
@@ -34,6 +37,7 @@ public class BaseActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mContext = this;
+        DemoHelper.setDefaultLanguage(mContext,"en");
         ActionBar ab = getSupportActionBar();
         if (ab != null) {
             ab.setDisplayHomeAsUpEnabled(true);
@@ -42,6 +46,7 @@ public class BaseActivity extends AppCompatActivity {
             DemoHelper.init();
         }
     }
+
 
     @Override
     public void setContentView(int layoutResID) {

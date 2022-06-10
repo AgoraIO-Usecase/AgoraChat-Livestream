@@ -571,8 +571,6 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
                 && !chatroom.getOwner().equals(ChatClient.getInstance().getCurrentUser())) {
             userManagerView.setVisibility(View.INVISIBLE);
         }
-
-        messageView.enableInputView(!chatroom.getMuteList().containsKey(ChatClient.getInstance().getCurrentUser()));
     }
 
     protected void showUserDetailsDialog(String username) {

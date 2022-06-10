@@ -457,6 +457,7 @@ public class LiveAnchorFragment extends LiveBaseFragment {
     }
 
     private void leaveRoom() {
+        Utils.hideKeyboard(messageView);
         viewModel.getCloseObservable().observe(getViewLifecycleOwner(), response -> {
             parseResource(response, new OnResourceParseCallback<LiveRoom>() {
                 @Override

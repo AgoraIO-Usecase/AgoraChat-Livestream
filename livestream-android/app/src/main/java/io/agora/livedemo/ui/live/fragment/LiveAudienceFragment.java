@@ -41,6 +41,7 @@ import io.agora.livedemo.common.utils.ThreadManager;
 import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.data.repository.UserRepository;
+import io.agora.livedemo.utils.Utils;
 import io.agora.util.EMLog;
 
 public class LiveAudienceFragment extends LiveBaseFragment {
@@ -293,27 +294,15 @@ public class LiveAudienceFragment extends LiveBaseFragment {
 
     @Override
     public void onAllMemberMuteStateChanged(String chatRoomId, boolean isMuted) {
-        isAllMute = true;
+        isAllMute = isMuted;
         if (isMuted) {
             showAttention(-1, mContext.getString(R.string.live_anchor_timeout_all_attention_tip), true);
             if (!isInWhiteList) {
-                ThreadManager.getInstance().runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showMessageInputTextHint(R.string.message_list_input_tip_all_timeout, true);
-                    }
-                });
-                messageView.enableInputView(false);
+                addMute();
             }
         } else {
             showAttention(10, mContext.getString(R.string.live_anchor_remove_timeout_all_attention_tip), false);
-            ThreadManager.getInstance().runOnMainThread(new Runnable() {
-                @Override
-                public void run() {
-                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
-                }
-            });
-            messageView.enableInputView(true);
+            removeMute();
         }
 
     }
@@ -323,17 +312,43 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (!isAllMute) {
             if (!isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
                 showAttention(10, mContext.getString(R.string.live_in_timed_out_list), true);
-                messageView.enableInputView(false);
-                ThreadManager.getInstance().runOnMainThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
-                    }
-                });
+                addMute();
             }
         }
+        updateChatRoomForUserState();
+    }
 
-        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatRoomId, new ValueCallBack<ChatRoom>() {
+    @Override
+    public void onMuteListRemoved(String chatRoomId, List<String> mutes) {
+        if (isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
+            showAttention(10, mContext.getString(R.string.live_remove_timed_out_list), false);
+            removeMute();
+        }
+        updateChatRoomForUserState();
+    }
+
+    private void addMute() {
+        messageView.enableInputView(false);
+        ThreadManager.getInstance().runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
+            }
+        });
+    }
+
+    private void removeMute() {
+        messageView.enableInputView(true);
+        ThreadManager.getInstance().runOnMainThread(new Runnable() {
+            @Override
+            public void run() {
+                showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+            }
+        });
+    }
+
+    private void updateChatRoomForUserState() {
+        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatroomId, new ValueCallBack<ChatRoom>() {
             @Override
             public void onSuccess(ChatRoom chatRoom) {
                 LiveAudienceFragment.this.chatroom = chatRoom;
@@ -350,22 +365,6 @@ public class LiveAudienceFragment extends LiveBaseFragment {
 
             }
         });
-    }
-
-    @Override
-    public void onMuteListRemoved(String chatRoomId, List<String> mutes) {
-        if (isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
-            showAttention(10, mContext.getString(R.string.live_remove_timed_out_list), false);
-            messageView.enableInputView(true);
-            ThreadManager.getInstance().runOnMainThread(new Runnable() {
-                @Override
-                public void run() {
-                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
-                }
-            });
-        }
-        chatroom = ChatClient.getInstance().chatroomManager().getChatRoom(chatRoomId);
-        updateUserState();
     }
 
     @Override
@@ -493,10 +492,10 @@ public class LiveAudienceFragment extends LiveBaseFragment {
                         EMLog.d(TAG, "audience join chat room success");
                         chatroom = emChatRoom;
                         addChatRoomChangeListener();
+                        updateUserState();
                         onMessageListInit();
                         onWatchedMemberListInit();
                         startCycleRefresh();
-                        updateUserState();
                     }
 
                     @Override
@@ -528,6 +527,19 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         isAdmin = chatroom.getAdminList().contains(currentUser);
         isInWhiteList = chatroom.getWhitelist().contains(currentUser);
         isInMuteList = chatroom.getMuteList().containsKey(currentUser);
+        isAllMute = chatroom.isAllMemberMuted();
+    }
+
+    private void initUserMuteState() {
+        if (isAllMute) {
+            showAttention(-1, mContext.getString(R.string.live_anchor_timeout_all_attention_tip), true);
+            if (!isInWhiteList) {
+                addMute();
+            }
+        } else if (isInMuteList) {
+            showAttention(10, mContext.getString(R.string.live_in_timed_out_list), true);
+            addMute();
+        }
     }
 
     @Override
@@ -551,16 +563,13 @@ public class LiveAudienceFragment extends LiveBaseFragment {
             @Override
             public void run() {
                 LiveAudienceFragment.super.onMessageListInit();
-                if (chatroom.getMuteList().containsKey(ChatClient.getInstance().getCurrentUser())) {
-                    showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
-                } else {
-                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
-                }
+                initUserMuteState();
             }
         });
     }
 
     private void leaveRoom() {
+        Utils.hideKeyboard(messageView);
         ChatClient.getInstance().chatroomManager().leaveChatRoom(chatroomId);
         EMLog.d(TAG, "audience leave chat room");
         mContext.finish();
