@@ -6,6 +6,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
@@ -22,6 +23,7 @@ import android.view.KeyEvent;
 import android.view.Surface;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LinearInterpolator;
@@ -58,7 +60,6 @@ import io.agora.livedemo.ui.cdn.CdnLiveHostActivity;
 import io.agora.livedemo.ui.live.fragment.ListDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.CreateLiveViewModel;
 import io.agora.livedemo.utils.Utils;
-import io.agora.util.EMLog;
 import io.agora.util.PathUtil;
 import io.agora.util.VersionUtils;
 
@@ -66,7 +67,7 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
 
     private static final int REQUEST_CODE_PICK = 1;
     private static final int REQUEST_CODE_CUTTING = 2;
-    private static final String[] calls = {/*"Take Photo",*/ "Upload Photo"};
+    private static final String[] calls = {"Take Photo", "Upload Photo"};
     private static final int REQUEST_CODE_CAMERA = 100;
     private static final int LIVE_NAME_MAX_LENGTH = 50;
 
@@ -95,9 +96,19 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        //reset
+        mBinding.bottomLayout.scrollTo(0, 0);
+    }
+
+    @Override
     protected void initView() {
         super.initView();
 
+        controlKeyboardLayout(mBinding.container, mBinding.bottomLayout);
+
+        mBinding.changeTv.setTypeface(Utils.getRobotoRegularTypeface(mContext));
         mBinding.closeIv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -114,7 +125,6 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
         InputFilter emojiFilter = new InputFilter() {
             Pattern emoji = Pattern.compile("[\ud83c\udc00-\ud83c\udfff]|[\ud83d\udc00-\ud83d\udfff]|[\u2600-\u27ff]",
                     Pattern.UNICODE_CASE | Pattern.CASE_INSENSITIVE);
-            String speChat = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
 
             @Override
             public CharSequence filter(CharSequence source, int start, int end, Spanned dest, int dstart, int dend) {
@@ -122,16 +132,12 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
                 if (emojiMatcher.find()) {
                     return "";
                 }
-                Pattern pattern = Pattern.compile(speChat);
-                Matcher matcher = pattern.matcher(source.toString());
-                if (matcher.find()) {
-                    return "";
-                }
-                return null;
+                return filterCharToNormal(source.toString());
             }
         };
 
         mBinding.liveName.setFilters(new InputFilter[]{emojiFilter, new EmojiFilter(), new InputFilter.LengthFilter(LIVE_NAME_MAX_LENGTH)});
+        mBinding.liveName.setTypeface(Utils.getRobotoRegularTypeface(mContext));
 
         mBinding.cameraView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -150,6 +156,7 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
                 }
             }
         });
+        mBinding.goLive.setTypeface(Utils.getRobotoBlackTypeface(mContext));
     }
 
     @Override
@@ -208,7 +215,8 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
                     setEditTextEnable(false, mBinding.liveName);
                     mBinding.liveNameNumbersTip.setVisibility(View.GONE);
                 }
-                showSelectDialog();
+                selectImageFromLocal();
+                //showSelectDialog();
             }
         });
 
@@ -311,7 +319,6 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
             showToast(getResources().getString(R.string.create_live_room_check_info));
             return;
         }
-        EMLog.i("lives", "name=" + name);
         mViewModel.createLiveRoom(name, "", mCoverPath, LiveRoom.Type.agora_cdn_live.name());
         Utils.hideKeyboard(mBinding.liveName);
     }
@@ -559,5 +566,40 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
             }
         }
         return true;
+    }
+
+    public static String filterCharToNormal(String oldString) {
+        StringBuilder stringBuilder = new StringBuilder();
+        int length = oldString.length();
+        for (int i = 0; i < length; i++) {
+            char codePoint = oldString.charAt(i);
+            if (((codePoint >= 0x4e00) && (codePoint <= 0x9fa5)) ||  //chinese
+                    ((codePoint >= 0x20) && (codePoint <= 0x7E))) {
+                stringBuilder.append(codePoint);
+            }
+        }
+        return stringBuilder.toString();
+    }
+
+    private void controlKeyboardLayout(final View root, final View scrollToView) {
+        root.getViewTreeObserver().addOnGlobalLayoutListener(
+                new ViewTreeObserver.OnGlobalLayoutListener() {
+                    @Override
+                    public void onGlobalLayout() {
+                        Rect rect = new Rect();
+                        root.getWindowVisibleDisplayFrame(rect);
+                        int rootInvisibleHeight = root.getRootView()
+                                .getHeight() - rect.bottom;
+                        if (rootInvisibleHeight > 100) {
+                            int[] location = new int[2];
+                            scrollToView.getLocationInWindow(location);
+                            int scrollHeight = (location[1] + scrollToView
+                                    .getHeight()) - rect.bottom;
+                            scrollToView.scrollTo(0, scrollHeight);
+                        } else {
+                            scrollToView.scrollTo(0, 0);
+                        }
+                    }
+                });
     }
 }

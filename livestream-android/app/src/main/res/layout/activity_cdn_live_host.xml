@@ -16,7 +16,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@drawable/live_default_bg" />
+        tools:src="@drawable/default_cover" />
 
     <FrameLayout
         android:id="@+id/fl_video_fragment"

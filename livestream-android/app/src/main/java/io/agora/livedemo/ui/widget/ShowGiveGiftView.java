@@ -239,7 +239,7 @@ public class ShowGiveGiftView extends LinearLayout {
         TextView giftContent = giftView.findViewById(R.id.send_gift_content);
         giftContent.setText(context.getString(R.string.gift_show_send, gift.getName()));
         MagicTextView mtv_giftNum = giftView.findViewById(R.id.tv_gift_num);
-        mtv_giftNum.setTypeface(Utils.getRobotoTypeface(context));
+        mtv_giftNum.setTypeface(Utils.getRobotoBlackItalicTypeface(context));
         mtv_giftNum.setTag(1);
         mtv_giftNum.setText(context.getString(R.string.show_gift_num, "1"));
 

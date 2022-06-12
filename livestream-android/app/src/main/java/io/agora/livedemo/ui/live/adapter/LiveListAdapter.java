@@ -50,9 +50,12 @@ public class LiveListAdapter extends EaseBaseRecyclerViewAdapter<LiveRoom> {
             photo = findViewById(R.id.photo);
             tvLivingAudienceNum = findViewById(R.id.tv_living_audience_num);
             author = findViewById(R.id.author);
-            liveRoomName = findViewById(R.id.live_room_name);
+            author.setTypeface(Utils.getRobotoRegularTypeface(mContext.getApplicationContext()));
 
-            tvLivingAudienceNum.setTypeface(Utils.getRobotoTypeface(mContext.getApplicationContext()));
+            liveRoomName = findViewById(R.id.live_room_name);
+            liveRoomName.setTypeface(Utils.getRobotoBoldTypeface(mContext.getApplicationContext()));
+
+            tvLivingAudienceNum.setTypeface(Utils.getRobotoBlackTypeface(mContext.getApplicationContext()));
         }
 
         @Override

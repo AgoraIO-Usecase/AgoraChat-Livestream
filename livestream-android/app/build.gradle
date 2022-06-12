@@ -20,7 +20,7 @@ android {
         versionName "1.1.4"
         multiDexEnabled true
 
-        renderscriptTargetApi 19
+        renderscriptTargetApi rootProject.ext.target_skd_version
         renderscriptSupportModeEnabled true
 
         ndk {

@@ -54,7 +54,7 @@ public class MainActivity extends BaseLiveActivity implements View.OnClickListen
     protected void initView() {
         super.initView();
         Utils.hideKeyboard(mBinding.title);
-        mBinding.title.setTypeface(Utils.getRobotoTypeface(this.getApplicationContext()));
+        mBinding.title.setTypeface(Utils.getRobotoBlackTypeface(this.getApplicationContext()));
         EaseUserUtils.setUserAvatar(mContext, DemoHelper.getAgoraId(), mBinding.ivHomeSet);
     }
 

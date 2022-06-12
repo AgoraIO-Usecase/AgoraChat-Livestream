@@ -29,7 +29,7 @@
         android:id="@+id/titlebar_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/margin_10"
+        android:layout_marginStart="@dimen/margin_10"
         android:text="@string/setting_edit_profile"
         android:textColor="@color/white"
         android:textSize="20sp"

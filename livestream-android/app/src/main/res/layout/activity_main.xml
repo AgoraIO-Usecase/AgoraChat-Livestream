@@ -101,19 +101,14 @@
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <RelativeLayout
+    <ImageView
         android:id="@+id/rl_home_live"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginBottom="25dp"
-        android:background="@drawable/live_home_live_bg_shape"
+        android:scaleType="fitCenter"
+        android:src="@drawable/live"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent">
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@drawable/live" />
-    </RelativeLayout>
+        app:layout_constraintRight_toRightOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

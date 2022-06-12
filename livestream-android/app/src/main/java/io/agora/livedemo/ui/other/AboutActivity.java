@@ -23,7 +23,7 @@ public class AboutActivity extends BaseLiveActivity implements View.OnClickListe
     @Override
     protected void initView() {
         super.initView();
-        mBinding.titlebarTitle.setTypeface(Utils.getRobotoTypeface(this.getApplicationContext()));
+        mBinding.titlebarTitle.setTypeface(Utils.getRobotoBlackTypeface(this.getApplicationContext()));
     }
 
 

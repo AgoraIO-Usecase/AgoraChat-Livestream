@@ -7,7 +7,10 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 
@@ -101,12 +104,20 @@ public class Utils {
         }
     }
 
-    public static Typeface getRobotoTypeface(Context context) {
+    public static Typeface getRobotoBlackTypeface(Context context) {
         return Typeface.createFromAsset(context.getAssets(), "font/Roboto-Black.ttf");
+    }
+
+    public static Typeface getRobotoBlackItalicTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "font/Roboto-BlackItalic.ttf");
     }
 
     public static Typeface getRobotoRegularTypeface(Context context) {
         return Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
+    }
+
+    public static Typeface getRobotoBoldTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "font/Roboto-Bold.ttf");
     }
 
     public static String getAppVersionName(Context context) {

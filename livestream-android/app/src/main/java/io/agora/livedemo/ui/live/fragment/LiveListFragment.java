@@ -90,7 +90,7 @@ public class LiveListFragment extends BaseFragment implements OnItemClickListene
         refreshLayout = getView().findViewById(R.id.refresh_layout);
 
         refreshLayout.setRefreshHeader(new LiveListRefreshHeader(mContext));
-        recyclerView.addItemDecoration(new GridMarginDecoration(mContext, 10));
+        recyclerView.addItemDecoration(new GridMarginDecoration(mContext, 4));
         adapter = new LiveListAdapter();
         adapter.setEmptyView(R.layout.live_list_empty);
         recyclerView.setAdapter(adapter);

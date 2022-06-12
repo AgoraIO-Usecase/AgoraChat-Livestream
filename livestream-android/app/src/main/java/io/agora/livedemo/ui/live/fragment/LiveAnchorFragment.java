@@ -95,7 +95,7 @@ public class LiveAnchorFragment extends LiveBaseFragment {
         EaseUserUtils.setUserAvatar(mContext, DemoHelper.getAgoraId(), ivIcon);
         viewGroup.setVisibility(View.GONE);
         btEnd.setVisibility(View.VISIBLE);
-        countdownView.setTypeface(Utils.getRobotoTypeface(getActivity().getApplicationContext()));
+        countdownView.setTypeface(Utils.getRobotoBlackTypeface(getActivity().getApplicationContext()));
 
         ReceiveGiftDao giftDao = DemoHelper.getReceiveGiftDao();
         if (giftDao != null) {

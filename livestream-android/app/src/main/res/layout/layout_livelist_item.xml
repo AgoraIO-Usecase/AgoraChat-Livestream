@@ -2,7 +2,7 @@
 <io.agora.livedemo.ui.widget.SquareLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="400dp">
+    android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -67,7 +67,7 @@
 
         <io.agora.chat.uikit.widget.EaseImageView
             android:id="@+id/author_lsr"
-            android:layout_width="@dimen/margin_20"
+            android:layout_width="20dp"
             android:layout_height="12dp"
             android:layout_marginStart="@dimen/margin_10"
             android:layout_marginTop="1dp"
@@ -81,12 +81,12 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
-            android:layout_marginRight="@dimen/margin_10"
+            android:layout_marginEnd="@dimen/margin_10"
             android:layout_marginBottom="12dp"
             android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/placeholder"
-            android:textSize="12sp"
+            android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/author_lsr"
             app:layout_constraintRight_toRightOf="parent" />

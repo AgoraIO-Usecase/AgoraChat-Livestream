@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_40"
+        android:layout_marginTop="36dp"
         android:background="@drawable/live_user_manager_bg_shape"
         app:layout_constraintBottom_toTopOf="@id/view_layout"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -33,10 +33,12 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_sex"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="12dp"
             android:layout_marginStart="@dimen/margin_5"
+            android:layout_marginTop="5dp"
             android:layout_marginEnd="@dimen/margin_10"
+            android:layout_marginBottom="5dp"
             android:paddingStart="3dp"
             android:paddingEnd="3dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_username"
@@ -48,8 +50,8 @@
             <ImageView
                 android:id="@+id/sex_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
+                android:layout_height="0dp"
+                android:layout_marginStart="3dp"
                 android:src="@drawable/sex_male_icon"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -58,22 +60,23 @@
             <TextView
                 android:id="@+id/age_tv"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_5"
-                android:layout_marginEnd="5dp"
+                android:layout_height="0dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginEnd="3dp"
+                android:gravity="center"
                 android:text="18"
                 android:textColor="@color/white"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/sex_icon"
-                app:layout_constraintLeft_toRightOf="@id/sex_icon"
-                app:layout_constraintTop_toTopOf="@id/sex_icon" />
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <ImageView
             android:id="@+id/role_type"
-            android:layout_width="wrap_content"
+            android:layout_width="60dp"
             android:layout_height="16dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="4dp"
             android:scaleType="fitCenter"
             android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@id/item_timeout_all"
@@ -84,10 +87,10 @@
 
         <io.agora.chat.uikit.widget.EaseImageView
             android:id="@+id/mute_state"
-            android:layout_width="wrap_content"
+            android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_marginStart="5dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="4dp"
             android:scaleType="fitCenter"
             android:src="@drawable/mute"
             android:visibility="gone"

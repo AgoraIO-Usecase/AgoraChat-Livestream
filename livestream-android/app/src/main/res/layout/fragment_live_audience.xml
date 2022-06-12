@@ -28,7 +28,7 @@
         android:id="@+id/message_view"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        app:ease_live_input_edit_margin_bottom="10dp"
+        app:ease_live_input_edit_margin_bottom="5dp"
         app:ease_live_input_edit_margin_end="130dp"
         app:ease_live_message_list_margin_end="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

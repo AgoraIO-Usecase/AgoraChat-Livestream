@@ -1,6 +1,5 @@
 package io.agora.livedemo.ui.live.adapter;
 
-import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +27,7 @@ public class GiftListAdapter extends EaseBaseRecyclerViewAdapter<GiftBean> {
         private TextView tvGiftName;
         private TextView tvGiftValue;
         private TextView tvLeftTime;
+        private TextView tvLeftSTime;
         private View leftTimeBgView;
 
         public GiftViewHolder(@NonNull View itemView) {
@@ -41,8 +41,9 @@ public class GiftListAdapter extends EaseBaseRecyclerViewAdapter<GiftBean> {
             tvGiftValue = findViewById(R.id.iv_gift_gold_value);
 
             tvLeftTime = findViewById(R.id.left_time_tv);
-            tvLeftTime.setTypeface(Utils.getRobotoTypeface(mContext));
-            tvLeftTime.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD_ITALIC);
+            tvLeftSTime = findViewById(R.id.left_time_s_tv);
+            tvLeftTime.setTypeface(Utils.getRobotoBlackItalicTypeface(mContext));
+            tvLeftSTime.setTypeface(Utils.getRobotoBlackItalicTypeface(mContext));
             leftTimeBgView = findViewById(R.id.left_time_bg_view);
         }
 
@@ -60,10 +61,12 @@ public class GiftListAdapter extends EaseBaseRecyclerViewAdapter<GiftBean> {
             }
             if (item.getLeftTime() > 0) {
                 tvLeftTime.setVisibility(View.VISIBLE);
-                tvLeftTime.setText(item.getLeftTime() + "s");
+                tvLeftSTime.setVisibility(View.VISIBLE);
+                tvLeftTime.setText(String.valueOf(item.getLeftTime()));
                 leftTimeBgView.setVisibility(View.VISIBLE);
             } else {
                 leftTimeBgView.setVisibility(View.GONE);
+                tvLeftSTime.setVisibility(View.GONE);
                 tvLeftTime.setVisibility(View.GONE);
             }
         }

@@ -1,7 +1,5 @@
 package io.agora.livedemo.ui.other;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -10,24 +8,19 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.InputFilter;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.afollestad.materialdialogs.DialogAction;
+import com.afollestad.materialdialogs.MaterialDialog;
+import com.afollestad.materialdialogs.Theme;
 import com.google.android.material.datepicker.CalendarConstraints;
 import com.google.android.material.datepicker.MaterialDatePicker;
 
@@ -57,7 +50,6 @@ import io.agora.livedemo.ui.base.BaseLiveActivity;
 import io.agora.livedemo.ui.live.fragment.ListDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.UserInfoViewModel;
 import io.agora.livedemo.utils.Utils;
-import io.agora.util.DensityUtil;
 import io.agora.util.PathUtil;
 import io.agora.util.VersionUtils;
 
@@ -97,7 +89,7 @@ public class EditProfileActivity extends BaseLiveActivity {
         initDatePicker();
         EaseUserUtils.setUserAvatar(mContext, DemoHelper.getAgoraId(), mBinding.userIcon);
         EaseUserUtils.setUserNick(DemoHelper.getAgoraId(), mBinding.itemUsername.getTvContent());
-        mBinding.titlebarTitle.setTypeface(Utils.getRobotoTypeface(this.getApplicationContext()));
+        mBinding.titlebarTitle.setTypeface(Utils.getRobotoBlackTypeface(this.getApplicationContext()));
 
         mBinding.userIcon.setAlpha(0.6f);
 
@@ -125,58 +117,48 @@ public class EditProfileActivity extends BaseLiveActivity {
         mBinding.itemUsername.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
-                final View view = LayoutInflater.from(mContext).inflate(R.layout.modify_info_dialog, null);
-                TextView title = view.findViewById(R.id.title);
-                EditText editContent = view.findViewById(R.id.edit_content);
-                TextView countTip = view.findViewById(R.id.count_tip);
-                Button confirmBtn = view.findViewById(R.id.confirm);
-                Button cancelBtn = view.findViewById(R.id.cancel);
+                MaterialDialog tipsDialog = new MaterialDialog.Builder(mContext)
+                        .theme(Theme.DARK)
+                        .backgroundColor(mContext.getResources().getColor(R.color.change_username_bg))
+                        .title(mContext.getResources().getString(R.string.setting_username_title))
+                        .inputRange(1, MAX_USERNAME_LENGTH)
+                        .input("", mUser.getNickname(), new MaterialDialog.InputCallback() {
+                            @Override
+                            public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
 
-                title.setText(mContext.getResources().getString(R.string.setting_username_title));
-                EaseUserUtils.setUserNick(DemoHelper.getAgoraId(), editContent);
-                editContent.setFilters(new InputFilter[]{new InputFilter.LengthFilter(MAX_USERNAME_LENGTH)});
-                editContent.setSelection(editContent.getText().toString().length());
-                editContent.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                            }
+                        })
+                        .cancelable(false)
+                        .positiveText(R.string.confirm)
+                        .positiveColor(getResources().getColor(R.color.button_color))
+                        .negativeText(R.string.cancel)
+                        .negativeColor(getResources().getColor(R.color.button_color))
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                if (null != dialog.getInputEditText() && !TextUtils.isEmpty(dialog.getInputEditText().getText().toString())) {
+                                    setNickname(dialog.getInputEditText().getText().toString());
+                                    dialog.cancel();
+                                } else {
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                        .onNegative(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .build();
+                if (tipsDialog.getInputEditText() != null) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+                        tipsDialog.getInputEditText().setTextCursorDrawable(R.drawable.search_cursor);
                     }
 
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        countTip.setText(s.toString().trim().length() + "/" + MAX_USERNAME_LENGTH);
-                    }
-                });
-
-
-                countTip.setText(mUser.getNickname().length() + "/" + MAX_USERNAME_LENGTH);
-
-                final Dialog dialog = builder.create();
-                dialog.show();
-                dialog.getWindow().setLayout(DensityUtil.dip2px(mContext, 300), DensityUtil.dip2px(mContext, 200));
-                dialog.getWindow().clearFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
-                dialog.getWindow().setGravity(Gravity.CENTER);
-                dialog.getWindow().setContentView(view);
-
-                confirmBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        setNickname(editContent.getText().toString());
-                        dialog.cancel();
-                    }
-                });
-                cancelBtn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        dialog.cancel();
-                    }
-                });
+                    tipsDialog.getInputEditText().setBackgroundColor(getResources().getColor(R.color.group_blue_154dfe));
+                }
+                tipsDialog.show();
             }
         });
 
@@ -203,18 +185,6 @@ public class EditProfileActivity extends BaseLiveActivity {
         mBinding.itemBirthday.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Calendar calendar = Calendar.getInstance();
-                DatePickerDialog datePickerDialog = new DatePickerDialog(EditProfileActivity.this, DatePickerDialog.THEME_DEVICE_DEFAULT_DARK, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                        setBirthday(year, monthOfYear + 1, dayOfMonth);
-                    }
-                }
-                        , calendar.get(Calendar.YEAR)
-                        , calendar.get(Calendar.MONTH)
-                        , calendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.show();*/
-
                 if (!materialDatePicker.isAdded()) {
                     materialDatePicker.show(getSupportFragmentManager(),
                             "MATERIAL_DATE_PICKER");
@@ -515,6 +485,8 @@ public class EditProfileActivity extends BaseLiveActivity {
         CalendarConstraints.Builder calendarConstraints = new CalendarConstraints.Builder();
         materialDateBuilder.setTitleText("SELECT YOUR BIRTHDAY");
         materialDateBuilder.setCalendarConstraints(calendarConstraints.build());
+        long now = System.currentTimeMillis();
+        materialDateBuilder.setCalendarConstraints(new CalendarConstraints.Builder().setEnd(now).build());
         materialDatePicker = materialDateBuilder.build();
 
         materialDatePicker.addOnPositiveButtonClickListener(selection -> {
