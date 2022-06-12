@@ -506,14 +506,18 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
             watchedCount--;
             memberList.remove(name);
             ThreadManager.getInstance().runOnMainThread(() -> {
-                if (name.equals(chatroom.getOwner())) {
+                updateWatchedMemberView(false);
+            });
+        } else {
+            if (name.equals(chatroom.getOwner())) {
+                ThreadManager.getInstance().runOnMainThread(() -> {
                     LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_FINISH_LIVE).setValue(true);
                     LiveDataBus.get().with(DemoConstants.FRESH_LIVE_LIST).setValue(true);
-                }
-                updateWatchedMemberView(false);
+
             });
         }
     }
+}
 
     protected void updateWatchedMemberIcon() {
         mMemberIconList.clear();
@@ -571,6 +575,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
                 && !chatroom.getOwner().equals(ChatClient.getInstance().getCurrentUser())) {
             userManagerView.setVisibility(View.INVISIBLE);
         }
+        messageView.enableInputView(!chatroom.getMuteList().containsKey(ChatClient.getInstance().getCurrentUser()));
     }
 
     protected void showUserDetailsDialog(String username) {
@@ -722,22 +727,23 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         }
     }
 
-    private static class MemberIconSpacesItemDecoration extends RecyclerView.ItemDecoration {
-        private final int space;
+private static class MemberIconSpacesItemDecoration extends RecyclerView.ItemDecoration {
+    private final int space;
 
-        public MemberIconSpacesItemDecoration(int space) {
-            this.space = space;
-        }
+    public MemberIconSpacesItemDecoration(int space) {
+        this.space = space;
+    }
 
-        @Override
-        public void getItemOffsets(Rect outRect, @NonNull View view,
-                                   RecyclerView parent, @NonNull RecyclerView.State state) {
-            // Add top margin only for the first item to avoid double space between items
-            if (parent.getChildAdapterPosition(view) == 1) {
-                outRect.left = space;
-            }
+    @Override
+    public void getItemOffsets(Rect outRect, @NonNull View view,
+                               RecyclerView parent, @NonNull RecyclerView.State state) {
+        // Add top margin only for the first item to avoid double space between items
+        if (parent.getChildAdapterPosition(view) == 1) {
+            outRect.left = space;
         }
     }
+
+}
 
     @Override
     public void onGiftMessageReceived(ChatMessage message) {

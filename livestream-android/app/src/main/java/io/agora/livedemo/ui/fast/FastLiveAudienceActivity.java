@@ -73,7 +73,6 @@ public class FastLiveAudienceActivity extends LiveBaseActivity implements LiveAu
     protected void initData() {
         super.initData();
         LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_FINISH_LIVE, Boolean.class).observe(mContext, event -> {
-            //只有非点播模式下，才会去关闭播放器
             if (liveRoom != null
                     && !TextUtils.isEmpty(liveRoom.getVideo_type())
                     && !DemoHelper.isVod(liveRoom.getVideo_type())) {

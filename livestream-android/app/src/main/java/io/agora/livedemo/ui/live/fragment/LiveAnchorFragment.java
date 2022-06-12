@@ -499,6 +499,7 @@ public class LiveAnchorFragment extends LiveBaseFragment {
         imgBtClose.setVisibility(View.GONE);
         switchCameraView.setEnabled(false);
         commentIv.setEnabled(false);
+        endLiveStreamTip.setTypeface(Utils.getRobotoRegularTypeface(mContext));
         endLiveStreamTip.setVisibility(View.VISIBLE);
         layout.setBackgroundResource(R.color.translucent_bg);
     }

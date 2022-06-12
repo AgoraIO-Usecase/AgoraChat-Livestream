@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -103,6 +105,10 @@ public class Utils {
         return Typeface.createFromAsset(context.getAssets(), "font/Roboto-Black.ttf");
     }
 
+    public static Typeface getRobotoRegularTypeface(Context context) {
+        return Typeface.createFromAsset(context.getAssets(), "font/Roboto-Regular.ttf");
+    }
+
     public static String getAppVersionName(Context context) {
         String versionName = "";
         try {
@@ -132,5 +138,21 @@ public class Utils {
             e.printStackTrace();
         }
         return 0;
+    }
+
+    public static Bitmap getBlurBitmap(Context context, int resId) {
+        try {
+            Bitmap originBitmap = BitmapFactory.decodeResource(context.getResources(), resId);
+            int scaleRatio = 10;
+            int blurRadius = 8;
+            Bitmap scaledBitmap = Bitmap.createScaledBitmap(originBitmap,
+                    originBitmap.getWidth() / scaleRatio,
+                    originBitmap.getHeight() / scaleRatio,
+                    false);
+            return FastBlurUtil.doBlur(scaledBitmap, blurRadius, true);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

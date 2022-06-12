@@ -27,14 +27,8 @@ public abstract class BaseLiveFragment extends BaseFragment {
         initView(savedInstanceState);
         initViewModel();
         initListener();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
         initData();
     }
-
 
     protected abstract int getLayoutId();
 

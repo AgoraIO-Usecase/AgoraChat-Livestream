@@ -126,16 +126,19 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     @Override
     protected void initData() {
         super.initData();
-        LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_FINISH_LIVE, Boolean.class).observe(mContext, event -> {
-            if (liveRoom != null
-                    && !TextUtils.isEmpty(liveRoom.getVideo_type())
-                    && !DemoHelper.isVod(liveRoom.getVideo_type())) {
-                liveStreamEndTip.setVisibility(View.VISIBLE);
-                liveReceiveGift.setEnabled(false);
-                liveReceiveGift.setImageResource(R.drawable.live_gift_disable);
-                commentIv.setEnabled(false);
-            }
-        });
+        LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_FINISH_LIVE, Boolean.class)
+                .observe(getViewLifecycleOwner(), response -> {
+                    if (liveRoom != null
+                            && !TextUtils.isEmpty(liveRoom.getVideo_type())
+                            && !DemoHelper.isVod(liveRoom.getVideo_type())) {
+                        liveStreamEndTip.setTypeface(Utils.getRobotoRegularTypeface(mContext));
+                        liveStreamEndTip.setVisibility(View.VISIBLE);
+
+                        liveReceiveGift.setEnabled(false);
+                        liveReceiveGift.setImageResource(R.drawable.live_gift_disable);
+                        commentIv.setEnabled(false);
+                    }
+                });
 
         getLiveRoomDetail();
     }
@@ -298,7 +301,7 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (isMuted) {
             showAttention(-1, mContext.getString(R.string.live_anchor_timeout_all_attention_tip), true);
             if (!isInWhiteList) {
-                addMute();
+                addMute(true);
             }
         } else {
             showAttention(10, mContext.getString(R.string.live_anchor_remove_timeout_all_attention_tip), false);
@@ -312,7 +315,7 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (!isAllMute) {
             if (!isInMuteList && mutes.contains(ChatClient.getInstance().getCurrentUser())) {
                 showAttention(10, mContext.getString(R.string.live_in_timed_out_list), true);
-                addMute();
+                addMute(false);
             }
         }
         updateChatRoomForUserState();
@@ -327,22 +330,30 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         updateChatRoomForUserState();
     }
 
-    private void addMute() {
-        messageView.enableInputView(false);
+    private void addMute(boolean isAllMute) {
         ThreadManager.getInstance().runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
+                if (null != messageView) {
+                    messageView.enableInputView(false);
+                    if (isAllMute) {
+                        showMessageInputTextHint(R.string.message_list_input_tip_all_timeout, true);
+                    } else {
+                        showMessageInputTextHint(R.string.message_list_input_tip_timeout, false);
+                    }
+                }
             }
         });
     }
 
     private void removeMute() {
-        messageView.enableInputView(true);
         ThreadManager.getInstance().runOnMainThread(new Runnable() {
             @Override
             public void run() {
-                showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+                if (null != messageView) {
+                    messageView.enableInputView(true);
+                    showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
+                }
             }
         });
     }
@@ -490,12 +501,28 @@ public class LiveAudienceFragment extends LiveBaseFragment {
                     @Override
                     public void onSuccess(ChatRoom emChatRoom) {
                         EMLog.d(TAG, "audience join chat room success");
-                        chatroom = emChatRoom;
-                        addChatRoomChangeListener();
-                        updateUserState();
-                        onMessageListInit();
-                        onWatchedMemberListInit();
-                        startCycleRefresh();
+                        ChatClient.getInstance().chatroomManager().asyncFetchChatRoomFromServer(chatroomId, new ValueCallBack<ChatRoom>() {
+                            @Override
+                            public void onSuccess(ChatRoom chatRoom) {
+                                LiveAudienceFragment.this.chatroom = chatRoom;
+                                ThreadManager.getInstance().runOnMainThread(new Runnable() {
+                                    @Override
+                                    public void run() {
+                                        addChatRoomChangeListener();
+                                        updateUserState();
+                                        onMessageListInit();
+                                        onWatchedMemberListInit();
+                                        startCycleRefresh();
+                                    }
+                                });
+                            }
+
+                            @Override
+                            public void onError(int i, String s) {
+
+                            }
+                        });
+
                     }
 
                     @Override
@@ -534,11 +561,11 @@ public class LiveAudienceFragment extends LiveBaseFragment {
         if (isAllMute) {
             showAttention(-1, mContext.getString(R.string.live_anchor_timeout_all_attention_tip), true);
             if (!isInWhiteList) {
-                addMute();
+                addMute(true);
             }
         } else if (isInMuteList) {
             showAttention(10, mContext.getString(R.string.live_in_timed_out_list), true);
-            addMute();
+            addMute(false);
         }
     }
 
@@ -563,6 +590,7 @@ public class LiveAudienceFragment extends LiveBaseFragment {
             @Override
             public void run() {
                 LiveAudienceFragment.super.onMessageListInit();
+                showMessageInputTextHint(R.string.message_list_input_tip_audience, false);
                 initUserMuteState();
             }
         });

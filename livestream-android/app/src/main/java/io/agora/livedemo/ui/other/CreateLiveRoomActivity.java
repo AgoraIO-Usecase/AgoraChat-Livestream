@@ -50,6 +50,7 @@ import io.agora.chat.uikit.utils.EaseUtils;
 import io.agora.livedemo.R;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
 import io.agora.livedemo.common.utils.DemoHelper;
+import io.agora.livedemo.common.utils.EmojiFilter;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.databinding.ActivityCreateLiveRoomBinding;
 import io.agora.livedemo.ui.base.BaseLiveActivity;
@@ -57,6 +58,7 @@ import io.agora.livedemo.ui.cdn.CdnLiveHostActivity;
 import io.agora.livedemo.ui.live.fragment.ListDialogFragment;
 import io.agora.livedemo.ui.live.viewmodels.CreateLiveViewModel;
 import io.agora.livedemo.utils.Utils;
+import io.agora.util.EMLog;
 import io.agora.util.PathUtil;
 import io.agora.util.VersionUtils;
 
@@ -129,7 +131,7 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
             }
         };
 
-        mBinding.liveName.setFilters(new InputFilter[]{emojiFilter, new InputFilter.LengthFilter(LIVE_NAME_MAX_LENGTH)});
+        mBinding.liveName.setFilters(new InputFilter[]{emojiFilter, new EmojiFilter(), new InputFilter.LengthFilter(LIVE_NAME_MAX_LENGTH)});
 
         mBinding.cameraView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
             @Override
@@ -309,6 +311,7 @@ public class CreateLiveRoomActivity extends BaseLiveActivity {
             showToast(getResources().getString(R.string.create_live_room_check_info));
             return;
         }
+        EMLog.i("lives", "name=" + name);
         mViewModel.createLiveRoom(name, "", mCoverPath, LiveRoom.Type.agora_cdn_live.name());
         Utils.hideKeyboard(mBinding.liveName);
     }

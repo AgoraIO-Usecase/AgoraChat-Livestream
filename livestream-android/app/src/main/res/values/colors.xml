@@ -76,5 +76,6 @@
     <color name="change_cover_divider_bg">#14000000</color>
     <color name="change_cover_content_color">#99000000</color>
 
+    <color name="default_overlay_color">#FFFFFF</color>
 
 </resources>

@@ -12,9 +12,11 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
 
     <io.agora.chat.uikit.widget.EaseImageView
         android:id="@+id/close_iv"
@@ -46,6 +48,7 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="8dp"
             app:ease_radius="4dp"
+            app:ease_shape_type="rectangle"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -142,7 +145,7 @@
         android:layout_marginLeft="@dimen/margin_20"
         android:layout_marginRight="@dimen/margin_20"
         android:layout_marginBottom="@dimen/margin_30"
-        android:background="@drawable/btn_go_live_bg"
+        android:background="@drawable/go_live_btn_bg"
         android:stateListAnimator="@null"
         android:text="@string/create_live_go_live"
         android:textAllCaps="false"
