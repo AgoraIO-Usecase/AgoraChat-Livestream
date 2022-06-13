@@ -234,7 +234,7 @@
         android:id="@+id/user_icon"
         android:layout_width="72dp"
         android:layout_height="72dp"
-        android:src="@drawable/live"
+        android:src="@drawable/ease_default_avatar"
         app:ease_border_color="@color/white"
         app:ease_border_width="4dp"
         app:ease_shape_type="round"

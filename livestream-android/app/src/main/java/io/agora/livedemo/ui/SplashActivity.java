@@ -199,7 +199,7 @@ public class SplashActivity extends BaseLiveActivity {
             }
         });
 
-        BitmapDrawable d = (BitmapDrawable) this.getResources().getDrawable(R.drawable.default_avatar);
+        BitmapDrawable d = (BitmapDrawable) this.getResources().getDrawable(R.drawable.ease_default_avatar);
         Bitmap img = d.getBitmap();
 
         String path = this.getFilesDir() + File.separator + "default_avatar.png";

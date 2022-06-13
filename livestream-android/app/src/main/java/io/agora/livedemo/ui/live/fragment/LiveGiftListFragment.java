@@ -1,9 +1,6 @@
 package io.agora.livedemo.ui.live.fragment;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Rect;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -26,8 +23,6 @@ import io.agora.livedemo.data.model.GiftBean;
 import io.agora.livedemo.data.repository.GiftRepository;
 import io.agora.livedemo.ui.base.BaseLiveFragment;
 import io.agora.livedemo.ui.live.adapter.GiftListAdapter;
-import io.agora.livedemo.utils.FastBlurUtil;
-import io.agora.livedemo.utils.Utils;
 
 public class LiveGiftListFragment extends BaseLiveFragment implements OnItemClickListener, View.OnClickListener, LiveGiftInputNumDialog.OnConfirmClickListener {
     private View layout;
@@ -56,8 +51,6 @@ public class LiveGiftListFragment extends BaseLiveFragment implements OnItemClic
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         layout = findViewById(R.id.layout);
-        //Bitmap originBitmap = Utils.getResizeBitmap(mContext, mContext.getResources().getDrawable(R.drawable.live_gift_bg_shape));
-        //layout.setBackground(new BitmapDrawable(getResources(), FastBlurUtil.blur(mContext, originBitmap)));
 
         rvList = findViewById(R.id.rv_list);
 

@@ -155,8 +155,9 @@ public class EditProfileActivity extends BaseLiveActivity {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
                         tipsDialog.getInputEditText().setTextCursorDrawable(R.drawable.search_cursor);
                     }
+                    tipsDialog.getInputEditText().setPadding(10, 0, 10, 0);
 
-                    tipsDialog.getInputEditText().setBackgroundColor(getResources().getColor(R.color.group_blue_154dfe));
+                    tipsDialog.getInputEditText().setBackgroundColor(getResources().getColor(R.color.color_black_333333));
                 }
                 tipsDialog.show();
             }
