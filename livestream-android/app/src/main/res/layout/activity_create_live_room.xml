@@ -149,10 +149,8 @@
 
         <android.widget.Button
             android:id="@+id/go_live"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_20"
-            android:layout_marginRight="@dimen/margin_20"
+            android:layout_width="280dp"
+            android:layout_height="48dp"
             android:layout_marginBottom="@dimen/margin_30"
             android:background="@drawable/go_live_btn_bg"
             android:stateListAnimator="@null"

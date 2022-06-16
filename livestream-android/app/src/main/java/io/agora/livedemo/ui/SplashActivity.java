@@ -137,6 +137,18 @@ public class SplashActivity extends BaseLiveActivity {
 
                             }
                         });
+
+                        ChatClient.getInstance().userInfoManager().updateOwnInfoByAttribute(UserInfo.UserInfoType.GENDER, data.getGender(), new ValueCallBack<String>() {
+                            @Override
+                            public void onSuccess(String value) {
+                                EMLog.i(TAG, "sync gender success");
+                            }
+
+                            @Override
+                            public void onError(int i, String s) {
+
+                            }
+                        });
                         updateUserAvatar();
                     } else {
                         skipToTarget();

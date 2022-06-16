@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/group_ui"
+    android:id="@+id/layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -28,7 +28,7 @@
         android:id="@+id/message_view"
         android:layout_width="match_parent"
         android:layout_height="280dp"
-        app:ease_live_input_edit_margin_bottom="5dp"
+        app:ease_live_input_edit_margin_bottom="15dp"
         app:ease_live_input_edit_margin_end="130dp"
         app:ease_live_message_list_margin_end="20dp"
         app:layout_constraintBottom_toBottomOf="parent"

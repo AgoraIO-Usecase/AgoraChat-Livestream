@@ -9,10 +9,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout_anchor"
         android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_height="36dp"
         android:layout_marginStart="@dimen/em_margin_15"
         android:background="@drawable/live_bg_shape"
         android:padding="1dp"
+        android:paddingStart="1dp"
+        android:paddingEnd="8dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -41,13 +43,13 @@
             app:layout_constraintLeft_toRightOf="@id/iv_icon"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <RelativeLayout
             android:id="@+id/layout_sex"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="12dp"
             android:layout_marginStart="@dimen/margin_5"
-            android:layout_marginEnd="@dimen/margin_5"
-            android:paddingStart="3dp"
+            android:orientation="horizontal"
+            android:paddingStart="2dp"
             android:paddingEnd="3dp"
             app:layout_constraintBottom_toBottomOf="@id/tv_username"
             app:layout_constraintLeft_toRightOf="@id/tv_username"
@@ -57,31 +59,31 @@
                 android:id="@+id/sex_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="5dp"
-                android:src="@drawable/sex_male_icon"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_centerVertical="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/sex_male_icon" />
 
             <TextView
                 android:id="@+id/age_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="@dimen/margin_5"
-                android:layout_marginEnd="5dp"
-                android:text="18"
+                android:layout_centerInParent="true"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="2dp"
+                android:layout_toEndOf="@id/sex_icon"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
                 android:textColor="@color/white"
                 android:textSize="10sp"
-                app:layout_constraintBottom_toBottomOf="@id/sex_icon"
-                app:layout_constraintLeft_toRightOf="@id/sex_icon"
-                app:layout_constraintTop_toTopOf="@id/sex_icon" />
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                tools:ignore="SmallSp" />
+        </RelativeLayout>
 
         <ImageView
             android:id="@+id/gold_icon"
-            android:layout_width="wrap_content"
+            android:layout_width="10dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
+            android:scaleType="fitCenter"
             android:src="@drawable/coin_small"
             app:layout_constraintLeft_toLeftOf="@id/tv_username"
             app:layout_constraintTop_toBottomOf="@id/tv_username" />
@@ -97,12 +99,6 @@
             app:layout_constraintLeft_toRightOf="@id/gold_icon"
             app:layout_constraintTop_toTopOf="@id/gold_icon" />
 
-        <View
-            android:layout_width="5dp"
-            android:layout_height="match_parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/layout_sex"
-            app:layout_constraintTop_toTopOf="parent" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -184,7 +180,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/horizontal_recycle_view"
         android:layout_width="wrap_content"
-        android:layout_height="0dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="@dimen/margin_10"
         android:orientation="horizontal"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
@@ -229,8 +225,8 @@
 
     <ImageView
         android:id="@+id/close_iv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="@dimen/margin_20"
         android:background="@drawable/live_bg_shape"
         android:padding="5dp"

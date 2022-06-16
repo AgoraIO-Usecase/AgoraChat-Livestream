@@ -492,7 +492,9 @@ public class LiveAnchorFragment extends LiveBaseFragment {
     }
 
     private void endLiveStream() {
-        closeIv.setVisibility(View.VISIBLE);
+        mContext.finish();
+
+       /* closeIv.setVisibility(View.VISIBLE);
         toolbarGroupView.setVisibility(View.INVISIBLE);
         messageView.setVisibility(View.GONE);
 
@@ -501,7 +503,7 @@ public class LiveAnchorFragment extends LiveBaseFragment {
         commentIv.setEnabled(false);
         endLiveStreamTip.setTypeface(Utils.getRobotoRegularTypeface(mContext));
         endLiveStreamTip.setVisibility(View.VISIBLE);
-        layout.setBackgroundResource(R.color.translucent_bg);
+        layout.setBackgroundResource(R.color.translucent_bg);*/
     }
 
     @Override

@@ -82,9 +82,6 @@ public abstract class CdnLiveBaseFragment extends CdnBaseFragment implements Rtc
 
     protected abstract void onTokenPrivilegeWillExpire(String token);
 
-    /**
-     * token失效
-     */
     protected abstract void onTokenExpired();
 
     public void joinRtcChannel(String token) {

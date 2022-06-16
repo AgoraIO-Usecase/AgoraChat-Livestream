@@ -29,6 +29,7 @@ import io.agora.util.EMLog;
 public class UserRepository {
     private static volatile UserRepository mInstance;
     private static final String DEFAULT_BIRTHDAY = "2004-01-01";
+    private static final String DEFAULT_GENDER = "1";
     private static final long USER_INFO_EXPIRED_TIME = 0;//60 * 1000;
 
     private User mCurrentUser;
@@ -75,6 +76,7 @@ public class UserRepository {
         mCurrentUser.setNickName(mCurrentUser.getId());
         mCurrentUser.setAvatarUrl(String.valueOf(R.drawable.ease_default_avatar));
         mCurrentUser.setBirthday(DEFAULT_BIRTHDAY);
+        mCurrentUser.setGender(DEFAULT_GENDER);
         saveCurrentUserInfoToDb();
         return mCurrentUser;
     }
@@ -84,6 +86,12 @@ public class UserRepository {
         easeUser.setNickname(mCurrentUser.getNickName());
         easeUser.setAvatar(mCurrentUser.getAvatarUrl());
         easeUser.setBirth(mCurrentUser.getBirthday());
+        try {
+            easeUser.setGender(Integer.parseInt(mCurrentUser.getGender()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         saveUserInfoToDb(easeUser);
     }
 

@@ -9,6 +9,7 @@ public class User implements Serializable {
     private int avatarDefaultResource;
     private String avatarUrl;
     private String birthday;
+    private String gender;
 
     public String getId() {
         return id;
@@ -58,6 +59,14 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -67,6 +76,7 @@ public class User implements Serializable {
                 ", avatarDefaultResource=" + avatarDefaultResource +
                 ", avatarUrl='" + avatarUrl + '\'' +
                 ", birthday='" + birthday + '\'' +
+                ", gender='" + gender + '\'' +
                 '}';
     }
 }

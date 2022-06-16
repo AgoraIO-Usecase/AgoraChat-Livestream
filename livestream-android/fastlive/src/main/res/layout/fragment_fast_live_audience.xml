@@ -15,7 +15,6 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true"
         android:layout_gravity="center"
-        android:background="#e0000000"
         android:gravity="center"
         android:visibility="gone">
 

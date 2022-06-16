@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -49,8 +48,6 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     RelativeLayout loadingLayout;
     @BindView(R.id.cover_image)
     ImageView coverView;
-    @BindView(R.id.group_ui)
-    ConstraintLayout groupUi;
     @BindView(R.id.live_stream_end_tip)
     TextView liveStreamEndTip;
 
@@ -194,6 +191,9 @@ public class LiveAudienceFragment extends LiveBaseFragment {
     @Override
     protected void skipToUserListDialog() {
         super.skipToUserListDialog();
+        if (null == chatroom) {
+            return;
+        }
         if (chatroom.getAdminList().contains(ChatClient.getInstance().getCurrentUser())) {
             try {
                 showUserList();

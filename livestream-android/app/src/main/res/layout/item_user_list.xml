@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/layout"
     android:layout_width="match_parent"
-    android:layout_height="54dp">
+    android:layout_height="54dp"
+    android:background="@drawable/item_click_bg_change">
 
     <io.agora.chat.uikit.widget.EaseImageView
         android:id="@+id/iv_user_avatar"

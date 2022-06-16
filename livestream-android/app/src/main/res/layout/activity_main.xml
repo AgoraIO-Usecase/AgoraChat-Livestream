@@ -71,7 +71,7 @@
 
         <LinearLayout
             android:id="@+id/ll_home_middle"
-            android:layout_width="0dp"
+            android:layout_width="60dp"
             android:layout_height="0dp"
             android:gravity="center"
             android:orientation="vertical"

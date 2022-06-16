@@ -2,7 +2,11 @@ package io.agora.livedemo.ui.live.fragment;
 
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -38,6 +42,7 @@ import io.agora.livedemo.ui.live.viewmodels.LivingViewModel;
 import io.agora.livedemo.ui.live.viewmodels.UserManageViewModel;
 import io.agora.livedemo.ui.widget.ArrowItemView;
 import io.agora.livedemo.ui.widget.SwitchItemView;
+import io.agora.livedemo.utils.StatusBarCompat;
 import io.agora.livedemo.utils.Utils;
 import io.reactivex.rxjava3.functions.Consumer;
 import kotlin.Unit;
@@ -60,7 +65,6 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
     private ArrowItemView removeTimeoutItem;
     private ArrowItemView banItem;
     private ArrowItemView unbanItem;
-    private View viewLayout;
 
 
     private UserManageViewModel viewModel;
@@ -115,7 +119,6 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
         removeTimeoutItem = findViewById(R.id.item_remove_timeout);
         banItem = findViewById(R.id.item_ban);
         unbanItem = findViewById(R.id.item_unban);
-        viewLayout = findViewById(R.id.view_layout);
 
         EaseUser user = UserRepository.getInstance().getUserInfo(username);
 
@@ -137,7 +140,7 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
         }
         String birth = user.getBirth();
         if (!TextUtils.isEmpty(birth)) {
-            ageTv.setText(String.valueOf(Utils.getAgeByBirthday(user.getBirth())));
+            ageTv.setText(String.valueOf(Math.max(Utils.getAgeByBirthday(user.getBirth()), 0)));
         }
 
         layout.post(new Runnable() {
@@ -154,6 +157,22 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
         });
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
+        try {
+            Window dialogWindow = getDialog().getWindow();
+            WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+            final float screenHeight = EaseUtils.getScreenInfo(mContext)[1];
+            final int navBarHeight = StatusBarCompat.getNavigationBarHeight(mContext);
+            lp.height = (int) screenHeight * 3 / 5 + navBarHeight;
+            lp.gravity = Gravity.BOTTOM;
+            lp.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            dialogWindow.setAttributes(lp);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     private void updateView(boolean initView) {
         if (null == mChatRoom) {
@@ -320,21 +339,6 @@ public class RoomUserDetailDialog extends BaseLiveDialogFragment implements Swit
             removeTimeoutItem.setVisibility(View.GONE);
             banItem.setVisibility(View.GONE);
             unbanItem.setVisibility(View.GONE);
-        }
-
-
-        if (View.GONE == timeoutAll.getVisibility() &&
-                View.GONE == moveToAllowedListItem.getVisibility() &&
-                View.GONE == removeFromAllowedListItem.getVisibility() &&
-                View.GONE == assignAsModeratorItem.getVisibility() &&
-                View.GONE == removeAsModeratorItem.getVisibility() &&
-                View.GONE == timeoutItem.getVisibility() &&
-                View.GONE == removeTimeoutItem.getVisibility() &&
-                View.GONE == banItem.getVisibility() &&
-                View.GONE == unbanItem.getVisibility()) {
-            ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) viewLayout.getLayoutParams();
-            layoutParams.height = (int) EaseUtils.dip2px(mContext, 92);
-            viewLayout.setLayoutParams(layoutParams);
         }
     }
 

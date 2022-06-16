@@ -80,4 +80,6 @@
 
     <color name="change_username_bg">#212121</color>
 
+    <color name="item_pressed_bg">#F5F5F5</color>
+
 </resources>

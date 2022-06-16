@@ -72,6 +72,8 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     protected static final int CYCLE_REFRESH = 100;
     protected static final int CYCLE_REFRESH_TIME = 30000;
     protected static final int ATTENTION_REFRESH = 101;
+    @BindView(R.id.layout)
+    View layout;
     @BindView(R.id.iv_icon)
     EaseImageView ivIcon;
     @BindView(R.id.message_view)
@@ -105,7 +107,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     @BindView(R.id.barrageView)
     SingleBarrageView barrageView;
     @BindView(R.id.layout_sex)
-    ConstraintLayout sexLayout;
+    View sexLayout;
     @BindView(R.id.sex_icon)
     ImageView sexIcon;
     @BindView(R.id.age_tv)
@@ -254,7 +256,7 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         }
         String birth = mLiveStreamerUser.getBirth();
         if (!TextUtils.isEmpty(birth)) {
-            ageTv.setText(String.valueOf(Utils.getAgeByBirthday(mLiveStreamerUser.getBirth())));
+            ageTv.setText(String.valueOf(Math.max(Utils.getAgeByBirthday(mLiveStreamerUser.getBirth()), 0)));
         }
 
         if (null != presenter) {
@@ -302,9 +304,11 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     @Override
     protected void initListener() {
         super.initListener();
+        layout.setOnTouchListener(this);
         layoutMemberNum.setOnClickListener(this);
         liveReceiveGift.setOnClickListener(this);
         presenter.setOnChatRoomListener(this);
+
     }
 
     @Override
@@ -514,10 +518,10 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
                     LiveDataBus.get().with(DemoConstants.EVENT_ANCHOR_FINISH_LIVE).setValue(true);
                     LiveDataBus.get().with(DemoConstants.FRESH_LIVE_LIST).setValue(true);
 
-            });
+                });
+            }
         }
     }
-}
 
     protected void updateWatchedMemberIcon() {
         mMemberIconList.clear();
@@ -531,6 +535,9 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
     }
 
     protected void onMessageListInit() {
+        if (null == messageView) {
+            return;
+        }
         messageView.init(chatroomId);
         messageView.setMessageViewListener(new EaseChatRoomMessagesView.MessageViewListener() {
             @Override
@@ -727,23 +734,23 @@ public abstract class LiveBaseFragment extends BaseLiveFragment implements View.
         }
     }
 
-private static class MemberIconSpacesItemDecoration extends RecyclerView.ItemDecoration {
-    private final int space;
+    private static class MemberIconSpacesItemDecoration extends RecyclerView.ItemDecoration {
+        private final int space;
 
-    public MemberIconSpacesItemDecoration(int space) {
-        this.space = space;
-    }
-
-    @Override
-    public void getItemOffsets(Rect outRect, @NonNull View view,
-                               RecyclerView parent, @NonNull RecyclerView.State state) {
-        // Add top margin only for the first item to avoid double space between items
-        if (parent.getChildAdapterPosition(view) == 1) {
-            outRect.left = space;
+        public MemberIconSpacesItemDecoration(int space) {
+            this.space = space;
         }
-    }
 
-}
+        @Override
+        public void getItemOffsets(Rect outRect, @NonNull View view,
+                                   RecyclerView parent, @NonNull RecyclerView.State state) {
+            // Add top margin only for the first item to avoid double space between items
+            if (parent.getChildAdapterPosition(view) == 1) {
+                outRect.left = space;
+            }
+        }
+
+    }
 
     @Override
     public void onGiftMessageReceived(ChatMessage message) {

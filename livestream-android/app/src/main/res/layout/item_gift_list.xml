@@ -77,20 +77,23 @@
         android:textStyle="bold"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/left_time_s_tv"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/left_time_s_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="s"
         android:textColor="@color/white"
         android:textSize="24sp"
         android:textStyle="bold"
         android:visibility="gone"
-        android:text="s"
         app:layout_constraintBottom_toBottomOf="@id/left_time_tv"
-        app:layout_constraintLeft_toRightOf="@id/left_time_tv" />
+        app:layout_constraintHorizontal_chainStyle="packed"
+        app:layout_constraintLeft_toRightOf="@id/left_time_tv"
+        app:layout_constraintRight_toRightOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

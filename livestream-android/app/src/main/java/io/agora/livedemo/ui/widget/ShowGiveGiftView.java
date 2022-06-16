@@ -196,7 +196,7 @@ public class ShowGiveGiftView extends LinearLayout {
     private void removeGiftView(final View removeGiftView) {
         Animation animation = removeGiftView.getAnimation();
         if (animation == null) {
-            TranslateAnimation outAnim = (TranslateAnimation) AnimationUtils.loadAnimation(context, R.anim.gift_out); // 礼物退出时动画
+            TranslateAnimation outAnim = (TranslateAnimation) AnimationUtils.loadAnimation(context, R.anim.gift_out);
             outAnim.setAnimationListener(new Animation.AnimationListener() {
 
                 @Override

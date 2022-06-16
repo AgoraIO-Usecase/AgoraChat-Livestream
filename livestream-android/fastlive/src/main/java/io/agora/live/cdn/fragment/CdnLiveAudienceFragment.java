@@ -133,10 +133,14 @@ public class CdnLiveAudienceFragment extends CdnLiveBaseFragment implements ICdn
         Log.i(TAG, "onRtcRemoteVideoStateChanged uid: " + uid + " state: " + state);
         if (state == Constants.REMOTE_VIDEO_STATE_STOPPED || state == Constants.REMOTE_VIDEO_STATE_FAILED) {
             if (this.presenter.isActive()) {
-                this.presenter.runOnUI(() -> mVideoGridContainer.removeAllVideo());
+                this.presenter.runOnUI(() -> {
+                    mVideoGridContainer.removeAllVideo();
+                });
             }
         } else {
-            this.presenter.runOnUI(() -> helper.setupRemoteVideo(uid, mVideoGridContainer, true));
+            this.presenter.runOnUI(() -> {
+                helper.setupRemoteVideo(uid, mVideoGridContainer, true);
+            });
         }
     }
 

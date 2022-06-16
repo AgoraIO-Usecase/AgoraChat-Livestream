@@ -338,7 +338,7 @@ public class FastLiveHelper {
                     mMediaPlayer.getMediaPlayerId(),
                     uid
             ));
-            container.addUserVideoSurface(uid, surface, false);
+            //container.addUserVideoSurface(uid, surface, false);
         }
     }
 

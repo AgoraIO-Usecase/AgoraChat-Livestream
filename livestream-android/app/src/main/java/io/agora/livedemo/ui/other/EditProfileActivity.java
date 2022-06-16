@@ -121,7 +121,7 @@ public class EditProfileActivity extends BaseLiveActivity {
                         .theme(Theme.DARK)
                         .backgroundColor(mContext.getResources().getColor(R.color.change_username_bg))
                         .title(mContext.getResources().getString(R.string.setting_username_title))
-                        .inputRange(1, MAX_USERNAME_LENGTH)
+                        .inputRange(1, MAX_USERNAME_LENGTH, mContext.getResources().getColor(R.color.color_black_333333))
                         .input("", mUser.getNickname(), new MaterialDialog.InputCallback() {
                             @Override
                             public void onInput(@NonNull MaterialDialog dialog, CharSequence input) {
