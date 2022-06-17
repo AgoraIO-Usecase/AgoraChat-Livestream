@@ -9,8 +9,8 @@ import androidx.lifecycle.MediatorLiveData;
 
 import java.util.List;
 
-import io.agora.livedemo.common.reponsitories.AppServerRepository;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.AppServerRepository;
+import io.agora.livedemo.common.repository.Resource;
 import io.agora.livedemo.data.model.LiveRoom;
 import io.agora.livedemo.data.restapi.model.ResponseModule;
 

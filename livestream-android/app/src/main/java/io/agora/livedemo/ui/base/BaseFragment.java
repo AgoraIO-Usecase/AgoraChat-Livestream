@@ -11,7 +11,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.Resource;
 
 public class BaseFragment extends Fragment {
     public BaseActivity mContext;

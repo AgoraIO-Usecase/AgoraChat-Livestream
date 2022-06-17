@@ -11,9 +11,9 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
 import io.agora.livedemo.common.enums.Status;
-import io.agora.livedemo.common.reponsitories.ClientRepository;
-import io.agora.livedemo.common.reponsitories.ErrorCode;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.ClientRepository;
+import io.agora.livedemo.common.repository.ErrorCode;
+import io.agora.livedemo.common.repository.Resource;
 import io.agora.livedemo.data.repository.UserRepository;
 import io.agora.livedemo.data.model.User;
 

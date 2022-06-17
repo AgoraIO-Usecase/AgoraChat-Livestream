@@ -1,4 +1,4 @@
-package io.agora.livedemo.common.reponsitories;
+package io.agora.livedemo.common.repository;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;

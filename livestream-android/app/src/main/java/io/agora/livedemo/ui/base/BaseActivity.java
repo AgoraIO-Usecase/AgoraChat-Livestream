@@ -2,7 +2,6 @@ package io.agora.livedemo.ui.base;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,13 +15,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
-import java.util.Locale;
-
 import io.agora.chat.uikit.EaseUIKit;
 import io.agora.livedemo.R;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
 import io.agora.livedemo.common.enums.Status;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.Resource;
 import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.common.utils.ThreadManager;
 import io.agora.livedemo.utils.StatusBarCompat;

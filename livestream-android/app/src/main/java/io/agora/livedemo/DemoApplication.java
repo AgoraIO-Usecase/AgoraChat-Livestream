@@ -102,7 +102,7 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
         //options.setRestServer(BuildConfig.APP_SERVER_DOMAIN);
         //options.setIMServer("106.75.100.247");
         //options.setImPort(6717);
-        options.setUsingHttpsOnly(false);
+        //options.setUsingHttpsOnly(false);
         isSDKInit = EaseUIKit.getInstance().init(context, options);
         return isSDKInit();
     }

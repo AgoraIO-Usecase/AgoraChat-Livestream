@@ -1,4 +1,4 @@
-package io.agora.livedemo.common.reponsitories;
+package io.agora.livedemo.common.repository;
 
 import static io.agora.cloud.HttpClientManager.Method_POST;
 

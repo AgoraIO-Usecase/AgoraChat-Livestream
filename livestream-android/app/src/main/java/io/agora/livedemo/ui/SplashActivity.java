@@ -28,7 +28,7 @@ import io.agora.livedemo.DemoConstants;
 import io.agora.livedemo.R;
 import io.agora.livedemo.common.callback.OnResourceParseCallback;
 import io.agora.livedemo.common.livedata.LiveDataBus;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.Resource;
 import io.agora.livedemo.common.utils.DemoHelper;
 import io.agora.livedemo.common.utils.PreferenceManager;
 import io.agora.livedemo.data.model.User;

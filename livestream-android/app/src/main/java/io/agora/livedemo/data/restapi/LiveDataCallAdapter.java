@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import io.agora.livedemo.common.reponsitories.ErrorCode;
+import io.agora.livedemo.common.repository.ErrorCode;
 import io.agora.livedemo.data.model.BaseBean;
 import retrofit2.Call;
 import retrofit2.CallAdapter;

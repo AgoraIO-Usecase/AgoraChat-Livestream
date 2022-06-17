@@ -1,4 +1,4 @@
-package io.agora.livedemo.common.reponsitories;
+package io.agora.livedemo.common.repository;
 
 
 import io.agora.ValueCallBack;

@@ -7,8 +7,8 @@ import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MediatorLiveData;
 
-import io.agora.livedemo.common.reponsitories.ClientRepository;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.ClientRepository;
+import io.agora.livedemo.common.repository.Resource;
 
 public class UserInfoViewModel extends AndroidViewModel {
     private final ClientRepository clientRepository;

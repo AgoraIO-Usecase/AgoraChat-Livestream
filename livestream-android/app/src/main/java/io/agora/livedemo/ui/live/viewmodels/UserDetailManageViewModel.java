@@ -9,8 +9,8 @@ import androidx.lifecycle.MediatorLiveData;
 import java.util.List;
 
 import io.agora.chat.ChatRoom;
-import io.agora.livedemo.common.reponsitories.ClientRepository;
-import io.agora.livedemo.common.reponsitories.Resource;
+import io.agora.livedemo.common.repository.ClientRepository;
+import io.agora.livedemo.common.repository.Resource;
 
 public class UserDetailManageViewModel extends AndroidViewModel {
     private final ClientRepository repository;
