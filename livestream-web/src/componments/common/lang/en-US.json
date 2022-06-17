@@ -1,0 +1,33 @@
+{
+    "translation": {
+        "Agora LiveStream": "Agora LiveStream",
+        "Stream Channels": "Stream Channels",
+        "Setting": "Setting",
+        "Cancel": "Cancel",
+        "Okay": "Okay",
+        "No Reasult for": "No Reasult for",
+        "Gifts": "Gifts",
+        "Send": "Send",
+        "All": "All",
+        "Moderators": "Moderators",
+        "Allowed": "Allowed",
+        "Muted": "Muted",
+        "Banned": "Banned",
+        "Viewers": "Viewers",
+        "Move to Allowed List": "Move to Allowed List",
+        "Timeout": "Timeout",
+        "ban": "ban",
+        "Refresh": "Refresh",
+        "Info": "Info",
+        "Edit": "Edit",
+        "Done": "Done",
+        "UserName": "UserName",
+        "gender": "gender",
+        "You have been added as Moderator": "You have been added as Moderator",
+        "You have been removed as Moderator": "You have been removed as Moderator",
+        "You're under a gag order": "You're under a gag order",
+        "Your gag order has been lifted": "Your gag order has been lifted",
+        "The Streamer has been gagged by all": "The Streamer has been gagged by all",
+        "The Streamer has lifted the gag order": "The Streamer has lifted the gag order"
+    }
+}
