@@ -1,8 +1,8 @@
-# Introduction to Agora Live Chat Room
+# Introduction to AgoraChat Livestream
 
 ## Introduction
 
-**Agora Live Chat Room (hereinafter referred to as Agora Chat Room) demonstrates the ability of Agora SDK to provide live chat rooms. In addition to providing basic chat, it also provides custom messages for gift giving, and developers can add new custom messages according to their actual needs. **
+**AgoraChat Livestream (hereinafter referred to as Livestream) demonstrates the ability of AgoraChat SDK to provide Livestream. In addition to providing basic chat, it also provides custom messages for gift giving, and developers can add new custom messages according to their actual needs. **
 
 **Introduction to core classes:**
 
@@ -17,7 +17,7 @@
 - Web:    https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-web
 - App Server:     https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/backend
 
-## Integrate Agora Chat SDK
+## Integrate AgoraChat SDK
 
 ### Development Environment Requirements
 
@@ -33,31 +33,31 @@ implementation 'io.agora.rtc:chat-uikit:1.0.6'
 
 **Integration Documentation:**</br>
 
-- [Android SDK integrated](https://docs-preprod.agora.io/cn/agora-chat/enable_agora_chat?platform=Android);</br>
+- [Android SDK integrated](https://docs-preprod.agora.io/en/agora-chat/enable_agora_chat?platform=Android);</br>
 - [Android UIKit integrated](https://github.com/AgoraIO-Usecase/AgoraChat-UIKit-android);
 
-## use AgoraChat-UIKit
+## Use AgoraChat-UIKit
 
-**In order to facilitate developers to use custom messages, Agora chat room encapsulates the logic related to custom messages into the AgoraChat-UIKit-android library. **
+**In order to facilitate developers to use custom messages, Livestream encapsulates the logic related to custom messages into the AgoraChat-UIKit-android library. **
 
 Developers can make changes to this UIKit library according to their needs.
 
 ### Core class introduction
 
-- EaseChatRoomMessagesView: Live chat room message UI, users can customize related properties to set UI display. </br>
+- EaseChatRoomMessagesView: Livestream chatroom message UI, users can customize related properties to set UI display. </br>
 - EaseLiveMessageHelper: used to monitor and receive custom messages and send custom messages. </br>
 - EaseLiveMessageType: The user defines the custom message type (gift message) used in the demo. </br>
-- OnLiveMessageListener: Listen to chat room messages to receive related events.
+- OnLiveMessageListener: Listen to chatroom messages to receive related events.
 
 ### Specific usage
 
-#### 1. After the chat room is loaded, initialize it and set the room information.
+#### 1. After the chatroom is loaded, initialize it and set the room information.
 
 ```Java
 EaseLiveMessageHelper.getInstance().init(chatroomId);
 ```
 
-#### 2. add and remove chat room custom message monitoring
+#### 2. add and remove chatroom custom message monitoring
 
 ```Java
 EaseLiveMessageHelper.getInstance().addLiveMessageListener(new OnLiveMessageListener() {
@@ -69,7 +69,7 @@ EaseLiveMessageHelper.getInstance().addLiveMessageListener(new OnLiveMessageList
 EaseLiveMessageHelper.getInstance().removeLiveMessageListener(this);
 ```
 
-#### 3. To send a chat room message, you can call the following method
+#### 3. To send a chatroom message, you can call the following method
 
 ```Java
 public void sendTxtMsg(String content, OnSendLiveMessageCallBack callBack);                                                       //text message
@@ -102,16 +102,16 @@ public Map<String, String> getCustomMsgParams(ChatMessage message);
 public boolean isGiftMsg(ChatMessage msg);    // gift message judgment
 ```
 
-## Agora Live Chat Room Architecture Introduction
+## AgoraChat Livestream Architecture Introduction
 
 ![](https://developer.android.google.cn/topic/libraries/architecture/images/final-architecture.png)</br>
-There are two repositories in Agora chat room, ClientRepository and AppServerRepository. Where ClientRepository user handles Agora SDK provides
+There are two repositories in  Livestream, ClientRepository and AppServerRepository. Where ClientRepository user handles Agora SDK provides
 For related requests, the AppServerRepository user handles the interface provided by the app server. Each page has a corresponding ViewModel to store and manage in a life cycle manner
 Manage UI-related data. LiveData is an observable data retention class with lifecycle awareness, generally located in ViewModel, for observing data changes. </br>
 
-## Integrate Agora Live Video SDK
+## Integrate Agora Live Streaming SDK
 
-Agora chat room provides Agora CDN live streaming capability (https://docs.agora.io/cn/live-streaming/landing-page?platform=Android).
+Livestream provides Agora CDN live streaming capability (https://docs.agora.io/en/live-streaming/landing-page?platform=Android).
 
 ## Run the sample project
 
@@ -121,7 +121,7 @@ Follow these steps to run the sample project:\
     git clone git@github.com:AgoraIO-Usecase/AgoraChat-Livestream.git
 ```
 
-### 2. Open the Android project with Android Studio.
+### 2. Open the Android project with Android Studio(AgoraChat-Livestream/livestream-android).
 
 ### 3. Configure APPKEY.
 Configure AGORA_CHAT_APPKEY and AGORA_APP_ID in local.properties, you can apply for the corresponding APPKEY in the [Agora Developer Console](https://console.agora.io/).

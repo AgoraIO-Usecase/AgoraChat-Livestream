@@ -2,7 +2,7 @@
 
 ## 简介
 
-**Agora直播聊天室（以下简称Agora聊天室）展示了Agora SDK提供直播聊天室的能力。除了提供基本的聊天外，还提供了赠送礼物的自定义消息，开发者可以根据自己的实际需求添加新的自定义消息。**
+**Agora直播聊天室（以下简称直播聊天室）展示了Agora SDK提供直播聊天室的能力。除了提供基本的聊天外，还提供了赠送礼物的自定义消息，开发者可以根据自己的实际需求添加新的自定义消息。**
 
 **核心类介绍：**
 
@@ -122,7 +122,7 @@ Agora聊天室提供了Agora CDN直播能力(https://docs.agora.io/cn/live-strea
     git clone git@github.com:AgoraIO-Usecase/AgoraChat-Livestream.git
 ```
 
-### 2. 使用 Android Studio 打开 Android 项目。
+### 2. 使用 Android Studio 打开 Android 项目(AgoraChat-Livestream/livestream-android)。
 
 ### 3. 配置APPKEY。
 在local.properties中配置AGORA_CHAT_APPKEY和AGORA_APP_ID，你可以在[Agora开发者控制台](https://console.agora.io/)申请相应的APPKEY。

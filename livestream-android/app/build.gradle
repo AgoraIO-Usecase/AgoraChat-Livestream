@@ -138,7 +138,7 @@ dependencies {
     // agora cdn live
     implementation project(path: ':fastlive')
     // agora 
-    implementation project(path: ':chat-uikit')
-    //implementation 'io.agora.rtc:chat-sdk:1.0.6'
-    //implementation 'io.agora.rtc:chat-uikit:1.0.6'
+    //implementation project(path: ':chat-uikit')
+    implementation 'io.agora.rtc:chat-sdk:1.0.6'
+    implementation 'io.agora.rtc:chat-uikit:1.0.6'
 }
