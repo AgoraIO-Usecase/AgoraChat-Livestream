@@ -1,0 +1,33 @@
+{
+    "translation": {
+        "Agora LiveStream": "声网直播",
+        "Stream Channels": "直播列表",
+        "Setting": "设置",
+        "Cancel": "取消",
+        "Okay":"确认",
+        "No Reasult for": "未找到",
+        "Gifts": "礼物",
+        "Send": "发送",
+        "All": "全部成员",
+        "Moderators": "管理员",
+        "Allowed":"白名单列表",
+        "Muted":"禁言列表",
+        "Banned":"黑名单列表",
+        "Viewers":"观众列表",
+        "Move to Allowed List":"添加管理员",
+        "Timeout":"禁言",
+        "ban":"加入黑名单",
+        "Refresh":"刷新",
+        "Info": "用户信息",
+        "Edit": "编辑",
+        "Done": "完成",
+        "UserName":"用户名",
+        "gender":"性别",
+        "You have been added as Moderator":"您已被添加为管理员",
+        "You have been removed as Moderator":"您已被移除管理员",
+        "You're under a gag order":"您已被禁言",
+        "Your gag order has been lifted":"您已被解除禁言",
+        "The Streamer has been gagged by all": "您已被加入黑名单",
+        "The Streamer has lifted the gag order":"您已被移出黑名单"
+    }
+}
