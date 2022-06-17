@@ -13,9 +13,9 @@
 
 **Other side open source address:**
 
-- iOS:    https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-ios
-- Web:    https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-web
-- App Server:     https://github.com/winskyan/AgoraChat-Livestream/tree/main/backend
+- iOS:    https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-ios
+- Web:    https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-web
+- App Server:     https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/backend
 
 ## Integrate Agora Chat SDK
 
@@ -113,12 +113,31 @@ Manage UI-related data. LiveData is an observable data retention class with life
 
 Agora chat room provides Agora CDN live streaming capability (https://docs.agora.io/cn/live-streaming/landing-page?platform=Android).
 
+## Run the sample project
+
+Follow these steps to run the sample project:\
+### 1. Clone the repository to your local machine.
+```java
+    git clone git@github.com:AgoraIO-Usecase/AgoraChat-Livestream.git
+```
+
+### 2. Open the Android project with Android Studio.
+
+### 3. Configure APPKEY.
+Configure AGORA_CHAT_APPKEY and AGORA_APP_ID in local.properties, you can apply for the corresponding APPKEY in the [Agora Developer Console](https://console.agora.io/).
+
+```Java
+AGORA_CHAT_APPKEY=*******
+
+AGORA_APP_ID=*******
+```
+### 4. Use AndroidStudio to run.
 
 ## Documentation
 
-- [iOS open source address](https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-ios)
-- [Web open source address](https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-web)
-- [App Server open source address](https://github.com/winskyan/AgoraChat-Livestream/tree/main/backend)
+- [iOS open source address](https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-ios)
+- [Web open source address](https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-web)
+- [App Server open source address](https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/backend)
 - [Android SDK integrated](https://docs-preprod.agora.io/cn/agora-chat/enable_agora_chat?platform=Android);</br>
 - [Android UIKit integrated](https://github.com/AgoraIO-Usecase/AgoraChat-UIKit-android);
 

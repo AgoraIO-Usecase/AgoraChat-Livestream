@@ -24,7 +24,7 @@
         android:ellipsize="end"
         android:maxLines="1"
         android:textColor="@color/white"
-        android:textSize="@dimen/size_normal"
+        android:textSize="16sp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/user_icon" />
@@ -49,12 +49,12 @@
         app:arrowItemAvatarHeight="@dimen/margin_30"
         app:arrowItemAvatarSrc="@drawable/about_icon"
         app:arrowItemContentColor="#898989"
-        app:arrowItemContentSize="@dimen/size_normal"
+        app:arrowItemContentSize="16sp"
         app:arrowItemShowAvatar="true"
         app:arrowItemShowDivider="false"
         app:arrowItemTitle="@string/setting_about_title"
         app:arrowItemTitleColor="@color/white"
-        app:arrowItemTitleSize="@dimen/size_normal"
+        app:arrowItemTitleSize="16sp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/setting_title_label" />

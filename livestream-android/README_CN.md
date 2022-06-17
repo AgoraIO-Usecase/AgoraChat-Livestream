@@ -13,9 +13,9 @@
 
 **其他端开源地址：**
 
-- iOS:    https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-ios
-- Web:    https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-web
-- App Server:     https://github.com/winskyan/AgoraChat-Livestream/tree/main/backend
+- iOS:    https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-ios
+- Web:    https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-web
+- App Server:     https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/backend
 
 ## 集成Agora Chat SDK
 
@@ -114,11 +114,31 @@ Agora聊天室中有两个repository，ClientRepository及AppServerRepository。
 Agora聊天室提供了Agora CDN直播能力(https://docs.agora.io/cn/live-streaming/landing-page?platform=Android)。
 
 
+## 运行DEMO工程
+
+按照以下步骤运行示例项目：project:\
+### 1. 克隆repo到本地。
+```java
+    git clone git@github.com:AgoraIO-Usecase/AgoraChat-Livestream.git
+```
+
+### 2. 使用 Android Studio 打开 Android 项目。
+
+### 3. 配置APPKEY。
+在local.properties中配置AGORA_CHAT_APPKEY和AGORA_APP_ID，你可以在[Agora开发者控制台](https://console.agora.io/)申请相应的APPKEY。
+
+```Java
+AGORA_CHAT_APPKEY=*******
+
+AGORA_APP_ID=*******
+```
+### 4. 使用AndroidStudio运行即可。
+
 ## 文档
 
-- [iOS端开源地址](https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-ios)
-- [Web端开源地址](https://github.com/winskyan/AgoraChat-Livestream/tree/main/livestream-web)
-- [App Server开源地址](https://github.com/winskyan/AgoraChat-Livestream/tree/main/backend)
+- [iOS端开源地址](https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-ios)
+- [Web端开源地址](https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/livestream-web)
+- [App Server开源地址](https://github.com/AgoraIO-Usecase/AgoraChat-Livestream/tree/main/backend)
 - [Android SDK 集成](https://docs-preprod.agora.io/cn/agora-chat/enable_agora_chat?platform=Android)</br>
 - [Android UIKit 集成](https://github.com/AgoraIO-Usecase/AgoraChat-UIKit-android)
 
