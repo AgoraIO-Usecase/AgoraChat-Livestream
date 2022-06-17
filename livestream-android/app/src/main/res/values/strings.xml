@@ -1,0 +1,131 @@
+<resources>
+    <string name="app_name">LiveStream</string>
+
+    <string name="live_type_interaction_title">interaction live</string>
+    <string name="live_type_fast_title">fast live</string>
+    <string name="live_list_living">living</string>
+
+    <string name="live_anchor_mute">mute</string>
+    <string name="live_anchor_muted">muted</string>
+
+    <string name="live_anchor_like_info">liked %1$s</string>
+    <string name="live_anchor_receive_gift_info">gift %1$s</string>
+    <string name="live_user_fans">fans</string>
+    <string name="live_user_star">stared</string>
+    <string name="live_user_attentions">attention</string>
+    <string name="live_user_send_gift">gift</string>
+
+    <string name="ok">OK</string>
+    <string name="confirm">CONFIRM</string>
+    <string name="cancel">Cancel</string>
+    <string name="timeout">Timeout</string>
+    <string name="prompt">prompt</string>
+
+    <string name="home_title">Stream Channels</string>
+    <string name="home_logged_tip">Account is already logged in elsewhere!</string>
+
+    <string name="live_list_no_streamer_tip">No Streamer Live now</string>
+    <string name="live_list_start_live_stream_tip">Start your Livestream!</string>
+    <string name="live_list_warning">There is already a host playing, please choose another room</string>
+
+    <string name="search_tip">Please input search content</string>
+    <string name="search_empty_result">No Result for %1$s</string>
+    <string name="search_text_hint">Search</string>
+
+    <string name="create_live_change">Change</string>
+    <string name="create_live_flip">Flip</string>
+    <string name="create_live_default_name">Welcome to my Channel!</string>
+    <string name="create_live_go_live">Go LIVE!</string>
+    <string name="create_live_change_cover">Change Cover</string>
+    <string name="create_live_change_avatar">Change Avatar</string>
+    <string name="create_live_room_check_info">Please fill in completely</string>
+
+    <string name="live_attention">attention</string>
+
+    <string name="profile_title">Profile</string>
+
+    <string name="live_type_normal_title">CDN Livestream</string>
+
+    <string name="live_dialog_quit_title">End your Livestream？</string>
+    <string name="live_dialog_quit_btn_title">END</string>
+    <string name="anchor_end_live_stream_tip">Your Live Stream has ended</string>
+
+    <string name="timeout_all">Timeout All</string>
+    <string name="attention_timeout_all">The steamer has time out the Channel</string>
+    <string name="attention_remove_timeout_all">Time out has been removed</string>
+
+    <string name="setting_title">Settings</string>
+    <string name="setting_about_title">About</string>
+    <string name="setting_edit_profile">Edit Profile</string>
+    <string name="setting_change_avatar">Click to Change Avatar</string>
+    <string name="setting_username_title">Username</string>
+    <string name="setting_gender_title">Gender</string>
+    <string name="setting_birthday_title">Birthday</string>
+    <string name="setting_unknown">Unknown</string>
+
+    <string name="about_sdk_version">SDK Version</string>
+    <string name="about_lib_version">UI Library Version</string>
+    <string name="about_policy">Legals n’ Policies</string>
+    <string name="about_more">More</string>
+    <string name="about_net_addr">Agora.io</string>
+
+    <string name="live_msg_member_add">join live room</string>
+
+    <string name="room_manager_remove_from_allowed_list">Remove from Allowed List</string>
+    <string name="room_manager_move_to_allowed_list">Move to Allowed List</string>
+    <string name="room_manager_remove_as_moderator">Remove as Moderator</string>
+    <string name="room_manager_assign_as_moderator">Assign as Moderator</string>
+    <string name="room_manager_timeout">TimeOut</string>
+    <string name="room_manager_remove_timeout">Remove Timeout</string>
+    <string name="room_manager_ban">Ban</string>
+    <string name="room_manager_unban">Unban</string>
+    <string name="room_manager_timeout_attention_tip">%1$s Anthony has been timed out for %2$s.</string>
+    <string name="room_manager_ban_tip">Want to ban %1$s?</string>
+    <string name="room_manager_ban_attention_tip">%1$s has been banned.</string>
+
+    <string name="live_in_timed_out_list">You have been timed out</string>
+    <string name="live_remove_timed_out_list">You have been removed timed out</string>
+    <string name="live_in_admin_list">you have been assigned as Moderator</string>
+    <string name="live_out_admin_list">you have been removed from Moderator</string>
+    <string name="live_in_white_list">you have been moved to allowed list</string>
+    <string name="live_out_white_list">you have been removed from allowed list</string>
+    <string name="live_anchor_add_white">move to allowed list</string>
+    <string name="live_anchor_remove_from_white">remove from allowed list</string>
+    <string name="live_anchor_timeout_all_attention_tip">The steamer has time out the Channel</string>
+    <string name="live_anchor_remove_timeout_all_attention_tip">Time out has been removed</string>
+
+    <string name="live_member_all_viewers">All Viewers</string>
+
+    <string name="live_gift_name">Gifts</string>
+    <string name="live_gift_history">gift history</string>
+    <string name="live_gift_total">total %1$d</string>
+    <string name="live_gift_send_total">total %1$d</string>
+    <string name="live_gift_gift_info">X %1$d</string>
+    <string name="live_gift_sender_info">%1$s send</string>
+    <string name="gift_send">Send</string>
+    <string name="gift_send_total_values">Subtotal:%1$s </string>
+    <string name="gift_send_confirm">Whether to sent it away</string>
+    <string name="gift_send_info">%1$d X %2$s</string>
+    <string name="gift_input_num_title">Input number</string>
+    <string name="gift_show_send">sent %1$s</string>
+
+    <string name="live_stream_end_tip">The Live Stream has ended</string>
+    <string name="share">share</string>
+
+    <string name="timeout_60s">60 secs</string>
+    <string name="timeout_5min">5 mins</string>
+    <string name="timeout_10min">10 mins</string>
+    <string name="timeout_1h">1 hour</string>
+    <string name="timeout_1d">1 Day</string>
+    <string name="timeout_forever">∞</string>
+
+    <string name="dialog_list_timeout_title">%1$s\nwill be timed out for</string>
+    <string name="dialog_timeout_content">Timeout %1$s?</string>
+
+    <string name="message_list_input_tip_anchor">Say Hi to your Fans&#8230;</string>
+    <string name="message_list_input_tip_audience">Say Hi&#8230;</string>
+    <string name="message_list_input_tip_all_timeout">All timed out</string>
+    <string name="message_list_input_tip_timeout">You have been timed out</string>
+
+    <string name="show_gift_num">x%1$s</string>
+</resources>
