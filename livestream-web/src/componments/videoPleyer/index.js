@@ -1,17 +1,16 @@
-import React, { memo } from 'react'
+import React, { useState, useEffect, memo } from 'react'
 import { useSelector } from 'react-redux'
 import { Box, Avatar, Typography, InputBase } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import ReactPlayer from 'react-player'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
-import { clearGigtMsgAction } from '../../redux/actions'
+import { clearGiftMsgAction } from '../../redux/actions'
 
-import { giftObj } from '../common/contants'
 import defaultAvatar from '../../assets/images/defaultAvatar.png'
 const useStyles = makeStyles((theme) => {
     return {
-        root:{
+        root: {
             position: "relative",
             border: "1px solid #3D3D3D",
             borderRadius: "12px 0 0 12px"
@@ -38,9 +37,9 @@ const useStyles = makeStyles((theme) => {
             padding: "3px 12px 3px 0",
             alignItems: "center"
         },
-        avatarStryle:{
-            height:"32px",
-            width:"32px"
+        avatarStyle: {
+            height: "32px",
+            width: "32px"
         },
         userBox: {
             marginLeft: "8px"
@@ -86,18 +85,27 @@ const VideoPlayer = () => {
     const classes = useStyles();
     const liveCdnUrl = useSelector(state => state?.liveCdnUrl);
     const giftMsgs = useSelector(state => state?.giftMsgs) || [];
+    const giftAry = useSelector(state => state?.giftAry) || [];
     const roomMemberInfo = useSelector(state => state?.roomMemberInfo);
     const currentLoginUser = WebIM.conn.context.userId;
     let isGiftMsg = giftMsgs.length > 0;
+    const [giftObj, setGiftObj] = useState({})
+    useEffect(() => {
+        let gifts = {};
+        giftAry.forEach(item => {
+            gifts[item.gift_id] = item
+        })
+        setGiftObj(gifts)
+    }, [giftAry])
 
-    const clearGigtMsg = (id) => {
+
+    const clearGiftMsg = (id) => {
         let timerId = id;
         timerId = setTimeout(() => {
-            store.dispatch(clearGigtMsgAction(id));
+            store.dispatch(clearGiftMsgAction(id));
             clearTimeout(timerId);
         }, 3000);
     }
-
     return (
         <Box className={classes.root} >
             <Box>
@@ -115,10 +123,10 @@ const VideoPlayer = () => {
                     if (!gift_id) return
                     let { gift_img, gift_name } = giftObj[gift_id];
                     let giftSender = from ? from : currentLoginUser;
-                    clearGigtMsg(id);
+                    clearGiftMsg(id);
                     return (
                         <Box key={id} className={classes.giftMsgStyle}>
-                            <Avatar src={roomMemberInfo[giftSender]?.avatarurl || defaultAvatar} className={classes.avatarStryle}></Avatar>
+                            <Avatar src={roomMemberInfo[giftSender]?.avatarurl || defaultAvatar} className={classes.avatarStyle}></Avatar>
                             <Box className={classes.userBox}>
                                 <Typography className={classes.giftUserStyle}>{roomMemberInfo[giftSender]?.nickname || giftSender}</Typography>
                                 <Typography className={classes.giftNameStyle}>{`sent ${gift_name}`}</Typography>

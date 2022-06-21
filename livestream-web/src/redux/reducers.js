@@ -117,7 +117,7 @@ const reducer = (state = defaultState, action) => {
                 ...state,
                 roomMemberInfoObj: data
             };
-        case "ROOM_ADMMINS_ACTION":
+        case "ROOM_ADMINS_ACTION":
             return {
                 ...state,
                 roomAdmins: data

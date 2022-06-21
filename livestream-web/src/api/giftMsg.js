@@ -1,6 +1,6 @@
 import WebIM from '../utils/WebIM'
 import store from '../redux/store'
-import { giftMsgAction, updateGiftStatusAction, clearGigtMsgAction } from '../redux/actions'
+import { giftMsgAction, updateGiftStatusAction, clearGiftMsgAction } from '../redux/actions'
 
 export const sendGiftsMsg = (selectGift, inputValue) => {
     const currentLoginUser = WebIM.conn.context.userId;
@@ -26,7 +26,6 @@ export const sendGiftsMsg = (selectGift, inputValue) => {
             setTimeout(() => {
                 selectGift.clickStatus = false;
                 store.dispatch(updateGiftStatusAction(selectGift))
-                // store.dispatch(clearGigtMsgAction(serverMsgId));
             }, 3000);
         },
         fail: function (e) { }
