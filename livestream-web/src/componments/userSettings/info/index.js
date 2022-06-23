@@ -4,7 +4,7 @@ import { Box, InputBase, Typography, MenuItem, FormControl, Select } from "@mate
 import { makeStyles } from '@material-ui/core/styles';
 import i18next from "i18next";
 import { updateUserInfo } from '../../../api/userInfo'
-import { genderObj } from '../../common/contants'
+import { genderObj } from '../../common/constant'
 import TextField from '@mui/material/TextField';
 import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';

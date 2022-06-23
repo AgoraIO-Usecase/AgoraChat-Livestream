@@ -28,7 +28,7 @@ export const getRoomInfo = (roomId) => {
         store.dispatch(roomInfoAction(res.data[0]));
         getRoomAdmins(roomId);
         let newArr = [];
-        res.data[0].affiliations.map((item) => {
+        res.data[0].affiliations.forEach((item) => {
             if (item.owner) {
                 newArr.push(item.owner)
             } else {

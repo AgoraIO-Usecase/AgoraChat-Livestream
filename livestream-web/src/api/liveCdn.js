@@ -1,6 +1,6 @@
 import store from '../redux/store'
 import { roomsAction, getLiveCdnUrlAction } from '../redux/actions'
-import { liveStreamConfig } from '../componments/common/contants'
+import { liveStreamConfig } from '../componments/common/constant'
 export const getLiverooms = () => {
     let webimAuth = sessionStorage.getItem('webim_auth') || {}
     let { accessToken } = JSON.parse(webimAuth);

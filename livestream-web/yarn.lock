@@ -7333,6 +7333,11 @@ hex-color-regex@^1.1.0:
   resolved "https://registry.npmjs.org/hex-color-regex/-/hex-color-regex-1.1.0.tgz"
   integrity sha512-l9sfDFsuqtOqKDsQdqrMRk0U85RZc0RtOR9yPI7mRVOa4FsR/BVnZ0shmQRM96Ji99kYZP/7hn1cedc1+ApsTQ==
 
+hls@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/hls/-/hls-0.0.1.tgz#3433be0d4b1305db312c966527fbb156e7ed79ca"
+  integrity sha512-ov6aIzckaDCdFFAeJbrmZYhAR0O7w+nDXh3fz9XEcf8P6EercldLht/23JHRFXmAMtvKw8dzuOCafzktdV1AZw==
+
 hmac-drbg@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmjs.org/hmac-drbg/-/hmac-drbg-1.0.1.tgz"

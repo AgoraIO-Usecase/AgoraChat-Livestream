@@ -38,3 +38,6 @@ export const genderObj = {
 }
 
 
+export const roomTabs = ['All', 'Moderators', 'Allowed', 'Muted', 'ban']
+
+
