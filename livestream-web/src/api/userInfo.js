@@ -3,7 +3,7 @@ import WebIM from '../utils/WebIM'
 import store from '../redux/store'
 import { userInfoAction, roomMemberInfoAction } from '../redux/actions'
 import axios from 'axios';
-import { appConfig } from '../componments/common/contants'
+import { appConfig } from '../componments/common/constant'
 
 export const uploadAvatar = (couterRef) => {
     let webimAuth = sessionStorage.getItem('webim_auth') || {}

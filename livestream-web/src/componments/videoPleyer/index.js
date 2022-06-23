@@ -114,10 +114,17 @@ const VideoPlayer = () => {
                     className={classes.videoBox}
                     playing={true}
                     controls
+                    width='100%'
+                    height='100%'
+                    config={{
+                        file: {
+                            forceHLS:true
+                        }
+                    }}
                 />
             </Box>
             <Box className={classes.giftBox}>
-                {isGiftMsg && giftMsgs.map((item) => {
+                {isGiftMsg && giftMsgs.map((item,i) => {
                     let { id, customExts, from } = item;
                     let { gift_id, gift_num } = customExts;
                     if (!gift_id) return
@@ -125,7 +132,7 @@ const VideoPlayer = () => {
                     let giftSender = from ? from : currentLoginUser;
                     clearGiftMsg(id);
                     return (
-                        <Box key={id} className={classes.giftMsgStyle}>
+                        <Box key={id + i} className={classes.giftMsgStyle}>
                             <Avatar src={roomMemberInfo[giftSender]?.avatarurl || defaultAvatar} className={classes.avatarStyle}></Avatar>
                             <Box className={classes.userBox}>
                                 <Typography className={classes.giftUserStyle}>{roomMemberInfo[giftSender]?.nickname || giftSender}</Typography>

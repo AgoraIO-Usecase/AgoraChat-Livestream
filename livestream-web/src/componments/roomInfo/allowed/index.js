@@ -75,7 +75,7 @@ const Allowed = () => {
             {
                 memberList.length > 0 && memberList.map((item,i)=> {
                     return <Button className={classes.listItem} key={i}>
-                        <Box className={classes.memberStyle}>
+                        <Box className={classes.memberStyle} key={i}>
                             <Avatar src={roomMemberInfo[item]?.avatarurl || acaratImg} ></Avatar>
                             <Box className={classes.userInfoBox}>
                                 <Box className={classes.roleStyle}>
