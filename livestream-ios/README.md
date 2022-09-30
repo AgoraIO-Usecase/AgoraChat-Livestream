@@ -1,293 +1,310 @@
-# 简介 #
-本demo演示了通过环信SDK以及环信appServer实现的直播聊天室
+# Introduction #
+This demo demonstrates the live chat room implemented by Huanxin SDK and Huanxin appServer
 
-## 怎么使用本demo ##
-- 首先在EaseMobLiveDemo文件夹下执行pod install,集成环信SDK
-- 初次进入app时会自动注册一个UUID游客账号，默认密码000000，注册成功自动登录，自动登录完成跳转到主页面
-- 点击主页底部红色按钮，可创建一个直播间，键入封面图以及本次直播主题后，点击“开始直播”开启一场直播，直播间即出现在“直播大厅”列表，其他游客即可从“直播大厅”进入直播间
-- 游客点击直播大厅任一直播间即可进入该直播间观看直播，直播间内目前可以发聊天消息给主播刷礼物，当前直播间聊天室观众均可收到消息动画
+## How to use this demo ##
+- First, execute pod install under the EaseMobLiveDemo folder, and integrate Huanxin SDK
+- When you enter the app for the first time, a UUID guest account will be automatically registered, the default password is 000000, the registration is successful and the automatic login is completed, and the automatic login is completed and jumps to the main page
+- Click the red button at the bottom of the homepage to create a live broadcast room. After entering the cover image and the theme of this live broadcast, click "Start Live" to start a live broadcast. The live broadcast room will appear in the "Live Broadcast Lobby" list. "Live Lobby" to enter the live room
+- Visitors can click on any live broadcast room in the live broadcast hall to enter the live broadcast room to watch the live broadcast. In the live broadcast room, chat messages can currently be sent to the host to swipe gifts, and the current live broadcast room chat room viewers can receive message animations
 
-## 功能实现 ##
+## Function implementation ##
 
 
-### 创建直播聊天室
-**具体演示代码见EaseLiveTVListViewController,ELDPreLivingViewController,ELDPublishLiveViewController,EaseHttpManager**
+### Create live chat room
+**For the specific demo code, see EaseLiveTVListViewController, ELDPreLivingViewController, ELDPublishLiveViewController, EaseHttpManager**
 
-1、创建直播聊天室
-```
+#### 1. Create a live chat room
+
+````
 /*
- *  创建直播聊天室
+ * Create live chat rooms
  *
- *  @param aRoom            直播聊天室
- *  @param aCompletion      完成的回调block
+ * @param aRoom live chat room
+ * @param aCompletion completed callback block
  */
 - (void)createLiveRoomWithRoom:(EaseLiveRoom*)aRoom
                     completion:(void (^)(EaseLiveRoom *room, BOOL success))aCompletion;
-```
-2、创建成功后设置当前将要直播的直播聊天室为“ongoing”正直播状态
+````
 
-```
+#### 2. After the creation is successful, set the current live chat room to be live broadcast to "ongoing" live broadcast status
+
+
+````
 /*
-*  更新直播间状态为ongoing
+* Update the live room status to ongoing
 *
-*  @param aRoom            直播间
-*  @param aCompletion      完成的回调block
+* @param aRoom live room
+* @param aCompletion completed callback block
 */
 - (void)modifyLiveroomStatusWithOngoing:(EaseLiveRoom *)room
                              completion:(void (^)(EaseLiveRoom *room, BOOL success))aCompletion;
-```
+````
 
-3、加入聊天室
+#### 3.Join the chat room
 
-```
+````
 /*
- *  用户加入直播聊天室
+ * User joins live chat room
  *
- *  @param aRoomId          直播聊天室ID
- *  @param aChatroomId      聊天室ID
- *  @param aIsCount         是否计数
- *  @param aCompletion      完成的回调block
+ * @param aRoomId Live chat room ID
+ * @param aChatroomId chat room ID
+ * @param aIsCount whether to count
+ * @param aCompletion completed callback block
  */
 - (void)joinLiveRoomWithRoomId:(NSString*)aRoomId
                     chatroomId:(NSString*)aChatroomId
                        isCount:(BOOL)aIsCount
                        completion:(void (^)(BOOL success))aCompletion;
-```
-4、设置消息监听
+````
 
-```
-	 [[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
-	 
-	- (void)messagesDidReceive:(NSArray *)aMessages
-	{
-	//收到普通消息
-	}
+#### 4. Set up message monitoring
 
-	- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages
-	{
-	//收到cmd消息
-	}
-```
-5、发送消息
+````
+[[EMClient sharedClient].chatManager addDelegate:self delegateQueue:nil];
 
-```
-EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"发送内容"];
+- (void)messagesDidReceive:(NSArray *)aMessages
+{
+// receive normal message
+}
+
+- (void)cmdMessagesDidReceive:(NSArray *)aCmdMessages
+{
+//Receive cmd message
+}
+````
+
+#### 5. Send a message
+
+````
+EMTextMessageBody *body = [[EMTextMessageBody alloc] initWithText:@"Send content"];
 NSString *from = [[EMClient sharedClient] currentUsername];
 EMMessage *message = [[EMMessage alloc] initWithConversationID:aChatroomId from:from to:aChatroomId body:body ext:nil];
 message.chatType = EMChatTypeChatRoom;
 [[EMClient sharedClient].chatManager asyncSendMessage:message progress:nil completion:^(EMMessage *message, EMError *error) {
-	if (!error) {
-	//消息发送成功
-	}
-}];   
-``` 
-6、从appServer获取直播聊天室详情并获取成员列表
+if (!error) {
+// message sent successfully
+}
+}];
+````
 
-```
+
+#### 6. Get the details of the live chat room from appServer and get the member list
+
+````
 /*
-*  获取直播聊天室详情
+* Get live chat room details
 *
-*  @param aRoom            直播聊天室
-*  @param aCompletion      完成的回调block
+* @param aRoom live chat room
+* @param aCompletion completed callback block
 */
 - (void)fetchLiveroomDetail:(NSString *)roomId completion:(void (^)(EaseLiveRoom *room, BOOL success))aCompletion;
-```
-7、获取直播聊天室禁言列表
+````
 
-```
+#### 7. Get the banned list of live chat rooms
+
+````
 /**
- *  \~chinese
- *  将一组成员禁言。
- * 
- *  仅聊天室所有者和管理员可调用此方法。
- * 
- *  异步方法。
+ * \~chinese
+ * Mute a group of members.
  *
- *  @param aMuteMembers         要禁言的成员列表。
- *  @param aMuteMilliseconds    禁言时长
- *  @param aChatroomId          聊天室 ID。
- *  @param aCompletionBlock     该方法完成调用的回调。如果该方法调用失败，会包含调用失败的原因。
+ * Only chat room owners and admins can call this method.
  *
- *  \~english
- *  Mutes chatroom members.
- * 
- *  Only the chatroom owner or admin can call this method.
+ * Asynchronous method.
  *
- *  This is an asynchronous method.
+ * @param aMuteMembers List of members to mute.
+ * @param aMuteMilliseconds Mute duration
+ * @param aChatroomId The chat room ID.
+ * @param aCompletionBlock The callback for the method completion call. If the method call fails, the reason for the call failure is included.
  *
- *  @param aMuteMembers         The list of mute.
- *  @param aMuteMilliseconds    Muted time duration in millisecond
- *  @param aChatroomId          The chatroom ID.
- *  @param aCompletionBlock     The completion block, which contains the error message if the method call fails.
+ * \~english
+ * Mutes chatroom members.
+ *
+ * Only the chatroom owner or admin can call this method.
+ *
+ * This is an asynchronous method.
+ *
+ * @param aMuteMembers The list of mutes.
+ * @param aMuteMilliseconds Muted time duration in millisecond
+ * @param aChatroomId The chatroom ID.
+ * @param aCompletionBlock The completion block, which contains the error message if the method call fails.
  *
  */
 - (void)muteMembers:(NSArray<NSString *> *_Nonnull)aMuteMembers
-   muteMilliseconds:(NSInteger)aMuteMilliseconds
+   muteMilliseconds: (NSInteger) aMuteMilliseconds
        fromChatroom:(NSString *_Nonnull)aChatroomId
          completion:(void (^_Nullable )(AgoraChatroom *_Nullable aChatroom, AgoraChatError *_Nullable aError))aCompletionBlock;
-```
-8、直播聊天室某观众解除禁言
+````
 
-```
+#### 8. A viewer in the live chat room lifts the ban
+
+````
 /*!
- *  解除禁言，需要Owner / Admin权限
+ * Unmute, requires Owner / Admin privileges
  *
- *  @param aMuteMembers     被解除的列表<NSString>
- *  @param aChatroomId      聊天室ID
- *  @param aCompletionBlock 完成的回调
+ * @param aMuteMembers List of dismissed <NSString>
+ * @param aChatroomId chat room ID
+ * @param aCompletionBlock completion callback
  */
 - (void)unmuteMembers:(NSArray *)aMembers
                  fromChatroom:(NSString *)aChatroomId
                  completion:(void (^)(EMChatroom *aChatroom, EMError *aError))aCompletionBlock;
-```
-9、获取直播聊天室白名单列表
+````
 
-```
+#### 9. Get the whitelist list of live chat rooms
+
+````
 /*!
- *  获取聊天室白名单列表
+ * Get chat room whitelist list
  *
- *  @param aChatroomId      聊天室ID
- *  @param aCompletionBlock 完成的回调
+ * @param aChatroomId chat room ID
+ * @param aCompletionBlock completion callback
  */
 - (void)getChatroomWhiteListFromServerWithId:(NSString *)aChatroomId
         completion:(void (^)(NSArray *aList, EMError *aError))aCompletionBlock;
-```
-10、直播聊天室从白名单移除成员
+````
 
-```
+#### 10. Remove members from the whitelist in the live chat room
+
+````
 /*!
- *  移除白名单，需要Owner / Admin权限
+ * Remove the whitelist, requires Owner / Admin permissions
  *
- *  @param aMembers         被移除的列表<NSString>
- *  @param aChatroomId      聊天室ID
- *  @param aCompletionBlock 完成的回调
+ * @param aMembers List of removed <NSString>
+ * @param aChatroomId chat room ID
+ * @param aCompletionBlock completion callback
  */
 - (void)removeWhiteListMembers:(NSArray *)aMembers
                   fromChatroom:(NSString *)aChatroomId
                   completion:(void (^)(EMChatroom *aChatroom, EMError *aError))aCompletionBlock;
-```
-11、直播聊天室全体禁言
+````
 
-```
+#### 11. All live chat rooms are banned
+
+````
 /*!
- *  设置全员禁言，需要Owner / Admin权限
+ * To set all members to mute, requires Owner / Admin privileges
  *
- *  @param aChatroomId      聊天室ID
- *  @param aCompletionBlock 完成的回调
+ * @param aChatroomId chat room ID
+ * @param aCompletionBlock completion callback
  */
 - (void)muteAllMembersFromChatroom:(NSString *)aChatroomId
                   completion:(void(^)(EMChatroom *aChatroom, EMError *aError))aCompletionBlock;
-```
-12、直播聊天室解除全体禁言
+````
 
-```
+
+#### 12. Remove all bans in the live chat room
+
+````
 /*!
- *  解除全员禁言，需要Owner / Admin权限
+ * To lift the ban on all members, Owner / Admin permissions are required
  *
- *  同步方法，会阻塞当前线程
+ * Synchronous method, will block the current thread
  *
- *  @param aChatroomId      聊天室ID
- *  @param pError           错误信息
+ * @param aChatroomId chat room ID
+ * @param pError error message
  *
- *  @result    聊天室实例
+ * @result chat room instance
  */
 - (EMChatroom *)unmuteAllMembersFromChatroom:(NSString *)aChatroomId
                   error:(EMError **)pError;
-```
-- 直播聊天室全体禁言与观众禁言列表没有直接关系，互不影响
+````
+- All bans in the live chat room are not directly related to the audience ban list and do not affect each other
 
-13、离开聊天室并设置当前直播聊天室为“Offline”未直播状态，结束直播
 
-```
+#### 13. Leave the chat room and set the current live chat room to "Offline" and end the live broadcast
+
+````
 /*
- *  用户离开直播聊天室
+ * User leaves live chat room
  *
- *  @param aRoomId          直播聊天室ID
- *  @param aChatroomId      聊天室ID
- *  @param aIsCount         是否计数
- *  @param aCompletion      完成的回调block
+ * @param aRoomId Live chat room ID
+ * @param aChatroomId chat room ID
+ * @param aIsCount whether to count
+ * @param aCompletion completed callback block
  */
 - (void)leaveLiveRoomWithRoomId:(NSString*)aRoomId
                      chatroomId:(NSString*)aChatroomId
                         isCount:(BOOL)aIsCount
                         completion:(void (^)(BOOL success))aCompletion;
                         
-- 更新直播聊天室状态为Offline
+- Update live chat room status to Offline
 /*
-*  更新直播间状态为offline
+* Update the live room status to offline
 *
-*  @param aRoom            直播间
-*  @param aCompletion      完成的回调block
+* @param aRoom live room
+* @param aCompletion completed callback block
 */
 - (void)modifyLiveroomStatusWithOffline:(EaseLiveRoom *)room
                              completion:(void (^)(EaseLiveRoom *room, BOOL success))aCompletion;
-```
+````
 
-### 观看直播
-**具体代码参考demo EaseLiveViewController，ELDLiveListViewController**
+### Watch live
+**Refer to demo EaseLiveViewController, ELDLiveListViewController for specific code**
 
-1、获取当前正直播的直播聊天室列表（包含点播房间和直播房间）
+1. Get the list of live chat rooms currently being broadcast (including on-demand rooms and live rooms)
 
-```
+````
 /*
- *  获取正在直播聊天室列表
+ * Get the list of live chat rooms
  *
- *  @param aCursor          游标
- *  @param aLimit           预期获取的记录数
- *  @video_type             直播间类型（vod：点播 live：直播）
- *  @param aCompletion      完成的回调block
+ * @param aCursor cursor
+ * @param aLimit the expected number of records to get
+ * @video_type live room type (vod: on-demand live: live broadcast)
+ * @param aCompletion completed callback block
  */
 - (void)fetchLiveRoomsOngoingWithCursor:(NSString*)aCursor
                                   limit:(NSInteger)aLimit
                              video_type:(NSString*)video_type
                              completion:(void (^)(EMCursorResult *result, BOOL success))aCompletion;
-```
-- 进入某个直播间加入聊天室并且设置消息监听接收消息通知，观看直播
+````
+- Enter a live room to join the chat room and set up message monitoring to receive message notifications and watch the live broadcast
 
-### 聊天室消息列表
-聊天室消息列表及输入框为 UIKit中的功能，详情参考 chat-uikit 聊天室部分
+### Chat room message list
+The chat room message list and input box are functions in UIKit. For details, please refer to the chat room section of chat-uikit
 
-## 新特性：自定义消息体 ##
+## New feature: custom message body ##
 
-- 本demo所实现的‘礼物’功能通过“自定义消息体”构建传输消息
+- The "gift" function implemented by this demo uses "custom message body" to construct transmission messages
 
-**具体功能演示代码请参见 EaseCustomMessageHelper**
+**For specific function demonstration code, please refer to EaseCustomMessageHelper**
 
-1、实现自定义消息帮助类接口协议再创建该类实例
+1. Implement the custom message helper class interface protocol and then create an instance of this class
 
-```
+````
 @protocol EaseCustomMessageHelperDelegate <NSObject>
 
 @optional
 
-//观众点赞消息
+// Viewer likes the message
 - (void)didReceivePraiseMessage:(AgoraChatMessage *)message;
 
-//弹幕消息
+// barrage message
 - (void)didSelectedBarrageSwitch:(AgoraChatMessage*)msg;
 
-//观众刷礼物
+// Spectator brushes gifts
 - (void)steamerReceiveGiftId:(NSString *)giftId giftNum:(NSInteger )giftNum fromUser:(NSString *)userId ;
 
 @end
 
 
-- 创建实例
+- create instance
 /// create a EaseCustomMessageHelper Instance
 /// @param customMsgImp a delegate which implment EaseCustomMessageHelperDelegate
 /// @param chatId a chatroom Id
 - (instancetype)initWithCustomMsgImp:(id<EaseCustomMessageHelperDelegate>)customMsgImp chatId:(NSString*)chatId;
-```
-2、发送包含自定义消息体的消息
+````
 
-```
+
+2. Send a message containing a custom message body
+
+````
 /*
  send custom message (gift,like,Barrage)
- @param text                 Message content
- @param num                  Number of message content
- @param messageType          chat type
- @param customMsgType        custom message type
- @param aCompletionBlock     send completion callback
+ @param text Message content
+ @param num Number of message content
+ @param messageType chat type
+ @param customMsgType custom message type
+ @param aCompletionBlock send completion callback
 */
 - (void)sendCustomMessage:(NSString*)text
                       num:(NSInteger)num
@@ -298,12 +315,12 @@ message.chatType = EMChatTypeChatRoom;
 
 /*
  send custom message (gift,like,Barrage) (with extended parameters)
- @param text                 Message content
- @param num                  Number of message content
- @param messageType          chat type
- @param customMsgType        custom message type
- @param ext              message extension
- @param aCompletionBlock     send completion callback
+ @param text Message content
+ @param num Number of message content
+ @param messageType chat type
+ @param customMsgType custom message type
+ @param ext message extension
+ @param aCompletionBlock send completion callback
 */
 - (void)sendCustomMessage:(NSString*)text
                       num:(NSInteger)num
@@ -312,19 +329,20 @@ message.chatType = EMChatTypeChatRoom;
             customMsgType:(customMessageType)customMsgType
                       ext:(NSDictionary*)ext
                completion:(void (^)(AgoraChatMessage *message, AgoraChatError *error))aCompletionBlock;
-```
+````
 
-3、发送用户自定义消息体事件（其他自定义消息体事件）
 
-```
+3. Send user-defined message body events (other custom message body events)
+
+````
 /*
  send user custom message (Other custom message body events)
  
-@param event                custom message body event
-@param customMsgBodyExt     custom message body event parameters
-@param to                   message receiver
-@param messageType          chat type
-@param aCompletionBlock     send completion callback
+@param event custom message body event
+@param customMsgBodyExt custom message body event parameters
+@param to message receiver
+@param messageType chat type
+@param aCompletionBlock send completion callback
 */
 - (void)sendUserCustomMessage:(NSString*)event
              customMsgBodyExt:(NSDictionary*)customMsgBodyExt
@@ -335,12 +353,12 @@ message.chatType = EMChatTypeChatRoom;
 /*
  send user custom message (Other custom message body events) (extension parameters)
  
-@param event                custom message body event
-@param customMsgBodyExt     custom message body event parameters
-@param to                   message receiver
-@param messageType          chat type
-@param ext                  message extension
-@param aCompletionBlock     send completion callback
+@param event custom message body event
+@param customMsgBodyExt custom message body event parameters
+@param to message receiver
+@param messageType chat type
+@param ext message extension
+@param aCompletionBlock send completion callback
 */
 - (void)sendUserCustomMessage:(NSString*)event
              customMsgBodyExt:(NSDictionary*)customMsgBodyExt
@@ -348,13 +366,12 @@ message.chatType = EMChatTypeChatRoom;
                   messageType:(AgoraChatType)messageType
                           ext:(NSDictionary*)ext
                    completion:(void (^)(AgoraChatMessage *message, AgoraChatError *error))aCompletionBlock;
+````
+
+3、Receive gift callback
+
 ```
-
-
-4、直播聊天室礼物消息展示
-
-```
-//有观众送礼物
+// Occured when receive a gift from someone
 - (void)userSendGiftId:(NSString *)giftId
                giftNum:(NSInteger)giftNum
                 userId:(NSString *)userId
