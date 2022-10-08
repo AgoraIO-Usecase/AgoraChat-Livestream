@@ -1,23 +1,23 @@
 # Introduction
 
-This demo demonstrates the live chat room implemented by Huanxin SDK and Huanxin appServer.
+This demo demonstrates the live chat room implemented by Agora Chat SDK and Agora Chat appServer.
 
 ## How to use this demo
 
 - First, Clone the code locally, and then NPM install or YARN install the dependencies.
 - When you enter the app for the first time, a UUID guest account will be automatically registered, the default password is 123456, the registration is successful and the automatic login is completed, and the automatic login is completed and jumps to the main page.
-- To Refresh, click Refresh to pull up the newly created live chat room.
+- To Refresh, click Refresh to Fetch the newly created live chat rooms.
 - After successful login, the Channel List will be automatically loaded. Visitors can click any broadcasting room in the broadcasting hall to enter the broadcasting room to watch the broadcasting. Chat messages can be sent to the anchors in the broadcasting room, and the audience in the current chat room can receive the message animation.
 
 ## Function implementation
 
 ### Join the chat room
 
-1. Pull up a list of live chat rooms.
+1. Fetch the livestream rooms
 
 ```javascript
 /**
- *  Pull up a list of live chat rooms
+ *  Fetch the livestream rooms.
  */
 curl -X GET http://localhost:8080/appserver/liverooms?limit=2&cursor=107776865009666 -H 'Authorization: Bearer $token ' -H 'Content-Type: application/json'
 ```
