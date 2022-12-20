@@ -2,9 +2,9 @@
 apply from: "config.gradle"
 buildscript {
     repositories {
-        maven { url 'https://www.jitpack.io' }
         google()
         mavenCentral()
+        maven { url 'https://www.jitpack.io' }
         jcenter()
 
     }
@@ -19,9 +19,9 @@ buildscript {
 
 allprojects {
     repositories {
-        maven { url 'https://www.jitpack.io' }
         google()
         mavenCentral()
+        maven { url 'https://www.jitpack.io' }
         jcenter()
 
         configurations.all {
