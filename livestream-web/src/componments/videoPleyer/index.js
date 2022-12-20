@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => {
         },
         videoBox: {
             width: "340px !important",
-            height: "398px !important",
+            // height: "398px !important",
             borderRadius: "12px 0 0 12px"
         },
         giftBox: {
@@ -39,7 +39,8 @@ const useStyles = makeStyles((theme) => {
         },
         avatarStyle: {
             height: "32px",
-            width: "32px"
+            width: "32px",
+            padding: "2px 0 2px 2px"
         },
         userBox: {
             marginLeft: "8px"
@@ -108,7 +109,6 @@ const VideoPlayer = () => {
     }
     return (
         <Box className={classes.root} >
-            <Box>
                 <ReactPlayer
                     url={liveCdnUrl}
                     className={classes.videoBox}
@@ -121,8 +121,8 @@ const VideoPlayer = () => {
                             forceHLS:true
                         }
                     }}
+                    pip={true}
                 />
-            </Box>
             <Box className={classes.giftBox}>
                 {isGiftMsg && giftMsgs.map((item,i) => {
                     let { id, customExts, from } = item;
