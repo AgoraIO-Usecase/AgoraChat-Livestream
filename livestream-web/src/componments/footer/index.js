@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => {
             textAlign: "left",
             color: "#FFFFFF"
         },
+        versionBox: {
+            display: "flex", 
+            minWidth: "680px"
+        },
         versionStyle: {
             fontFamily: "Roboto",
             fontSize: "14px",
@@ -59,7 +63,7 @@ const Footer = () => {
         <Box className={classes.root}>
             <Box>
                 <Typography className={classes.copyrightStyle}>© 2022 Agora.</Typography>
-                <Box style={{ display: "flex" }}>
+                <Box className={classes.versionBox}>
                     <Typography className={classes.versionStyle}>SDK Version <span className={classes.versionTextStyle}>v1.0.0</span></Typography>
                     <Typography className={classes.versionStyle}>UI Library Version <span className={classes.versionTextStyle}>v1.0.0</span> </Typography>
                     <Typography className={classes.linkStyle}>

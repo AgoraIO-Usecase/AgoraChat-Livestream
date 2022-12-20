@@ -12,7 +12,7 @@ const useStyles = makeStyles((theme) => {
 			borderRadius: "16px",
 			border: "1px solid #3D3D3D",
 			// marginTop: "3px",
-			padding:"7px 0"
+			padding: "7px 0"
 		},
 		textStyle: {
 			height: "19px",
@@ -28,6 +28,8 @@ const useStyles = makeStyles((theme) => {
 		giftBox: {
 			display: "flex",
 			alignItems: "center",
+			overflowY: "hidden",
+			overflowX: "scroll"
 		},
 		giftStyle: {
 			marginLeft: "10px",
@@ -48,7 +50,7 @@ const useStyles = makeStyles((theme) => {
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			marginTop:"12px"
+			marginTop: "12px"
 		},
 		priceImg: {
 			width: "12px",
@@ -61,20 +63,20 @@ const useStyles = makeStyles((theme) => {
 			lineHeight: "16px",
 			letterSpacing: "0.15px",
 			color: "#FFFFFF",
-			marginLeft:"5px"
+			marginLeft: "5px"
 		},
 		delayBox: {
 			background: "linear-gradient(to right, #F87F16,#EE2EAC)",
-			opacity:".8",
+			opacity: ".8",
 			position: "absolute",
 			height: "100%",
 			width: "100%",
 			bottom: "0",
-			left:"0",
+			left: "0",
 			display: "flex",
 			alignItems: "center",
 			justifyContent: "center",
-			borderRadius:"12px"
+			borderRadius: "12px"
 		},
 		delayStyle: {
 			height: "32px",

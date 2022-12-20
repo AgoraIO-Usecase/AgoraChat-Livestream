@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
     return ({
         root: {
             width: "340px",
-            height: "560px",
+            // height: "560px",
             borderRadius: "16px",
             border: "1px solid #3D3D3D",
         },
@@ -131,7 +131,7 @@ const RoomInfo = () => {
     const memberList = useSelector(state => state?.roomInfo?.affiliations);
     const roomAdmins = useSelector(state => state?.roomAdmins);
     const roomMuted = useSelector(state => state?.roomMuted);
-    const roomMemberInfo = useSelector(state => state?.roomMemberInfoObj);
+    const roomMemberInfo = useSelector(state => state?.roomMemberInfo);
     let memberLength = memberList?.length > 0 ? memberList?.length : "";
     let searchMembersLength = searchValue.length > 0;
     let exportMembers = searchMembersLength ? searchMembers : roomMembers;

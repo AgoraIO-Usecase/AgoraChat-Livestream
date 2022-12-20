@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect,useRef } from 'react'
 import { useSelector } from 'react-redux'
 import initListen from './utils/WebIMListen'
 import { openIM } from './api/layout'
@@ -21,12 +21,14 @@ const useStyles = makeStyles((theme) => {
 	return {
 		root: {
 			backgroundColor: "#292929",
-			overflow: "hidden"
+			overflow: "hidden",
+			height: (props) => (props.isAdapter ? "100vh" : "100%"),
 		},
 		bodyBox:{
 			display: "flex", 
 			justifyContent: "space-between", 
-			padding: "24px 36px 28px" 
+			padding: "24px 36px 28px" ,
+			height: (props) => (props.isAdapter ? "calc(100% - 466px)" : "720px")
 		},
 		iconBox: {
 			height: "44px",
@@ -39,18 +41,34 @@ const useStyles = makeStyles((theme) => {
 			borderRadius:"12px"
 		},
 		chatBox:{
-			height: "396px",
+			display: "flex", 
+			width: "100%", 
+			height: "calc(100% - 162px)",
+			// height:"396px",
+			marginBottom: "4px"
+		},
+		uikitBox:{
 			width: "100%",
 			borderRadius: "0 12px 12px 0",
-			border: "1px solid #3D3D3D"
+			border: "1px solid #3D3D3D",
+			overflow: "hidden"
+		},
+		footerBox:{
+			position: (props) =>  (props.isAdapter ? "absolute" : "none" ),
+			bottom: "0px",
+			width: "100%"
 		}
 	}
 });
 const App = () => {
-	const classes = useStyles();
 	const roomMemberInfoObj = useSelector(state => state?.roomMemberInfoObj) || {};
 	const isDisabledInput = useSelector(state => state?.isDisabledInput);
-
+	const bodyRef = useRef();
+	const isAdapter = bodyRef?.current?.offsetHeight > 1174;
+	console.log('isAdapter>>>', isAdapter);
+	const classes = useStyles({
+		isAdapter
+	});
 	useEffect(() => {
 		initListen()
 		openIM()
@@ -61,13 +79,13 @@ const App = () => {
 		store.dispatch(miniRoomInfoAction(false));
 	}
 	return (
-		<Box className={classes.root}>
+		<Box className={classes.root} ref={bodyRef}>
 			<Header />
 			<Box className={classes.bodyBox}>
 				<Box style={{ width: "100%", marginRight: "10px" }}>
-					<Box style={{ display: "flex", width: "100%",marginBottom:"4px" }}>
+					<Box className={classes.chatBox}>
 						<VideoPlayer />
-						<Box className={classes.chatBox}>
+						<Box className={classes.uikitBox}>
 							<EaseLivestream 
 								roomUserInfo={roomMemberInfoObj} 
 								disabledInput={isDisabledInput}
@@ -80,8 +98,10 @@ const App = () => {
 				{isMini ? <Box onClick={() => openRoomInfo()} className={classes.iconBox}>
 					<img src={unionIcon} alt="" /></Box> : <RoomInfo />}
 			</Box>
-			<RoomList />
-			<Footer />
+			<Box className={classes.footerBox}>
+				<RoomList />
+				<Footer />
+			</Box>
 		</Box>
 	);
 }
