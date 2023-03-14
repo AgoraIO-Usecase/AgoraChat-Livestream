@@ -5,7 +5,7 @@ import { getLiverooms } from '../api/liveCdn'
 import { getRoomInfo,getRoomAdmins, getRoomMuteList, getRoomWriteList, leaveRoom } from '../api/room'
 import store from '../redux/store'
 import { giftMsgAction, roomInfoAction, roomBanAction, roomMutedAction } from '../redux/actions'
-import { isChatroomAdmin } from '../componments/common/contants'
+import { isChatroomAdmin } from '../componments/common/constant'
 import {message} from '../componments/common/alert'
 const initListen = () => {
 	WebIM.conn.listen({

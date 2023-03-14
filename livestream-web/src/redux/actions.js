@@ -20,7 +20,7 @@ export const newRoomMemberInfoAction = (data) => {
 }
 
 export const roomAdminsAction = (data) => {
-    return { type: 'ROOM_ADMMINS_ACTION', data };
+    return { type: 'ROOM_ADMINS_ACTION', data };
 };
 
 export const roomAllowedAction = (data) => {
@@ -47,7 +47,7 @@ export const getLiveCdnUrlAction = (data) => {
     return { type: 'GET_LIVE_CDN_URL_ACTION', data };
 }
 
-export const clearGigtMsgAction = (data) => {
+export const clearGiftMsgAction = (data) => {
     return { type: 'CLEAR_GIFT_MSG_ACTION', data };
 }
 

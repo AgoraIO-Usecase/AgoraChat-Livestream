@@ -13,7 +13,7 @@ import Ban from './ban'
 import Muted from './muted'
 import store from '../../redux/store'
 import { miniRoomInfoAction, newRoomMemberInfoAction } from '../../redux/actions'
-import { isChatroomAdmin } from '../common/contants'
+import { isChatroomAdmin, roomTabs } from '../common/constant'
 import WebIM from '../../utils/WebIM'
 
 import searchIcon from '../../assets/images/search.png'
@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
     return ({
         root: {
             width: "340px",
-            height: "560px",
+            // height: "560px",
             borderRadius: "16px",
             border: "1px solid #3D3D3D",
         },
@@ -51,9 +51,9 @@ const useStyles = makeStyles((theme) => {
         tabStyle: {
             // height:"60px",
             color: "#FFFFFF",
-            background:"#2E2E2E",
-            display:"flex",
-            alignItems:"center"
+            background: "#2E2E2E",
+            display: "flex",
+            alignItems: "center"
         },
         menusBox: {
             display: 'flex',
@@ -89,7 +89,7 @@ const useStyles = makeStyles((theme) => {
             padding: "0 !important",
             position: "relative"
         },
-        searchStyle:{
+        searchStyle: {
             position: "absolute",
         },
         inputStyle: {
@@ -110,7 +110,7 @@ const useStyles = makeStyles((theme) => {
             textAlign: "center",
             color: "#FFFFFF",
             cursor: "pointer",
-            marginLeft:"10px"
+            marginLeft: "10px"
         }
     })
 });
@@ -142,14 +142,14 @@ const RoomInfo = () => {
         let showidNumber = '';
         if (roomMuted?.length > 0) {
             roomMuted.forEach(item => {
-               if (item?.user) {
-                   roomMutedAry.push(item.user)
-               }else {
-                   roomMutedAry.push(item)
-               }
+                if (item?.user) {
+                    roomMutedAry.push(item.user)
+                } else {
+                    roomMutedAry.push(item)
+                }
             })
         }
-        if (roomList.length > 0 ) {
+        if (roomList.length > 0) {
             roomList.forEach(item => {
                 if (item.id === roomId) {
                     showidNumber = item.showid
@@ -159,83 +159,36 @@ const RoomInfo = () => {
         if (memberList) {
             memberList.length > 0 && memberList.forEach((item) => {
                 let { owner, member } = item;
-                if (owner) {
-                    membersAry[owner] = {
-                        id: owner,
-                        isStreamer: true,
-                        isAdmin: roomAdmins.includes(owner),
-                        isMuted: roomMutedAry.includes(owner),
-                        nickname: roomMemberInfo[owner]?.nickname || '',
-                        avatar: roomMemberInfo[owner]?.avatarurl || '',
-                        showidNumber,
-                    }
-                } else {
-                    membersAry[member] = {
-                        id: member,
-                        isStreamer: false,
-                        isAdmin: roomAdmins.includes(member),
-                        isMuted: roomMutedAry.includes(member),
-                        nickname: roomMemberInfo[member]?.nickname || '',
-                        avatar: roomMemberInfo[member]?.avatarurl || '',
-                        showidNumber
-                    }
+                let userId = owner || member;
+                membersAry[userId] = {
+                    id: userId,
+                    isStreamer: Boolean(owner),
+                    isAdmin: roomAdmins.includes(userId),
+                    isMuted: roomMutedAry.includes(userId),
+                    nickname: roomMemberInfo[userId]?.nickname || '',
+                    avatar: roomMemberInfo[userId]?.avatarurl || '',
+                    showidNumber,
                 }
             });
             setRoomMembers(membersAry);
             store.dispatch(newRoomMemberInfoAction(membersAry))
-        }else{
+        } else {
             setRoomMembers({})
         }
     }, [memberList, roomAdmins, roomMuted])
 
-    const roomTabs = {
-        all: () => {
-            return (
-                <Box className={classes.menusBox}>
-                    <Typography className={classes.textStyle}>{i18next.t('All')}</Typography>
-                </Box>
-            )
-        },
-        moderators: () => {
-            return (
-                <Box className={classes.menusBox}>
-                    <Typography className={classes.textStyle}>{i18next.t('Moderators')}</Typography>
-                </Box>
-            )
-        },
-        allowed: () => {
-            return (
-                <Box className={classes.menusBox}>
-                    <Typography className={classes.textStyle}>{i18next.t('Allowed')}</Typography>
-                </Box>
-            )
-        },
-        muted: () => {
-            return (
-                <Box className={classes.menusBox}>
-                    <Typography className={classes.textStyle}>{i18next.t('Muted')}</Typography>
-                </Box>
-            )
-        },
-        ban: () => {
-            return (
-                <Box className={classes.menusBox}>
-                    <Typography className={classes.textStyle}>{i18next.t('Ban')}</Typography>
-                </Box>
-            )
-        },
-
-    }
 
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
 
-    const handleChengeValue = (e) => {
+    const handleChangeValue = (e) => {
         let searchObj = {}
-        setSearchValue(e.target.value);
+        let { value } = e.target;
+        setSearchValue(value);
         Object.keys(roomMemberInfo).forEach((item) => {
-            let isIncludes = roomMemberInfo[item].nickname && (roomMemberInfo[item].nickname).includes(e.target.value);
+            let { nickname, id } = roomMemberInfo[item]
+            let isIncludes = nickname.includes(value) || id.includes(value);
             if (isIncludes) {
                 searchObj[item] = roomMemberInfo[item]
             }
@@ -247,7 +200,7 @@ const RoomInfo = () => {
         setShowSearch(true);
     };
 
-    const handleClosrSearch = () => {
+    const handleCloseSearch = () => {
         setShowSearch(false);
         setSearchValue("")
     };
@@ -260,7 +213,7 @@ const RoomInfo = () => {
     return (
         <Box className={classes.root}>
             <Box className={classes.titleBox}>
-                {!showSearch && <Typography className={classes.titleText} >{memberLength > 0 ? `${i18next.t("Viewers")} (${memberLength})` : i18next.t("Viewers") }</Typography>}
+                {!showSearch && <Typography className={classes.titleText} >{memberLength > 0 ? `${i18next.t("Viewers")} (${memberLength})` : i18next.t("Viewers")}</Typography>}
                 <Box className={classes.iconBox}>
                     {!showSearch && <img src={searchIcon} alt="" className={classes.iconStyle} onClick={handleSearch} />}
                     {showSearch && (
@@ -269,15 +222,15 @@ const RoomInfo = () => {
                                 type="search"
                                 placeholder={i18next.t('Search Members')}
                                 className={classes.inputStyle}
-                                onChange={handleChengeValue}
+                                onChange={handleChangeValue}
                             />
                             <Typography
-                                onClick={handleClosrSearch}
+                                onClick={handleCloseSearch}
                                 className={classes.cancelStyle}
                             >
                                 {i18next.t("Cancel")}
                             </Typography>
-                            <img src={searchIcon} alt="" className={classes.searchStyle}/>
+                            <img src={searchIcon} alt="" className={classes.searchStyle} />
                         </Box>
                     )}
                     {!showSearch && <img src={closeIcon} alt="" className={classes.iconStyle} onClick={() => handleCloseInfoChange()} />}
@@ -294,12 +247,12 @@ const RoomInfo = () => {
                     aria-label="scrollable force tabs example"
                     className={classes.tabStyle}
                 >
-                    <Tab label={roomTabs.all()} {...a11yProps(0)} />
-                    <Tab label={roomTabs.moderators()} {...a11yProps(1)} />
-                    <Tab label={roomTabs.allowed()} {...a11yProps(2)} />
-                    <Tab label={roomTabs.muted()} {...a11yProps(3)} />
-                    <Tab label={roomTabs.ban()} {...a11yProps(4)} />
-
+                    {roomTabs.map((item, i) => {
+                        let tabsItem = (<Box className={classes.menusBox} key={i}>
+                            <Typography className={classes.textStyle}>{i18next.t(item)}</Typography>
+                        </Box>)
+                        return <Tab label={tabsItem} {...a11yProps(i)} />
+                    })}
                 </Tabs>
                 <TabPanel value={value} index={0} >
                     <Members roomMembers={exportMembers} searchValue={searchValue} />
