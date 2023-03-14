@@ -193,7 +193,7 @@ public class FastLiveHelper {
         configVideo();
         // rtcEngine().joinChannel(token, getEngineConfig().getChannelName(), null, uid);
         ChannelMediaOptions channelMediaOptions = new ChannelMediaOptions();
-        channelMediaOptions.publishAudioTrack = true;
+        channelMediaOptions.publishMicrophoneTrack = true;
         channelMediaOptions.publishCameraTrack = true;
         channelMediaOptions.clientRoleType = role;
         rtcEngine().joinChannel(token, getEngineConfig().getChannelName(), uid, channelMediaOptions);
@@ -292,11 +292,6 @@ public class FastLiveHelper {
 
                 @Override
                 public void onPreloadEvent(String s, io.agora.mediaplayer.Constants.MediaPlayerPreloadEvent mediaPlayerPreloadEvent) {
-
-                }
-
-                @Override
-                public void onCompleted() {
 
                 }
 

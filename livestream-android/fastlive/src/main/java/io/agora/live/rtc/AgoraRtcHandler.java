@@ -3,6 +3,8 @@ package io.agora.live.rtc;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.agora.rtc2.ClientRoleOptions;
+import io.agora.rtc2.Constants;
 import io.agora.rtc2.IRtcEngineEventHandler;
 
 /**
@@ -63,9 +65,9 @@ public class AgoraRtcHandler extends IRtcEngineEventHandler {
     }
 
     @Override
-    public void onLocalVideoStateChanged(int localVideoState, int error) {
+    public void onLocalVideoStateChanged(Constants.VideoSourceType source, int state, int error) {
         for (RtcEventHandler handler : mHandlers) {
-            handler.onRtcLocalVideoStateChanged(localVideoState, error);
+            handler.onRtcLocalVideoStateChanged(state, error);
         }
     }
 
@@ -98,7 +100,7 @@ public class AgoraRtcHandler extends IRtcEngineEventHandler {
     }
 
     @Override
-    public void onLocalVideoStats(LocalVideoStats stats) {
+    public void onLocalVideoStats(Constants.VideoSourceType source, IRtcEngineEventHandler.LocalVideoStats stats) {
         for (RtcEventHandler handler : mHandlers) {
             handler.onRtcLocalVideoStats(stats);
         }
@@ -126,7 +128,7 @@ public class AgoraRtcHandler extends IRtcEngineEventHandler {
     }
 
     @Override
-    public void onClientRoleChanged(int oldRole, int newRole) {
+    public void onClientRoleChanged(int oldRole, int newRole, ClientRoleOptions newRoleOptions) {
         for (RtcEventHandler handler : mHandlers) {
             handler.onRtcClientRoleChanged(oldRole, newRole);
         }
