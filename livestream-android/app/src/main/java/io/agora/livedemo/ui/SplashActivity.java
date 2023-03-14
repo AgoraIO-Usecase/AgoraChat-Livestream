@@ -95,6 +95,10 @@ public class SplashActivity extends BaseLiveActivity {
     });
 
     private void skipToTarget() {
+        if(!ChatClient.getInstance().isSdkInited()) {
+            showToast("Please init Agora Chat SDK first!");
+            return;
+        }
         if (ChatClient.getInstance().isLoggedInBefore()) {
             mHandler.sendEmptyMessageDelayed(0, 1000 * 3);//3s
         } else {

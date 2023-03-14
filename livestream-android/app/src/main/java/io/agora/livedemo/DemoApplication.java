@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.os.Process;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -82,6 +83,8 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
                     }
                 }
             });
+        }else {
+            Toast.makeText(this, "Please set your App key", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -93,32 +96,22 @@ public class DemoApplication extends Application implements Thread.UncaughtExcep
      */
     private boolean initSDK(Context context) {
         // Set Chat Options
-        ChatOptions options = initChatOptions(context);
-        if (options == null) {
-            return false;
-        }
+        Log.d(TAG, "init Agora Chat Options");
+        ChatOptions options = new ChatOptions();
 
         // Configure custom rest server and im server
         //options.setRestServer(BuildConfig.APP_SERVER_DOMAIN);
         //options.setIMServer("106.75.100.247");
         //options.setImPort(6717);
         //options.setUsingHttpsOnly(false);
-        isSDKInit = EaseUIKit.getInstance().init(context, options);
-        return isSDKInit();
-    }
-
-
-    private ChatOptions initChatOptions(Context context) {
-        Log.d(TAG, "init Agora Chat Options");
-
-        ChatOptions options = new ChatOptions();
         // You can set your AppKey by options.setAppKey(appkey)
-        if (!checkAgoraChatAppKey(context)) {
+        if (!checkAgoraChatAppKey(context) && TextUtils.isEmpty(options.getAppKey())) {
             EMLog.e(TAG, "no agora chat app key and return");
-            return null;
+            return false;
         }
         options.setAutoLogin(true);
-        return options;
+        isSDKInit = EaseUIKit.getInstance().init(context, options);
+        return isSDKInit();
     }
 
     private boolean checkAgoraChatAppKey(Context context) {
