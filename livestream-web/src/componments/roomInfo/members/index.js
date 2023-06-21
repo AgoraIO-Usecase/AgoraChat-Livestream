@@ -10,10 +10,11 @@ const useStyles = makeStyles((theme) => {
         root: {
             overflow: "hidden",
             width: (props) => (props.isAdmin ? "292px" : "340px"),
-            height: "calc(100% - 60px)"
+            // height: "calc(100% - 60px)"
+            height: "708px"
         },
         listBox: {
-            overflowY: "scroll",
+            overflowY: "auto",
             overflowX: "hidden",
             height: "100%",
             padding: "0"

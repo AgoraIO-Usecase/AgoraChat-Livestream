@@ -12,7 +12,11 @@ const useStyles = makeStyles((theme) => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            background: "#393939"
+            background: "#393939",
+            // position: 'absolute',
+            // bottom: '0',
+            // overflow: 'hidden',
+            // width: '100%'
         },
         copyrightStyle: {
             fontFamily: "Roboto",
@@ -21,10 +25,11 @@ const useStyles = makeStyles((theme) => {
             lineHeight: "20px",
             letterSpacing: "0px",
             textAlign: "left",
-            color: "#FFFFFF"
+            color: "#FFFFFF",
+            marginLeft: '10px'
         },
         versionBox: {
-            display: "flex", 
+            display: "flex",
             minWidth: "680px"
         },
         versionStyle: {
@@ -52,8 +57,8 @@ const useStyles = makeStyles((theme) => {
             alignItems: "center",
             justifyContent: "center"
         },
-        versionTextStyle:{
-            color:"#FFFFFF"
+        versionTextStyle: {
+            color: "#FFFFFF"
         }
     }
 })
@@ -62,22 +67,19 @@ const Footer = () => {
     return (
         <Box className={classes.root}>
             <Box>
-                <Typography className={classes.copyrightStyle}>© 2022 Agora.</Typography>
+                <Typography className={classes.copyrightStyle}>© 2023 Agora.</Typography>
                 <Box className={classes.versionBox}>
+
                     <Typography className={classes.versionStyle}>SDK Version <span className={classes.versionTextStyle}>v1.0.0</span></Typography>
                     <Typography className={classes.versionStyle}>UI Library Version <span className={classes.versionTextStyle}>v1.0.0</span> </Typography>
                     <Typography className={classes.linkStyle}>
-                        <a href="http://" className={classes.linkStyle}>
+                        <a href="https://webdemo.chat.agora.io/#/login" className={classes.linkStyle}>
                             Agora Chat Demo
                         </a>
                     </Typography>
+
                     <Typography className={classes.linkStyle}>
-                        <a href="http://" className={classes.linkStyle}>
-                            Agora Chat UIkit
-                        </a>
-                    </Typography>
-                    <Typography className={classes.linkStyle}>
-                        <a href="https://www.agora.io/en/" target="_blank" className={classes.linkStyle}>
+                        <a href="https://www.agora.io/en/" target="_blank" className={classes.linkStyle} rel="noreferrer">
                             Agora.io
                         </a>
                     </Typography>

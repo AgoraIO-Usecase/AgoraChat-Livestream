@@ -6,18 +6,24 @@ import ReactPlayer from 'react-player'
 import WebIM from '../../utils/WebIM'
 import store from '../../redux/store'
 import { clearGiftMsgAction } from '../../redux/actions'
-
+import errorImg from '../../assets/images/videolost.png';
 import defaultAvatar from '../../assets/images/defaultAvatar.png'
 const useStyles = makeStyles((theme) => {
     return {
         root: {
             position: "relative",
             border: "1px solid #3D3D3D",
-            borderRadius: "12px 0 0 12px"
+            borderRadius: "12px 0 0 12px",
+            width: "346px !important",
         },
         videoBox: {
-            width: "340px !important",
+            width: "346px !important",
             // height: "398px !important",
+            borderRadius: "12px 0 0 12px"
+        },
+        defaultImg: {
+            width: '346px',
+            height: '100%',
             borderRadius: "12px 0 0 12px"
         },
         giftBox: {
@@ -25,7 +31,7 @@ const useStyles = makeStyles((theme) => {
             position: "absolute",
             bottom: "40px",
             left: "10px",
-            overflowY: "scroll",
+            overflowY: "auto",
             width: "calc(100% - 3x0px)",
         },
         giftMsgStyle: {
@@ -91,6 +97,7 @@ const VideoPlayer = () => {
     const currentLoginUser = WebIM.conn.context.userId;
     let isGiftMsg = giftMsgs.length > 0;
     const [giftObj, setGiftObj] = useState({})
+    const [isError, setIsError] = useState(false)
     useEffect(() => {
         let gifts = {};
         giftAry.forEach(item => {
@@ -99,6 +106,9 @@ const VideoPlayer = () => {
         setGiftObj(gifts)
     }, [giftAry])
 
+    useEffect(() => {
+        setIsError(false)
+    }, [liveCdnUrl])
 
     const clearGiftMsg = (id) => {
         let timerId = id;
@@ -109,7 +119,11 @@ const VideoPlayer = () => {
     }
     return (
         <Box className={classes.root} >
-                <ReactPlayer
+            {
+                isError ? <img className={classes.defaultImg} src={errorImg} alt="no video" /> : <ReactPlayer
+                    onError={() => {
+                        setIsError(true)
+                    }}
                     url={liveCdnUrl}
                     className={classes.videoBox}
                     playing={true}
@@ -118,19 +132,24 @@ const VideoPlayer = () => {
                     height='100%'
                     config={{
                         file: {
-                            forceHLS:true
+                            forceHLS: true
                         }
                     }}
                     pip={true}
                 />
+            }
+
             <Box className={classes.giftBox}>
-                {isGiftMsg && giftMsgs.map((item,i) => {
+                {isGiftMsg && giftMsgs.map((item, i) => {
                     let { id, customExts, from } = item;
                     let { gift_id, gift_num } = customExts;
                     if (!gift_id) return
-                    let { gift_img, gift_name } = giftObj[gift_id];
+                    let { gift_img, gift_name } = giftObj[gift_id] || {};
                     let giftSender = from ? from : currentLoginUser;
                     clearGiftMsg(id);
+                    if(!gift_img){
+                        return null
+                    }
                     return (
                         <Box key={id + i} className={classes.giftMsgStyle}>
                             <Avatar src={roomMemberInfo[giftSender]?.avatarurl || defaultAvatar} className={classes.avatarStyle}></Avatar>

@@ -27,7 +27,7 @@ export const roomAllowedAction = (data) => {
     return { type: 'ROOM_ALLOWED_ACTION', data };
 };
 
-export const roomMutedAction = (data,option) => {
+export const roomMutedAction = (data, option) => {
     return { type: 'ROOM_MUTED_ACTION', data, option };
 }
 

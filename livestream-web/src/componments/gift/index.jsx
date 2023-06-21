@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
 			display: "flex",
 			alignItems: "center",
 			overflowY: "hidden",
-			overflowX: "scroll"
+			overflowX: "auto"
 		},
 		giftStyle: {
 			marginLeft: "10px",
