@@ -5,7 +5,7 @@ import Popover from '@mui/material/Popover';
 import { makeStyles } from "@material-ui/core/styles";
 import i18next from "i18next";
 import UserSettings from '../userSettings'
-import agoraIcon from '../../assets/images/subtractLive.png'
+import agoraIcon from '../../assets/images/subtractLive@2x.png'
 import agoraTitleIcon from '../../assets/images/agoraLiveStream.png'
 import defaultAvatarImg from '../../assets/images/defaultAvatar.png'
 const useStyles = makeStyles((theme) => {

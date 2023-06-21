@@ -187,8 +187,10 @@ const RoomInfo = () => {
         let { value } = e.target;
         setSearchValue(value);
         Object.keys(roomMemberInfo).forEach((item) => {
-            let { nickname, id } = roomMemberInfo[item]
-            let isIncludes = nickname.includes(value) || id.includes(value);
+            let itemData = roomMemberInfo[item]
+            itemData.id = item
+            let { nickname, id } = itemData
+            let isIncludes = nickname?.includes(value) || id?.includes(value);
             if (isIncludes) {
                 searchObj[item] = roomMemberInfo[item]
             }

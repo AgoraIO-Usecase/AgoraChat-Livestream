@@ -25,7 +25,7 @@ export const getLiverooms = () => {
         });
     liveRooms
         .then(res => {
-            console.log('res>>>', res);        
+            console.log('res>>>', res);
             store.dispatch(roomsAction(res.entities));
         })
     ["catch"](err => {
@@ -68,7 +68,7 @@ export const getLiveRoomInfo = (liveroomId) => {
 export const getLiveCdnUrl = (roomId) => {
     // const apiURL = `http://a1.easemob.com/appserver/agora/cdn/streams/url/play?protocol=hls&domain=ws-rtmp-pull.easemob.com&pushPoint=live&streamKey=${roomId}`;
     const apiURL = `${liveStreamConfig.domain}/appserver/agora/cdn/streams/url/play?protocol=${liveStreamConfig.protocol
-}&domain=${liveStreamConfig.liveDomian}&pushPoint=${liveStreamConfig.pushPoint}&streamKey=${roomId}`;
+        }&domain=${liveStreamConfig.liveDomian}&pushPoint=${liveStreamConfig.pushPoint}&streamKey=${roomId}`;
     let liveRoomsUrl = fetch(apiURL, {
         method: 'GET',
         headers: new Headers(
@@ -89,8 +89,8 @@ export const getLiveCdnUrl = (roomId) => {
         });
     liveRoomsUrl
         .then(res => {
-            console.log('res>>>', res);
-            store.dispatch(getLiveCdnUrlAction(res.data))
+            const url = window.location.protocol + res.data.split(":")[1]
+            store.dispatch(getLiveCdnUrlAction(url))
         })
     ["catch"](err => {
         console.log('err>>>', err);

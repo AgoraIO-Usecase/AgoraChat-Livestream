@@ -13,6 +13,7 @@ import leftIcon from '../../assets/images/channels_list_left@2x.png'
 import rightIcon from '../../assets/images/channels_list_right@2x.png'
 import searchIcon from '../../assets/images/search.png'
 import ellipseIcon from '../../assets/images/ellipse.png'
+import Img from './img'
 const useStyles = makeStyles((theme) => {
     return {
         root: {
@@ -269,7 +270,7 @@ const RoomList = () => {
                                     <img src={ellipseIcon} alt="" className={classes.ellipseIconStyle} />
                                     <Typography className={classes.numberTextStyle}>{affiliations_count}</Typography>
                                 </Box>
-                                <img src={cover || liveImg} alt="" className={classes.liveImgStyle}/>
+                                <Img src={cover || liveImg} alt="" className={classes.liveImgStyle}/>
                                 <Box className={classes.lrsInfoBox}>
                                     <Typography className={classes.nameStyle}>{name}</Typography>
                                     <Box className={classes.lrsBox}>
