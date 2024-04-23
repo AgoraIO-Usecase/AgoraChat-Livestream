@@ -1,8 +1,8 @@
 # Introduction #
-This demo demonstrates the live chat room implemented by Huanxin SDK and Huanxin appServer
+This demo demonstrates the live chat room implemented by AgoraChat SDK and AgoraChat LiveStream appServer
 
 ## How to use this demo ##
-- First, execute pod install under the EaseMobLiveDemo folder, and integrate Huanxin SDK
+- First, execute pod install under the LiveStreamDemo folder, and integrate AgoraChat SDK
 - When you enter the app for the first time, a UUID guest account will be automatically registered, the default password is 000000, the registration is successful and the automatic login is completed, and the automatic login is completed and jumps to the main page
 - Click the red button at the bottom of the homepage to create a live broadcast room. After entering the cover image and the theme of this live broadcast, click "Start Live" to start a live broadcast. The live broadcast room will appear in the "Live Broadcast Lobby" list. "Live Lobby" to enter the live room
 - Visitors can click on any live broadcast room in the live broadcast hall to enter the live broadcast room to watch the live broadcast. In the live broadcast room, chat messages can currently be sent to the host to swipe gifts, and the current live broadcast room chat room viewers can receive message animations
